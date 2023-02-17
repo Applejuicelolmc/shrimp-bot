@@ -1,0 +1,26 @@
+{
+	"name": "shrimp-bot",
+	"version": "1.0.0",
+	"description": "This is a work in progress personal discord bot that I started as a little side project.",
+	"main": "src/index.ts",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Applejuicelolmc/shrimp-bot"
+	},
+	"scripts": {
+		"start": "clear && ts-node -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Applejuicelolmc",
+	"license": "GNU GPL v3",
+	"dependencies": {
+		"@types/node": "^18.13.0",
+		"chalk": "^4.1.2",
+		"discord.js": "^14.7.1",
+		"dotenv": "^16.0.3",
+		"ts-node": "^10.9.1",
+		"tslib": "^2.5.0",
+		"typescript": "^4.9.5",
+		"winston": "^3.8.2"
+	}
+}
