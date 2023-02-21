@@ -1,7 +1,8 @@
-import ShrimpEvent from "../common/interfaces/KannaEvent";
+import { Events } from "discord.js";
+import { ShrimpEvent } from "../common/base";
 
 export default {
-	name: 'ready',
+	name: Events.ClientReady,
 	once: true,
 	async execute(client) {
 		const { infoLogger } = client
