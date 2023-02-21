@@ -9,6 +9,7 @@
 	},
 	"scripts": {
 		"start": "clear && ts-node -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
+		"reset": "npm start reset",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Applejuicelolmc",
