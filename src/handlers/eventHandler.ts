@@ -1,49 +1,23 @@
 import { readdir } from "fs/promises";
-import { sleep } from "../utilityMethods";
-import ShrimpClient from "../common/classes/ShrimpClient";
-import ShrimpEvent from "../common/interfaces/KannaEvent";
+import { sleep } from "../common/utilityMethods";
+import { ShrimpClient, ShrimpEvent } from "../common/base";
 
 export default async function eventHandler(client: ShrimpClient): Promise<void> {
 	const { paths, infoLogger, errorLogger } = client;
 
-	try {
-		process.on('SIGINT', () => {
-			process.exit(0)
+	async function fetchEvents(): Promise<string[]>{
+		const eventFolder =  await readdir(paths.events);
+		return eventFolder.filter(file => {
+			return file.endsWith('.ts');
 		});
-	
-		process.on('SIGTERM', () => {
-			infoLogger.info('SIGTERM Received!');
-		});
-	
-		process.on('SIGQUIT' , () => {
-			infoLogger.info('SIGQUIT Received!');
-		});
-	
-		process.on('exit', (exitCode) => {
-			sleep(500);
-			if (exitCode === 0) {
-				infoLogger.info('Logged off');
-			} else {
-				infoLogger.error(`Logged off with exit code ${exitCode}`);
-			}
-	
-			return client.destroy();
-		});
-	
-		async function fetchEvents(): Promise<string[]>{
-			const eventFolder =  await readdir(paths.events);
-			return eventFolder.filter(file => {
-				return file.endsWith('.ts');
-			});
-		}
-	
-		const events = await fetchEvents();
-	
+	}
+
+	async function loadEvents(events: string[]) {
 		for (const eventFile of events) {
-			const event =  require(`${paths.events}/${eventFile}`).default as ShrimpEvent;
+			const event: ShrimpEvent =  require(`${paths.events}/${eventFile}`).default;
 	
 			if (event.name === 'debug') {
-				continue;
+				continue; //ignore debug events for now...
 			}
 	
 			if (event.once) {
@@ -56,6 +30,33 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 				});
 			}
 		}
+	}
+
+	try {
+		process.on('SIGINT', () => {
+			process.exit(0);
+		});
+
+		process.on('SIGTERM', () => {
+			infoLogger.info('SIGTERM Received!');
+		});
+
+		process.on('SIGQUIT' , () => {
+			infoLogger.info('SIGQUIT Received!');
+		});
+
+		process.on('exit', (exitCode) => {
+			sleep(500);
+			if (exitCode === 0) {
+				infoLogger.info('Logged off');
+			} else {
+				infoLogger.error(`Logged off with exit code ${exitCode}`);
+			}
+
+			return client.destroy();
+		});
+
+		loadEvents(await fetchEvents());
 	} catch (error) {
 		if (error instanceof Error) {
 			errorLogger.error(`Event handler: ${error.message}`);
