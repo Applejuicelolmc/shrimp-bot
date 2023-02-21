@@ -1,8 +1,9 @@
 import { ActivityType, GatewayIntentBits } from "discord.js";
 import os from 'node:os';
 
-import ShrimpClient from "./common/classes/ShrimpClient";
+import { ShrimpClient } from "./common/base";
 import eventHandler from "./handlers/eventHandler";
+import commandHandler from "./handlers/commandHandler";
 
 const client = new ShrimpClient({
 	intents: [
@@ -34,6 +35,7 @@ const { infoLogger, errorLogger } = client;
 (async function main(): Promise<void> {
 	infoLogger.info(`Shrimp is booting...`)
 	await eventHandler(client);
+	await commandHandler(client);
 
 	try {
 		client.login(process.env.DISCORD_TOKEN);
