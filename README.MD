@@ -8,9 +8,9 @@
 
 - [About Shrimp](#about-shrimp)
 - [Features](#features)
-  - [Commands](#commands)
+  - [Commands (soon™)](#commands)
 - [Setup](#setup)
-  - [Bot configuration](#bot-configuration)
+  - [Bot configuration (soon™)](#bot-configuration)
 - [Locally hosting the bot](#locally-hosting-this-bot-on-your-computer)
   - [Requirements](#requirements)
   - [Preparation and starting the bot](#preparation-and-starting-the-bot)
