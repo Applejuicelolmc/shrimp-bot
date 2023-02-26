@@ -41,9 +41,9 @@ export default<ShrimpCommand> {
 			});
 		} catch (error) {
 			if (error instanceof Error) {
-				errorLogger.error(`Login: ${error.message}`);
+				errorLogger.error(`Ping command: ${error.message}`);
 			} else {
-				errorLogger.error(`Login: ${error}`);
+				errorLogger.error(`Ping command: ${error}`);
 			}
 		}
 	}, 
