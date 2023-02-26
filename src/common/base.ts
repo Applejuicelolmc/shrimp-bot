@@ -90,6 +90,10 @@ export class ShrimpClient extends Client {
 	get paths() {
 		return this._paths;
 	}
+
+	get buttons() {
+		return this._buttons;
+	}
 }
 
 export interface ShrimpCategory {
