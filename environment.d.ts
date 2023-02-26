@@ -6,6 +6,7 @@ declare global {
 			DISCORD_TOKEN: string;
 			CLIENT_ID: string;
 			DEV_GUILD_ID: string;
+			ENVIRONMENT: 'production' | 'development';
 		}
 	}
 }
