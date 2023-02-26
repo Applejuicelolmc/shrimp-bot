@@ -1,6 +1,7 @@
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationCommandType, ChannelType, Client, Collection, CommandInteraction, EmojiResolvable, Interaction, MessageInteraction, SlashCommandBuilder } from "discord.js";
+import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChannelType, Client, Collection, CommandInteraction, EmojiResolvable, Interaction, MessageInteraction, SlashCommandBuilder } from "discord.js";
 import { normalize, resolve } from "path";
 import startLogger from "../handlers/logHandler";
+import { ButtonStyle } from "discord.js";
 
 export class ShrimpClient extends Client {
 	private _commands = new Collection<string, ShrimpCommand>();
@@ -11,6 +12,59 @@ export class ShrimpClient extends Client {
 		common: normalize(resolve('.', 'src', `common`)),
 		events: normalize(resolve('.', 'src', `events`)),
 		handlers: normalize(resolve('.', 'src', `handlers`)),
+	}
+
+	private _buttons = {
+		home: new ButtonBuilder({
+			style: ButtonStyle.Primary,
+			label: 'Home',
+			customId: 'home-button'
+		}),
+		back: new ButtonBuilder({
+			style: ButtonStyle.Primary,
+			label: 'Back',
+			customId: 'back-button'
+		}),
+		yes: new ButtonBuilder({
+			style: ButtonStyle.Success,
+			label: 'Yes',
+			customId: 'yes-button'
+		}),
+		no: new ButtonBuilder({
+			style: ButtonStyle.Danger,
+			label: 'No',
+			customId: 'no-button'
+		}),
+		set: new ButtonBuilder({
+			style: ButtonStyle.Success,
+			label: 'Set',
+			customId: 'set-button'
+		}),
+		reset: new ButtonBuilder({
+			style: ButtonStyle.Danger,
+			label: 'Reset',
+			customId: 'reset-button'
+		}),
+		join: new ButtonBuilder({
+			style: ButtonStyle.Success,
+			label: 'Join',
+			customId: 'join-button'
+		}),
+		leave: new ButtonBuilder({
+			style: ButtonStyle.Danger,
+			label: 'Leave',
+			customId: 'leave-button'
+		}),
+		accept: new ButtonBuilder({
+			style: ButtonStyle.Success,
+			label: 'Accept',
+			customId: 'accept-button'
+		}),
+		decline: new ButtonBuilder({
+			style: ButtonStyle.Danger,
+			label: 'Decline',
+			customId: 'decline-button'
+		}),
 	}
 
 	get commands(): Collection<string, ShrimpCommand> {
