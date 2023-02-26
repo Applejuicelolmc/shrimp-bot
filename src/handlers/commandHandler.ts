@@ -1,8 +1,6 @@
 import { readdir, stat } from "fs/promises";
-import { ShrimpCategory, ShrimpClient, ShrimpCommand, SlashData } from "../common/base";
+import { ShrimpCategory, ShrimpClient, ShrimpCommand } from "../common/base";
 import { ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
-import { info } from "winston";
-import { stdout } from "process";
 
 export default async function commandHandler(client: ShrimpClient): Promise<void> {
 	const { commands, categories, infoLogger, errorLogger, paths } = client;
@@ -66,19 +64,21 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		const resolvedCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = await commands;
 
 		try {
-			// Register commands to dev server only
-			await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.DEV_GUILD_ID!), {
-				body: resolvedCommands
-			});
+			if (process.env.ENVIRONMENT = 'development') {
+				// Register commands to dev server only
+				await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.DEV_GUILD_ID!), {
+					body: resolvedCommands
+				});
 
-			infoLogger.info( `Registered ${resolvedCommands.length} commands to the dev server`);
-
-			// Register commands to all joined servers
-			// await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
-			// 	body: resolvedCommands
-			// });
-			//
-			// infoLogger.info( `Registered ${resolvedCommands.length} commands globally`);
+				infoLogger.info( `Registered ${resolvedCommands.length} commands to the dev server`);
+			} else {
+				// Register commands to all joined servers
+				await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
+					body: resolvedCommands
+				});
+				
+				infoLogger.info( `Registered ${resolvedCommands.length} commands globally`);
+			}
 
 		} catch (error) {
 			if (error instanceof Error) {
