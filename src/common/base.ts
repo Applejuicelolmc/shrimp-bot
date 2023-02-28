@@ -1,4 +1,4 @@
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChannelType, Client, Collection, CommandInteraction, EmojiResolvable, Interaction, MessageInteraction, SlashCommandBuilder } from "discord.js";
+import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChannelType, Client, Collection, CommandInteraction, EmojiResolvable, SlashCommandBuilder } from "discord.js";
 import { normalize, resolve } from "path";
 import startLogger from "../handlers/logHandler";
 import { ButtonStyle } from "discord.js";
@@ -15,56 +15,46 @@ export class ShrimpClient extends Client {
 	}
 
 	private _buttons = {
-		home: new ButtonBuilder({
-			style: ButtonStyle.Primary,
-			label: 'Home',
-			customId: 'home-button'
-		}),
-		back: new ButtonBuilder({
-			style: ButtonStyle.Primary,
-			label: 'Back',
-			customId: 'back-button'
-		}),
-		yes: new ButtonBuilder({
-			style: ButtonStyle.Success,
-			label: 'Yes',
-			customId: 'yes-button'
-		}),
-		no: new ButtonBuilder({
-			style: ButtonStyle.Danger,
-			label: 'No',
-			customId: 'no-button'
-		}),
-		set: new ButtonBuilder({
-			style: ButtonStyle.Success,
-			label: 'Set',
-			customId: 'set-button'
-		}),
-		reset: new ButtonBuilder({
-			style: ButtonStyle.Danger,
-			label: 'Reset',
-			customId: 'reset-button'
-		}),
-		join: new ButtonBuilder({
-			style: ButtonStyle.Success,
-			label: 'Join',
-			customId: 'join-button'
-		}),
-		leave: new ButtonBuilder({
-			style: ButtonStyle.Danger,
-			label: 'Leave',
-			customId: 'leave-button'
-		}),
-		accept: new ButtonBuilder({
-			style: ButtonStyle.Success,
-			label: 'Accept',
-			customId: 'accept-button'
-		}),
-		decline: new ButtonBuilder({
-			style: ButtonStyle.Danger,
-			label: 'Decline',
-			customId: 'decline-button'
-		}),
+		home: new ButtonBuilder()
+			.setStyle(ButtonStyle.Primary)
+			.setLabel('Home')
+			.setCustomId('home-button'),
+		back: new ButtonBuilder()
+			.setStyle(ButtonStyle.Primary)
+			.setLabel('Back')
+			.setCustomId('back-button'),
+		yes: new ButtonBuilder()
+			.setStyle(ButtonStyle.Success)
+			.setLabel('Yes')
+			.setCustomId('yes-button'),
+		no: new ButtonBuilder()
+			.setStyle(ButtonStyle.Danger)
+			.setLabel('No')
+			.setCustomId('no-button'),
+		set: new ButtonBuilder()
+			.setStyle(ButtonStyle.Success)
+			.setLabel('Set')
+			.setCustomId('set-button'),
+		reset: new ButtonBuilder()
+			.setStyle(ButtonStyle.Danger)
+			.setLabel('Reset')
+			.setCustomId('reset-button'),
+		join: new ButtonBuilder()
+			.setStyle(ButtonStyle.Success)
+			.setLabel('Join')
+			.setCustomId('join-button'),
+		leave: new ButtonBuilder()
+			.setStyle(ButtonStyle.Danger)
+			.setLabel('Leave')
+			.setCustomId('leave-button'),
+		accept: new ButtonBuilder()
+			.setStyle(ButtonStyle.Success)
+			.setLabel('Accept')
+			.setCustomId('accept-button'),
+		decline: new ButtonBuilder()
+			.setStyle(ButtonStyle.Danger)
+			.setLabel('Decline')
+			.setCustomId('decline-button'),
 	}
 
 	get commands(): Collection<string, ShrimpCommand> {
