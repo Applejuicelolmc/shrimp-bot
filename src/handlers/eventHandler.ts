@@ -45,6 +45,10 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 			infoLogger.info('SIGQUIT Received!');
 		});
 
+		process.on('warning', (warning) => {
+			infoLogger.info(`${warning.stack}`);
+		})
+
 		process.on('exit', (exitCode) => {
 			sleep(500);
 			if (exitCode === 0) {
