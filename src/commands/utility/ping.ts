@@ -48,7 +48,7 @@ export default<ShrimpCommand> {
 		}
 	}, 
 
-	info: new SlashCommandBuilder()
+	slash: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Calculates current ping.')
 }

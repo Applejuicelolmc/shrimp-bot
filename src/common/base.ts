@@ -1,4 +1,4 @@
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChannelType, Client, Collection, CommandInteraction, EmojiResolvable, SlashCommandBuilder } from "discord.js";
+import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChannelType, ChatInputCommandInteraction, Client, Collection, CommandInteraction, ContextMenuCommandBuilder, EmojiResolvable, SlashCommandBuilder, UserContextMenuCommandInteraction } from "discord.js";
 import { normalize, resolve } from "path";
 import startLogger from "../handlers/logHandler";
 import { ButtonStyle } from "discord.js";
@@ -57,6 +57,10 @@ export class ShrimpClient extends Client {
 			.setCustomId('decline-button'),
 	}
 
+	private _guildEmoji () {
+		return this.emojis.cache;
+	}
+
 	get commands(): Collection<string, ShrimpCommand> {
 		return this._commands;
 	}
@@ -76,7 +80,6 @@ export class ShrimpClient extends Client {
 	get debugLogger() {
 		return this._logger.get('debug');
 	}
-
 	get paths() {
 		return this._paths;
 	}
@@ -84,6 +87,10 @@ export class ShrimpClient extends Client {
 	get buttons() {
 		return this._buttons;
 	}
+
+	get customEmojis() {
+		return this._guildEmoji();
+	};
 }
 
 export interface ShrimpCategory {
@@ -97,8 +104,9 @@ export interface ShrimpCategory {
 }
 
 export interface ShrimpCommand {
-	execute(client: ShrimpClient, interaction: CommandInteraction): Promise<void>;
-	info: SlashCommandBuilder
+	execute(client: ShrimpClient, interaction: ChatInputCommandInteraction | UserContextMenuCommandInteraction): Promise<void>;
+	slash: SlashCommandBuilder;
+	context?: ContextMenuCommandBuilder;
 }
 
 export interface ShrimpEvent {

@@ -8,24 +8,24 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 	const rest = new REST({
 		version: '10'
 	})
-	.setToken(process.env.DISCORD_TOKEN!);
+		.setToken(process.env.DISCORD_TOKEN!);
 
-	async function fetchCommands(): Promise<SlashCommandBuilder[]> {
-		const slashCommands: SlashCommandBuilder[] = [];
+	async function fetchCommands(): Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]> {
+		const allCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = [];
 		const sortedCategories: ShrimpCategory[] = [];
-		const commandFolder =  await readdir(paths.commands);
-		
+		const commandFolder = await readdir(paths.commands);
+
 		for (const category of commandFolder) {
 			const stats = await stat(`${paths.commands}/${category}`);
-	
+
 			if (stats.isFile()) {
 				continue; //ignore files when reading commands folder
 			}
 
 			const categoryFolder = await readdir(`${paths.commands}/${category}`);
-	
+
 			const commandFiles = categoryFolder.filter(file => file.endsWith('.ts'));
-	
+
 			const { description, position, emoji } = require(`${paths.commands}/${category}/info.json`);
 
 			sortedCategories.push({
@@ -41,11 +41,15 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 			for (const commandFile of commandFiles) {
 				const command = require(`${paths.commands}/${category}/${commandFile}`).default as ShrimpCommand;
 
-				commands.set(command.info.name, command);
-	
-				sortedCategories[sortedCategories.length - 1].info.commandNames.push(command.info.name);
-	
-				slashCommands.push(command.info);
+				commands.set(command.slash.name, command);
+
+				sortedCategories[sortedCategories.length - 1].info.commandNames.push(command.slash.name);
+
+				allCommands.push(command.slash);
+
+				if (command.context) {
+					allCommands.push(command.context)
+				}
 			}
 		}
 
@@ -57,10 +61,10 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 			categories.set(category.name, category);
 		}
 
-		return slashCommands;
+		return allCommands;
 	}
 
-	async function loadCommands(commands: Promise<SlashCommandBuilder[]>): Promise<void> {
+	async function loadCommands(commands: Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]>): Promise<void> {
 		const resolvedCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = await commands;
 
 		try {
@@ -70,19 +74,19 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 					body: resolvedCommands
 				});
 
-				infoLogger.info( `Registered ${resolvedCommands.length} commands to the dev server`);
+				infoLogger.info(`Registered ${resolvedCommands.length} commands to the dev server`);
 			} else {
 				// Register commands to all joined servers
 				await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
 					body: resolvedCommands
 				});
-				
-				infoLogger.info( `Registered ${resolvedCommands.length} commands globally`);
+
+				infoLogger.info(`Registered ${resolvedCommands.length} commands globally`);
 			}
 
 		} catch (error) {
 			if (error instanceof Error) {
-				errorLogger.error(`Failed to register commands: ${error.message}`);
+				errorLogger.error(`Failed to register commands: ${error.stack}`);
 			} else {
 				errorLogger.error(`Failed to register commands: ${error}`);
 			}
@@ -105,7 +109,7 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 
 		} catch (error) {
 			if (error instanceof Error) {
-				errorLogger.error(`Failed to reset commands: ${error.message}`);
+				errorLogger.error(`Failed to reset commands: ${error.stack}`);
 			} else {
 				errorLogger.error(`Failed to reset commands: ${error}`);
 			}
@@ -120,7 +124,7 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		loadCommands(fetchCommands());
 	} catch (error) {
 		if (error instanceof Error) {
-			errorLogger.error(`Command handler: ${error.message}`);
+			errorLogger.error(`Command handler: ${error.stack}`);
 		} else {
 			errorLogger.error(`Command handler: ${error}`);
 		}
