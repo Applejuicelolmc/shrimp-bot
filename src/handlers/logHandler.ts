@@ -6,37 +6,38 @@ import { formatDate, formatTime } from "../common/utilityMethods";
 export default function startLogger(client: ShrimpClient): Container {
 	const { printf, timestamp, label, combine } = format;
 
-	const consoleFormat = printf(({ message, timestamp, label}) => {
+	const consoleFormat = printf(({ message, timestamp, label }) => {
 		return `${chalk.yellowBright(formatTime(timestamp))} | ${label} | ${message}`;
 	});
 
-	const fileFormat = printf(({ message, timestamp, label}) => {
+	const fileFormat = printf(({ message, timestamp, label }) => {
 		return `${formatTime(timestamp)} | ${label} | ${message}`;
 	});
 
-	function generateFormat(labelName: string, format: 'file' | 'console') {
+	function generateFormat(labelName: string, format: any) {
 		return combine(
 			label({
 				label: labelName
 			}),
 			timestamp(),
-			format === 'file' ? fileFormat : consoleFormat
+			format
 		)
 	}
 
 	loggers.add('info', {
-		format: generateFormat(chalk.blue('info '), 'console'),
+		format: generateFormat(chalk.blue('info '), consoleFormat),
 		transports: [
 			new transports.Console()
 		]
 	});
+
 	loggers.add('error', {
-		format: generateFormat(chalk.red('error'), 'console'),
+		format: generateFormat(chalk.red('error'), consoleFormat),
 		transports: [
 			new transports.Console(),
 			new transports.File({
 				filename: `./logs/error-${formatDate(Date.now(), '-')}.log`,
-				format:  generateFormat('error', 'file'),
+				format: generateFormat('error', fileFormat),
 			})
 		]
 	});
