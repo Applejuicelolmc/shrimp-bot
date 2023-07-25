@@ -1,6 +1,6 @@
-import { readdir } from "fs/promises";
-import { sleep } from "../common/utilityMethods";
-import { ShrimpClient, ShrimpEvent } from "../common/base";
+import { readdir } from 'fs/promises';
+import { ShrimpClient, ShrimpEvent } from '../common/base';
+import { sleep } from '../common/utilityMethods';
 
 export default async function eventHandler(client: ShrimpClient): Promise<void> {
 	const { paths, infoLogger, errorLogger } = client;
@@ -68,4 +68,3 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 			errorLogger.error(`Event handler: ${error}`);
 		}
 	}
-}

@@ -14,16 +14,11 @@ export default {
 				return;
 			}
 
-			const guildSettings = await GuildSettings.create(<IGuildSettingsSchema>{
-				name: guild[1].name,
-				guildId: guild[1].id,
-				logSettings: {
-					logChannel: null,
-					logDeletes: false,
-					editWebhook: null,
-					deleteWebhook: null
+
+			infoLogger.info(`MongoDB: Added Guildsettings for ${guildSettings.guildName}`);
 				}
-			});
+	},
+};
 
 			infoLogger.info(`MongoDB: Added Guildsettings for ${guildSettings.name}`)
 		}

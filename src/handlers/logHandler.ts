@@ -1,7 +1,6 @@
-import { Container, format, loggers, transports } from "winston";
-import { ShrimpClient } from "../common/base";
-import chalk from "chalk";
-import { formatDate, formatTime } from "../common/utilityMethods";
+import winston, { Container, format, loggers, transports } from 'winston';
+import chalk from 'chalk';
+import { formatDate, formatTime } from '../common/utilityMethods';
 
 export default function startLogger(client: ShrimpClient): Container {
 	const { printf, timestamp, label, combine } = format;
@@ -17,11 +16,11 @@ export default function startLogger(client: ShrimpClient): Container {
 	function generateFormat(labelName: string, format: any) {
 		return combine(
 			label({
-				label: labelName
+				label: labelName,
 			}),
 			timestamp(),
 			format
-		)
+		);
 	}
 
 	loggers.add('info', {
@@ -38,8 +37,9 @@ export default function startLogger(client: ShrimpClient): Container {
 			new transports.File({
 				filename: `./logs/error-${formatDate(Date.now(), '-')}.log`,
 				format: generateFormat('error', fileFormat),
-			})
-		]
+			}),
+		],
 	});
-	return loggers
+
+	return loggers;
 }

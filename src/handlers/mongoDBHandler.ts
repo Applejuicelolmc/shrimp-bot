@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { ShrimpClient } from "../common/base";
+import mongoose from 'mongoose';
+import { ShrimpClient } from '../common/base';
 
 export default async function DBHandler(client: ShrimpClient): Promise<void> {
 	const { commands, categories, infoLogger, errorLogger, paths } = client;

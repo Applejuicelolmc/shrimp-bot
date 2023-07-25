@@ -1,9 +1,4 @@
-import {
-	AttachmentBuilder,
-	ChatInputCommandInteraction,
-	EmbedBuilder,
-	SlashCommandBuilder,
-} from 'discord.js';
+import { AttachmentBuilder, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { ShrimpCommand } from '../../common/base';
 import { rollDice } from '../../common/utilityMethods';
 import { GlobalFonts, createCanvas, loadImage } from '@napi-rs/canvas';
@@ -16,19 +11,13 @@ export default <ShrimpCommand>{
 		const amount = interaction.options.getNumber('amount') || 1;
 		const modifier = interaction.options.getNumber('modifier') || 0;
 
-		GlobalFonts.registerFromPath(
-			'src/assets/fonts/immortal.ttf',
-			'Immortal'
-		);
+		GlobalFonts.registerFromPath('src/assets/fonts/immortal.ttf', 'Immortal');
 
 		if (!dice || !interaction || !interaction.guild) {
 			return;
 		}
 
-		async function createDice(
-			dice: number,
-			total: number
-		): Promise<AttachmentBuilder> {
+		async function createDice(dice: number, total: number): Promise<AttachmentBuilder> {
 			const canvas = createCanvas(256, 256);
 			const context = canvas.getContext('2d');
 
@@ -53,9 +42,7 @@ export default <ShrimpCommand>{
 			// context.fillRect(0, 0, canvas.width, canvas.height);
 			// context.globalCompositeOperation = 'destination-in';
 
-			const background = await loadImage(
-				'./src/assets/backgrounds/galaxy.png'
-			);
+			const background = await loadImage('./src/assets/backgrounds/galaxy.png');
 
 			const icon = await loadImage(`src/assets/icons/D${dice}.svg`);
 
@@ -71,11 +58,7 @@ export default <ShrimpCommand>{
 			context.font = `40px Immortal`;
 			context.textAlign = 'center';
 			context.fillStyle = '#ffffff'; //context.createPattern(background, 'no-repeat'); (Display image over text instead of a solid color)
-			context.fillText(
-				`${total}`,
-				canvas.width / 2,
-				canvas.height / 2 + centerOffset
-			);
+			context.fillText(`${total}`, canvas.width / 2, canvas.height / 2 + centerOffset);
 
 			return new AttachmentBuilder(await canvas.encode('png'), {
 				name: 'dice.png',
@@ -84,8 +67,7 @@ export default <ShrimpCommand>{
 
 		await interaction.deferReply({ ephemeral: true });
 
-		const embedColor = (await client.getGuildSettings(interaction.guild))
-			.categories.general.settings.embedColor.value;
+		const embedColor = (await client.getGuildSettings(interaction.guild)).categories.general.settings.embedColor.value;
 
 		const rollEmbed = new EmbedBuilder()
 			.setTitle(`***ROLLED D${dice} x ${amount} ***`)
@@ -134,9 +116,7 @@ export default <ShrimpCommand>{
 
 		if (modifier > 0 || modifier < 0) {
 			rollEmbed.addFields({
-				name: `***MODIFIER: ${
-					modifier < 0 ? modifier : `+${modifier}`
-				}***`,
+				name: `***MODIFIER: ${modifier < 0 ? modifier : `+${modifier}`}***`,
 				value: `\u200b`,
 				inline: false,
 			});
@@ -156,10 +136,7 @@ export default <ShrimpCommand>{
 				files: [diceImage],
 			});
 		} catch (error) {
-			client.handleError(
-				`[${interaction.guildId}] Dice command`,
-				error as Error
-			);
+			client.handleError(`[${interaction.guildId}] Dice command`, error as Error);
 		}
 	},
 
@@ -199,21 +176,11 @@ export default <ShrimpCommand>{
 				.setRequired(true)
 		)
 		.addNumberOption((amount) =>
-			amount
-				.setName('amount')
-				.setDescription(
-					'The amount of dice you want to throw, 1 by default.'
-				)
-				.setMinValue(2)
-				.setMaxValue(9)
-				.setRequired(false)
+			amount.setName('amount').setDescription('The amount of dice you want to throw, 1 by default.').setMinValue(2).setMaxValue(9).setRequired(false)
 		)
 		.addNumberOption((modifier) =>
-			modifier
-				.setName('modifier')
-				.setDescription(
-					'The modifier to add or subtract to/from your roll, 0 by default'
+			modifier.setName('modifier').setDescription('The modifier to add or subtract to/from your roll, 0 by default').setRequired(false)
 				)
-				.setRequired(false)
+		.addBooleanOption((invisible) =>
 		),
 };

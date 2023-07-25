@@ -12,52 +12,23 @@ export class ShrimpClient extends Client {
 		common: normalize(resolve('.', 'src', `common`)),
 		events: normalize(resolve('.', 'src', `events`)),
 		handlers: normalize(resolve('.', 'src', `handlers`)),
-	}
+	};
 
 	private _buttons = {
-		home: new ButtonBuilder()
-			.setStyle(ButtonStyle.Primary)
-			.setLabel('Home')
-			.setCustomId('home-button'),
-		back: new ButtonBuilder()
-			.setStyle(ButtonStyle.Primary)
-			.setLabel('Back')
-			.setCustomId('back-button'),
-		yes: new ButtonBuilder()
-			.setStyle(ButtonStyle.Success)
-			.setLabel('Yes')
-			.setCustomId('yes-button'),
-		no: new ButtonBuilder()
-			.setStyle(ButtonStyle.Danger)
-			.setLabel('No')
-			.setCustomId('no-button'),
-		set: new ButtonBuilder()
-			.setStyle(ButtonStyle.Success)
-			.setLabel('Set')
-			.setCustomId('set-button'),
-		reset: new ButtonBuilder()
-			.setStyle(ButtonStyle.Danger)
-			.setLabel('Reset')
-			.setCustomId('reset-button'),
-		join: new ButtonBuilder()
-			.setStyle(ButtonStyle.Success)
-			.setLabel('Join')
-			.setCustomId('join-button'),
-		leave: new ButtonBuilder()
-			.setStyle(ButtonStyle.Danger)
-			.setLabel('Leave')
-			.setCustomId('leave-button'),
-		accept: new ButtonBuilder()
-			.setStyle(ButtonStyle.Success)
-			.setLabel('Accept')
-			.setCustomId('accept-button'),
-		decline: new ButtonBuilder()
-			.setStyle(ButtonStyle.Danger)
-			.setLabel('Decline')
-			.setCustomId('decline-button'),
-	}
+		home: new ButtonBuilder().setStyle(ButtonStyle.Primary).setLabel('Home').setCustomId('home-button'),
+		back: new ButtonBuilder().setStyle(ButtonStyle.Primary).setLabel('Back').setCustomId('back-button'),
+		edit: new ButtonBuilder().setStyle(ButtonStyle.Primary).setLabel('Edit').setCustomId('edit-button'),
+		yes: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Yes').setCustomId('yes-button'),
+		no: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('No').setCustomId('no-button'),
+		set: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Set').setCustomId('set-button'),
+		reset: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Reset').setCustomId('reset-button'),
+		join: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Join').setCustomId('join-button'),
+		leave: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Leave').setCustomId('leave-button'),
+		accept: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Accept').setCustomId('accept-button'),
+		decline: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Decline').setCustomId('decline-button'),
+	};
 
-	private _guildEmoji () {
+	private _guildEmoji() {
 		return this.emojis.cache;
 	}
 
@@ -90,17 +61,17 @@ export class ShrimpClient extends Client {
 
 	get customEmojis() {
 		return this._guildEmoji();
-	};
+	}
 }
 
 export interface ShrimpCategory {
-	name: string,
+	name: string;
 	info: {
-		description: string,
-		position: number,
-		emoji: EmojiResolvable,
-		commandNames: string[],
-	}
+		description: string;
+		position: number;
+		emoji: EmojiResolvable;
+		commandNames: string[];
+	};
 }
 
 export interface ShrimpCommand {
@@ -110,23 +81,33 @@ export interface ShrimpCommand {
 }
 
 export interface ShrimpEvent {
-	name: string
-	once: boolean
+	name: string;
+	once: boolean;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	execute(client: ShrimpClient, ...args: any): Promise<void>;
 }
 
 export interface SlashData {
-	name: string
-	description: string
-	options?: SlashOptions,
-	type?: ApplicationCommandType
+	name: string;
+	description: string;
+	options?: SlashOptions;
+	type?: ApplicationCommandType;
 }
 
 export interface SlashOptions {
-	type: ApplicationCommandOptionType
-	name: string,
-	description: string
-	required: boolean
-	channelTypes?: (ChannelType.GuildText | ChannelType.GuildVoice | ChannelType.GuildCategory | ChannelType.GuildNews | ChannelType.GuildNewsThread | ChannelType.GuildPublicThread | ChannelType.GuildPrivateThread | ChannelType.GuildStageVoice)[]
-	choices?: APIApplicationCommandOptionChoice<string>[]
+	type: ApplicationCommandOptionType;
+	name: string;
+	description: string;
+	required: boolean;
+	channelTypes?: (
+		| ChannelType.GuildText
+		| ChannelType.GuildVoice
+		| ChannelType.GuildCategory
+		| ChannelType.GuildNews
+		| ChannelType.GuildNewsThread
+		| ChannelType.GuildPublicThread
+		| ChannelType.GuildPrivateThread
+		| ChannelType.GuildStageVoice
+	)[];
+	choices?: APIApplicationCommandOptionChoice<string>[];
 }

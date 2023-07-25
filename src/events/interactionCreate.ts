@@ -1,5 +1,5 @@
-import { Events, Interaction } from "discord.js";
-import { ShrimpEvent } from "../common/base";
+import { Events, Interaction } from 'discord.js';
+import { ShrimpEvent } from '../common/base';
 
 export default {
 	name: Events.InteractionCreate,
@@ -32,9 +32,12 @@ export default {
 				const endTime = performance.now();
 
 				if (process.env.ENVIRONMENT === 'development') {
-					infoLogger.info(`The ${commandName} command was executed by ${interaction.user.username} in ~${Math.round(((endTime - startTime) * 100)) / 100}ms`);
+					infoLogger.info(
+						`The ${interaction.commandName} command was executed by ${interaction.user.username} in ~${
+							Math.round((endTime - startTime) * 100) / 100
+						}ms`
+					);
 				}
-
 			} catch (error) {
 				if (error instanceof Error) {
 					errorLogger.error(`Couldn't execute command: ${error.stack}`);
@@ -48,5 +51,5 @@ export default {
 				});
 			}
 		}
-	}
-} as ShrimpEvent
+	},
+};

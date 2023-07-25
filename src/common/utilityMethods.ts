@@ -1,18 +1,18 @@
-export async function sleep (ms: number): Promise<void> {
-	return new Promise(resolve => setTimeout(resolve, ms));
+export async function sleep(ms: number): Promise<void> {
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function capitalize(string: string): string {
 	return `${string[0].toUpperCase()}${string.slice(1)}`;
 }
 
-export function formatDate (date: number, separator: string): string {
+export function formatDate(date: number, separator: string): string {
 	if (!date || !separator) {
-		throw new Error('Missing date or separator argument')
+		throw new Error('Missing date or separator argument');
 	}
 
 	const currentDate = new Date(date);
-	return `${currentDate.getFullYear()}${separator}${currentDate.getMonth()+1}${separator}${currentDate.getUTCDate()}`;
+	return `${currentDate.getFullYear()}${separator}${currentDate.getMonth() + 1}${separator}${currentDate.getUTCDate()}`;
 }
 
 export function formatTime(time: number, locale = undefined ): string {

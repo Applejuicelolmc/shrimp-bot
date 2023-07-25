@@ -1,4 +1,4 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
+
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
@@ -30,11 +30,7 @@ export default <ShrimpCommand>{
 		};
 
 		function deniedEmbed(text: string) {
-			return new EmbedBuilder()
-				.setColor(Colors.Red)
-				.setDescription(
-					`${client.customEmojis.get('981339000705024040')} ${text}`
-				);
+			return new EmbedBuilder().setColor(Colors.Red).setDescription(`${client.customEmojis.get('981339000705024040')} ${text}`);
 		}
 
 		const matchUps = {
@@ -84,11 +80,7 @@ export default <ShrimpCommand>{
 				this.member = player;
 			}
 
-			updateChoice(
-				choice: '🪨' | '📄' | '✂️',
-				embed?: EmbedBuilder,
-				position?: 0 | 2
-			) {
+			updateChoice(choice: '🪨' | '📄' | '✂️', embed?: EmbedBuilder, position?: 0 | 2) {
 				this.choice = choice;
 				this.status = 'DONE';
 
@@ -104,13 +96,7 @@ export default <ShrimpCommand>{
 			showStatusField(): EmbedField {
 				return {
 					name: this.name,
-					value: `${
-						this.status === 'CHOOSING'
-							? 'Still choosing'
-							: this.status === 'DONE'
-							? 'Has Chosen'
-							: 'What happened here?'
-					}`,
+					value: `${this.status === 'CHOOSING' ? 'Still choosing' : this.status === 'DONE' ? 'Has Chosen' : 'What happened here?'}`,
 					inline: true,
 				};
 			}
@@ -126,13 +112,10 @@ export default <ShrimpCommand>{
 
 		const playerOne = new Player(interaction.member as GuildMember);
 		const playerTwo = new Player(
-			interaction.isUserContextMenuCommand()
-				? (interaction.targetMember as GuildMember)
-				: (interaction.options.getMember('opponent') as GuildMember)
+			interaction.isUserContextMenuCommand() ? (interaction.targetMember as GuildMember) : (interaction.options.getMember('opponent') ? interaction.options.getMember('opponent') as GuildMember : interaction.guild.members.cache.get(client.user!.id) as GuildMember )
 		);
 
-		const embedColor = (await client.getGuildSettings(interaction.guild))
-			.categories.general.settings.embedColor.value;
+		const embedColor = (await client.getGuildSettings(interaction.guild)).categories.general.settings.embedColor.value;
 
 		const gameEmbed = new EmbedBuilder()
 			.setTitle(
@@ -141,20 +124,13 @@ export default <ShrimpCommand>{
 					? bold(italic('ROCKS PAPERS SCISSORS - ᵃⁿᵗ ᵉᵈᶦᵗᶦᵒⁿ'))
 					: bold(italic('ROCK PAPER SCISSORS'))
 			)
-			.setColor(embedColor as number) // Let's hope this doesn't bite me in the ass...
-			.setDescription(
-				`${playerOne.member.user} has challenged ${playerTwo.member.user}!`
-			)
+			.setDescription(`${playerOne.member.user} has challenged ${playerTwo.member.user}!`)
 			.setFooter({
 				text: `Waiting for ${playerTwo.name} to accept your challenge...`,
 				iconURL: playerTwo.member.displayAvatarURL(imageOptions),
 			});
 
-		const challengeButtons =
-			new ActionRowBuilder<ButtonBuilder>().addComponents([
-				client.buttons.accept,
-				client.buttons.decline,
-			]);
+		const challengeButtons = new ActionRowBuilder<ButtonBuilder>().addComponents([client.buttons.accept, client.buttons.decline]);
 
 		const spacingField: EmbedField = {
 			name: bold(italic('VS')),
@@ -170,42 +146,27 @@ export default <ShrimpCommand>{
 					embeds: [
 						gameEmbed
 							.setDescription(null)
-							.addFields([
-								playerOne.showStatusField(),
-								spacingField,
-								playerTwo.showStatusField(),
-							])
+							.addFields([playerOne.showStatusField(), spacingField, playerTwo.showStatusField()])
 							.setFooter({
 								text: 'Challenge Accepted!',
-								iconURL:
-									client.user.displayAvatarURL(imageOptions),
+								iconURL: client.user.displayAvatarURL(imageOptions),
 							}),
 					],
 
 					components: [
 						new ActionRowBuilder<ButtonBuilder>({
-							components: [
-								rockButton,
-								paperButton,
-								scissorsButton,
-							],
+							components: [rockButton, paperButton, scissorsButton],
 						}),
 					],
 
 					ephemeral: true,
 				});
 
-				playerTwo.updateChoice(
-					choices[Math.floor(Math.random() * choices.length)],
-					gameEmbed,
-					2
-				);
+				playerTwo.updateChoice(choices[Math.floor(Math.random() * choices.length)], gameEmbed, 2);
 
-				const botMatchMessage =
-					(await interaction.fetchReply()) as Message;
+				const botMatchMessage = await interaction.fetchReply();
 
-				const botMatchCollector =
-					botMatchMessage.createMessageComponentCollector({
+				const botMatchCollector = botMatchMessage.createMessageComponentCollector({
 						componentType: ComponentType.Button,
 						time: 30000,
 					});
@@ -215,9 +176,7 @@ export default <ShrimpCommand>{
 
 					if (botMatchButton.user.id !== playerOne.id) {
 						await botMatchButton.followUp({
-							embeds: [
-								deniedEmbed("You can't use this button..."),
-							],
+							embeds: [deniedEmbed("You can't use this button...")],
 							ephemeral: true,
 						});
 
@@ -257,10 +216,7 @@ export default <ShrimpCommand>{
 						return;
 					}
 
-					if (
-						playerOne.status === 'DONE' &&
-						playerTwo.status === 'DONE'
-					) {
+					if (playerOne.status === 'DONE' && playerTwo.status === 'DONE') {
 						gameEmbed.data.fields[0] = playerOne.showChoices();
 						gameEmbed.data.fields[2] = playerTwo.showChoices();
 
@@ -277,19 +233,11 @@ export default <ShrimpCommand>{
 						await interaction.editReply({
 							embeds: [
 								gameEmbed.setFooter({
-									text: `${
-										playerOne.status === 'CHOOSING'
-											? playerOne.name
-											: playerTwo.name
-									} didn't choose in time and lost...`,
+									text: `${playerOne.status === 'CHOOSING' ? playerOne.name : playerTwo.name} didn't choose in time and lost...`,
 									iconURL:
 										playerOne.status === 'CHOOSING'
-											? playerOne.member.displayAvatarURL(
-													imageOptions
-											  )
-											: playerTwo.member.displayAvatarURL(
-													imageOptions
-											  ),
+											? playerOne.member.displayAvatarURL(imageOptions)
+											: playerTwo.member.displayAvatarURL(imageOptions),
 								}),
 							],
 							components: [],
@@ -300,10 +248,7 @@ export default <ShrimpCommand>{
 						return;
 					}
 
-					if (
-						matchUps[playerOne.choice as '🪨' | '📄' | '✂️']
-							.strongTo === playerTwo.choice
-					) {
+					if (matchUps[playerOne.choice as '🪨' | '📄' | '✂️'].strongTo === playerTwo.choice) {
 						gameEmbed.data.fields[0] = playerOne.showChoices(true);
 
 						await interaction.editReply({
@@ -311,25 +256,15 @@ export default <ShrimpCommand>{
 								gameEmbed
 									.setFooter({
 										text: `${playerOne.name} has won!`,
-										iconURL:
-											playerOne.member.displayAvatarURL(
-												imageOptions
-											),
+										iconURL: playerOne.member.displayAvatarURL(imageOptions),
 									})
-									.setThumbnail(
-										playerOne.member.displayAvatarURL(
-											imageOptions
-										)
-									),
+									.setThumbnail(playerOne.member.displayAvatarURL(imageOptions)),
 							],
 							components: [],
 						});
 					}
 
-					if (
-						matchUps[playerOne.choice as '🪨' | '📄' | '✂️']
-							.weakTo === playerTwo.choice
-					) {
+					if (matchUps[playerOne.choice as '🪨' | '📄' | '✂️'].weakTo === playerTwo.choice) {
 						gameEmbed.data.fields[2] = playerTwo.showChoices(true);
 
 						await interaction.editReply({
@@ -337,16 +272,9 @@ export default <ShrimpCommand>{
 								gameEmbed
 									.setFooter({
 										text: `${playerTwo.name} has won!`,
-										iconURL:
-											playerTwo.member.displayAvatarURL(
-												imageOptions
-											),
+										iconURL: playerTwo.member.displayAvatarURL(imageOptions),
 									})
-									.setThumbnail(
-										playerTwo.member.displayAvatarURL(
-											imageOptions
-										)
-									),
+									.setThumbnail(playerTwo.member.displayAvatarURL(imageOptions)),
 							],
 							components: [],
 						});
@@ -357,11 +285,8 @@ export default <ShrimpCommand>{
 							embeds: [
 								gameEmbed.setFooter({
 									text: "It's a draw!",
-									iconURL:
-										client.user!.displayAvatarURL(
-											imageOptions
-										),
-								}),
+									iconURL: client.user!.displayAvatarURL(imageOptions),
+								})
 							],
 							components: [],
 						});
@@ -377,11 +302,9 @@ export default <ShrimpCommand>{
 				components: [challengeButtons],
 			});
 
-			const challengeMessage =
-				(await interaction.fetchReply()) as Message;
+			const challengeMessage = (await interaction.fetchReply()) as Message;
 
-			const challengeButtonCollector =
-				challengeMessage.createMessageComponentCollector({
+			const challengeButtonCollector = challengeMessage.createMessageComponentCollector({
 					componentType: ComponentType.Button,
 					time: 30000,
 				});
@@ -405,27 +328,16 @@ export default <ShrimpCommand>{
 							embeds: [
 								gameEmbed
 									.setDescription(null)
-									.addFields([
-										playerOne.showStatusField(),
-										spacingField,
-										playerTwo.showStatusField(),
-									])
+									.addFields([playerOne.showStatusField(), spacingField, playerTwo.showStatusField()])
 									.setFooter({
 										text: 'Challenge Accepted!',
-										iconURL:
-											client.user?.displayAvatarURL(
-												imageOptions
-											),
+										iconURL: client.user?.displayAvatarURL(imageOptions),
 									}),
 							],
 
 							components: [
 								new ActionRowBuilder<ButtonBuilder>({
-									components: [
-										rockButton,
-										paperButton,
-										scissorsButton,
-									],
+									components: [rockButton, paperButton, scissorsButton],
 								}),
 							],
 						});
@@ -444,8 +356,7 @@ export default <ShrimpCommand>{
 
 			challengeButtonCollector.on('end', async (_collected, reason) => {
 				const gameMessage = (await interaction.fetchReply()) as Message;
-				const gameButtonCollector =
-					gameMessage.createMessageComponentCollector({
+				const gameButtonCollector = gameMessage.createMessageComponentCollector({
 						componentType: ComponentType.Button,
 						time: 30000,
 					});
@@ -456,17 +367,10 @@ export default <ShrimpCommand>{
 							content: null,
 							embeds: [
 								gameEmbed
-									.setDescription(
-										`${playerTwo.member.toString()} didn't respond in time, maybe another time ${
-											playerOne.name
-										}`
-									)
+									.setDescription(`${playerTwo.member.toString()} didn't respond in time, maybe another time ${playerOne.name}`)
 									.setFooter({
 										text: `${playerTwo.name} didn't respond in time...`,
-										iconURL:
-											playerTwo.member.displayAvatarURL(
-												imageOptions
-											),
+										iconURL: playerTwo.member.displayAvatarURL(imageOptions),
 									}),
 							],
 							components: [],
@@ -477,15 +381,10 @@ export default <ShrimpCommand>{
 							content: null,
 							embeds: [
 								gameEmbed
-									.setDescription(
-										`${playerTwo.member.toString()} declined this challenge, maybe next time ${playerOne.member.toString()}!`
-									)
+									.setDescription(`${playerTwo.member.toString()} declined this challenge, maybe next time ${playerOne.member.toString()}!`)
 									.setFooter({
 										text: `${playerTwo.name} has chickened out of this challenge!`,
-										iconURL:
-											playerTwo.member.displayAvatarURL(
-												imageOptions
-											),
+										iconURL: playerTwo.member.displayAvatarURL(imageOptions),
 									}),
 							],
 							components: [],
@@ -499,16 +398,9 @@ export default <ShrimpCommand>{
 								return;
 							}
 
-							if (
-								choice.user.id !== playerOne.id &&
-								choice.user.id !== playerTwo.id
-							) {
+							if (choice.user.id !== playerOne.id && choice.user.id !== playerTwo.id) {
 								await choice.followUp({
-									embeds: [
-										deniedEmbed(
-											"You can't use this button..."
-										),
-									],
+									embeds: [deniedEmbed("You can't use this button...")],
 									ephemeral: true,
 								});
 							}
@@ -517,11 +409,7 @@ export default <ShrimpCommand>{
 								case 'rock-button':
 									switch (choice.user.id) {
 										case playerOne.id:
-											playerOne.updateChoice(
-												'🪨',
-												gameEmbed,
-												0
-											);
+											playerOne.updateChoice('🪨', gameEmbed, 0);
 
 											await choice.editReply({
 												embeds: [gameEmbed],
@@ -529,11 +417,7 @@ export default <ShrimpCommand>{
 											break;
 
 										case playerTwo.id:
-											playerTwo.updateChoice(
-												'🪨',
-												gameEmbed,
-												2
-											);
+											playerTwo.updateChoice('🪨', gameEmbed, 2);
 
 											await choice.editReply({
 												embeds: [gameEmbed],
@@ -549,11 +433,7 @@ export default <ShrimpCommand>{
 								case 'paper-button':
 									switch (choice.user.id) {
 										case playerOne.id:
-											playerOne.updateChoice(
-												'📄',
-												gameEmbed,
-												0
-											);
+											playerOne.updateChoice('📄', gameEmbed, 0);
 
 											await choice.editReply({
 												embeds: [gameEmbed],
@@ -561,11 +441,7 @@ export default <ShrimpCommand>{
 											break;
 
 										case playerTwo.id:
-											playerTwo.updateChoice(
-												'📄',
-												gameEmbed,
-												2
-											);
+											playerTwo.updateChoice('📄', gameEmbed, 2);
 
 											await choice.editReply({
 												embeds: [gameEmbed],
@@ -580,11 +456,7 @@ export default <ShrimpCommand>{
 								case 'scissors-button':
 									switch (choice.user.id) {
 										case playerOne.id:
-											playerOne.updateChoice(
-												'✂️',
-												gameEmbed,
-												0
-											);
+											playerOne.updateChoice('✂️', gameEmbed, 0);
 
 											await choice.editReply({
 												embeds: [gameEmbed],
@@ -592,11 +464,7 @@ export default <ShrimpCommand>{
 											break;
 
 										case playerTwo.id:
-											playerTwo.updateChoice(
-												'✂️',
-												gameEmbed,
-												2
-											);
+											playerTwo.updateChoice('✂️', gameEmbed, 2);
 
 											await choice.editReply({
 												embeds: [gameEmbed],
@@ -612,14 +480,9 @@ export default <ShrimpCommand>{
 									break;
 							}
 
-							if (
-								playerOne.status === 'DONE' &&
-								playerTwo.status === 'DONE'
-							) {
-								gameEmbed.data.fields[0] =
-									playerOne.showChoices();
-								gameEmbed.data.fields[2] =
-									playerTwo.showChoices();
+							if (playerOne.status === 'DONE' && playerTwo.status === 'DONE') {
+								gameEmbed.data.fields[0] = playerOne.showChoices();
+								gameEmbed.data.fields[2] = playerTwo.showChoices();
 
 								await choice.editReply({
 									embeds: [gameEmbed],
@@ -629,28 +492,16 @@ export default <ShrimpCommand>{
 							}
 						});
 
-						gameButtonCollector.on(
-							'end',
-							async (_collected, reason) => {
+						gameButtonCollector.on('end', async (_collected, reason) => {
 								if (reason === 'time') {
 									await interaction.editReply({
 										embeds: [
 											gameEmbed.setFooter({
-												text: `${
-													playerOne.status ===
-													'CHOOSING'
-														? playerOne.name
-														: playerTwo.name
-												} didn't choose in time and lost...`,
+											text: `${playerOne.status === 'CHOOSING' ? playerOne.name : playerTwo.name} didn't choose in time and lost...`,
 												iconURL:
-													playerOne.status ===
-													'CHOOSING'
-														? playerOne.member.displayAvatarURL(
-																imageOptions
-														  )
-														: playerTwo.member.displayAvatarURL(
-																imageOptions
-														  ),
+												playerOne.status === 'CHOOSING'
+													? playerOne.member.displayAvatarURL(imageOptions)
+													: playerTwo.member.displayAvatarURL(imageOptions),
 											}),
 										],
 										components: [],
@@ -661,57 +512,33 @@ export default <ShrimpCommand>{
 									return;
 								}
 
-								if (
-									matchUps[
-										playerOne.choice as '🪨' | '📄' | '✂️'
-									].strongTo === playerTwo.choice
-								) {
-									gameEmbed.data.fields[0] =
-										playerOne.showChoices(true);
+							if (matchUps[playerOne.choice as '🪨' | '📄' | '✂️'].strongTo === playerTwo.choice) {
+								gameEmbed.data.fields[0] = playerOne.showChoices(true);
 
 									await interaction.editReply({
 										embeds: [
 											gameEmbed
 												.setFooter({
 													text: `${playerOne.name} has won!`,
-													iconURL:
-														playerOne.member.displayAvatarURL(
-															imageOptions
-														),
+												iconURL: playerOne.member.displayAvatarURL(imageOptions),
 												})
-												.setThumbnail(
-													playerOne.member.displayAvatarURL(
-														imageOptions
-													)
-												),
+											.setThumbnail(playerOne.member.displayAvatarURL(imageOptions)),
 										],
 										components: [],
 									});
 								}
 
-								if (
-									matchUps[
-										playerOne.choice as '🪨' | '📄' | '✂️'
-									].weakTo === playerTwo.choice
-								) {
-									gameEmbed.data.fields[2] =
-										playerTwo.showChoices(true);
+							if (matchUps[playerOne.choice as '🪨' | '📄' | '✂️'].weakTo === playerTwo.choice) {
+								gameEmbed.data.fields[2] = playerTwo.showChoices(true);
 
 									await interaction.editReply({
 										embeds: [
 											gameEmbed
 												.setFooter({
 													text: `${playerTwo.name} has won!`,
-													iconURL:
-														playerTwo.member.displayAvatarURL(
-															imageOptions
-														),
+												iconURL: playerTwo.member.displayAvatarURL(imageOptions),
 												})
-												.setThumbnail(
-													playerTwo.member.displayAvatarURL(
-														imageOptions
-													)
-												),
+											.setThumbnail(playerTwo.member.displayAvatarURL(imageOptions)),
 										],
 										components: [],
 									});
@@ -722,17 +549,13 @@ export default <ShrimpCommand>{
 										embeds: [
 											gameEmbed.setFooter({
 												text: "It's a draw!",
-												iconURL:
-													client.user!.displayAvatarURL(
-														imageOptions
-													),
+											iconURL: client.user!.displayAvatarURL(imageOptions),
 											}),
 										],
 										components: [],
 									});
 								}
-							}
-						);
+						});
 
 						break;
 					default:
@@ -745,19 +568,8 @@ export default <ShrimpCommand>{
 	},
 	slash: new SlashCommandBuilder()
 		.setName('rps')
-		.setDescription(
-			'Play the ultimate decision making game against another user!'
-		)
-		.addUserOption((option) =>
-			option
-				.setName('opponent')
-				.setDescription(
-					'The opponent you want to play againt (includes me!)'
-				)
-				.setRequired(true)
-		),
+		.setDescription('Play the ultimate decision making game against another user!')
+		.addUserOption((option) => option.setName('opponent').setDescription('The opponent you want to play againt (includes me!)').setRequired(false)),
 
-	context: new ContextMenuCommandBuilder()
-		.setName('rps')
-		.setType(ApplicationCommandType.User),
+	context: new ContextMenuCommandBuilder().setName('rps').setType(ApplicationCommandType.User),
 };

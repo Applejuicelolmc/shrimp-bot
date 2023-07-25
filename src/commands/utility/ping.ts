@@ -26,18 +26,16 @@ export default<ShrimpCommand> {
 			pingEmbed.addFields([
 				{
 					name: 'Bot Latency',
-					value: `*${msg.createdTimestamp - interaction.createdTimestamp}ms*`
+					value: `*${msg.createdTimestamp - interaction.createdTimestamp}ms*`,
 				},
 				{
 					name: 'Discord API Latency',
-					value: `*${interaction.client.ws.ping}ms*`
+					value: `*${interaction.client.ws.ping}ms*`,
 				},
 			]);
 
 			await interaction.editReply({
-				embeds: [
-					pingEmbed.setTitle(`***LATENCY STATS***`)
-				],
+				embeds: [pingEmbed.setTitle(`***LATENCY STATS***`)],
 			});
 		} catch (error) {
 			if (error instanceof Error) {
@@ -48,7 +46,5 @@ export default<ShrimpCommand> {
 		}
 	}, 
 
-	slash: new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Calculates current ping.')
-}
+	slash: new SlashCommandBuilder().setName('ping').setDescription('Calculates current ping.'),
+};

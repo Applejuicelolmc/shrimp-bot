@@ -1,16 +1,19 @@
-import { readdir, stat } from "fs/promises";
-import { ShrimpCategory, ShrimpClient, ShrimpCommand } from "../common/base";
-import { ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
-
-export default async function commandHandler(client: ShrimpClient): Promise<void> {
-	const { commands, categories, infoLogger, errorLogger, paths } = client;
+import { readdir, stat } from 'fs/promises';
+import { ShrimpCategory, ShrimpClient, ShrimpCommand } from '../common/base';
+import {
+	ContextMenuCommandBuilder,
+	REST,
+	Routes,
+	SlashCommandBuilder,
+} from 'discord.js';
 
 	const rest = new REST({
-		version: '10'
-	})
-		.setToken(process.env.DISCORD_TOKEN!);
+	version: '10',
+}).setToken(process.env.DISCORD_TOKEN!);
 
-	async function fetchCommands(): Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]> {
+export async function fetchCommands(
+	client: ShrimpClient
+): Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]> {
 		const allCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = [];
 		const sortedCategories: ShrimpCategory[] = [];
 		const commandFolder = await readdir(paths.commands);
@@ -35,20 +38,26 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 					position: position,
 					emoji: emoji,
 					commandNames: [],
-				}
+			},
 			});
 
 			for (const commandFile of commandFiles) {
-				const command = require(`${paths.commands}/${category}/${commandFile}`).default as ShrimpCommand;
+			const command = (
+				await import(
+					`${client.paths.commands}/${category}/${commandFile}`
+				)
+			).default as ShrimpCommand;
 
 				commands.set(command.slash.name, command);
 
-				sortedCategories[sortedCategories.length - 1].info.commandNames.push(command.slash.name);
+			sortedCategories[
+				sortedCategories.length - 1
+			].info.commandNames.push(command.slash.name);
 
 				allCommands.push(command.slash);
 
 				if (command.context) {
-					allCommands.push(command.context)
+				allCommands.push(command.context);
 				}
 			}
 		}
@@ -64,25 +73,42 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		return allCommands;
 	}
 
-	async function loadCommands(commands: Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]>): Promise<void> {
-		const resolvedCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = await commands;
+export async function loadCommands(
+	client: ShrimpClient,
+	commands: Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]>
+): Promise<void> {
+	const resolvedCommands: (
+		| SlashCommandBuilder
+		| ContextMenuCommandBuilder
+	)[] = await commands;
 
 		try {
 			if (process.env.ENVIRONMENT = 'development') {
 				// Register commands to dev server only
-				await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.DEV_GUILD_ID!), {
-					body: resolvedCommands
-				});
+				await rest.put(
+					Routes.applicationGuildCommands(
+						process.env.CLIENT_ID!,
+						process.env.DEV_GUILD_ID!
+					),
+					{
+						body: resolvedCommands,
+					}
+				);
 
-				infoLogger.info(`Registered ${resolvedCommands.length} commands to the dev server`);
+					`Registered ${resolvedCommands.length} commands to the dev server`
+				);
+					'Registering commands to the dev server',
+					error as Error
+				);
 			} else {
 				// Register commands to all joined servers
 				await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-					body: resolvedCommands
-				});
-
-				infoLogger.info(`Registered ${resolvedCommands.length} commands globally`);
+				await rest.put(
+					Routes.applicationCommands(process.env.CLIENT_ID!),
+					{
+						body: resolvedCommands,
 			}
+				);
 
 		} catch (error) {
 			if (error instanceof Error) {
@@ -98,14 +124,18 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 			infoLogger.info(`Resetting all commands...`);
 
 			await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-				body: []
+			body: [],
 			});
 
-			await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.DEV_GUILD_ID!), {
-				body: []
-			});
-
-			infoLogger.info(`All commands have been reset!`);
+		await rest.put(
+			Routes.applicationGuildCommands(
+				process.env.CLIENT_ID!,
+				process.env.DEV_GUILD_ID!
+			),
+			{
+				body: [],
+			}
+		);
 
 		} catch (error) {
 			if (error instanceof Error) {
@@ -116,6 +146,9 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		}
 	}
 
+export default async function commandHandler(
+	client: ShrimpClient
+): Promise<void> {
 	if (process.argv.includes('reset')) {
 		await resetCommands();
 	}
