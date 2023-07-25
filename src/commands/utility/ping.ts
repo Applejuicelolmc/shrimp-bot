@@ -1,14 +1,20 @@
 import { EmbedBuilder, Message, SlashCommandBuilder } from "discord.js";
 import { ShrimpCommand } from "../../common/base";
 
-export default<ShrimpCommand> {
-	async execute(client, interaction): Promise<void> {
-		const { errorLogger } = client;
+const pongGif = new AttachmentBuilder('src/assets/gifs/ping-pong.gif', {
+	name: 'ping-pong.gif',
+});
 
-		const pingEmbed = new EmbedBuilder({
-			title:`***PONG***`,
-			color: 0xB00B69
-		});
+	async execute(client, interaction): Promise<void> {
+		if (!interaction.guild) {
+			return;
+		}
+
+		const generalSettings = (await client.getGuildSettings(interaction.guild)).categories.general.settings;
+
+		const pingEmbed = new EmbedBuilder().setTitle(`***PONG***`).setColor(generalSettings.embedColor.value).setThumbnail('attachment://ping-pong.gif');
+
+
 
 		try {
 			await interaction.deferReply({
@@ -16,12 +22,11 @@ export default<ShrimpCommand> {
 			});
 
 			await interaction.followUp({
-				embeds: [
-					pingEmbed
-				]
+				embeds: [pingEmbed],
+				files: [pongGif],
 			});
 
-			const msg: Message = await interaction.fetchReply();
+			const msg = await interaction.fetchReply();
 
 			pingEmbed.addFields([
 				{

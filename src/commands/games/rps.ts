@@ -2,6 +2,7 @@
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
+	AttachmentBuilder,
 	ButtonBuilder,
 	ButtonStyle,
 	Colors,
@@ -280,6 +281,11 @@ export default <ShrimpCommand>{
 						});
 					}
 
+					const drawGif = new AttachmentBuilder('src/assets/gifs/draw.gif', {
+						name: 'draw.gif',
+					});
+					
+
 					if (playerOne.choice === playerTwo.choice) {
 						await interaction.editReply({
 							embeds: [
@@ -287,7 +293,9 @@ export default <ShrimpCommand>{
 									text: "It's a draw!",
 									iconURL: client.user!.displayAvatarURL(imageOptions),
 								})
+								.setThumbnail('attachment://draw.gif'),
 							],
+							files: [ drawGif ],
 							components: [],
 						});
 					}
