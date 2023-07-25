@@ -10,6 +10,7 @@ export default <ShrimpCommand>{
 		const dice = interaction.options.getNumber('dice');
 		const amount = interaction.options.getNumber('amount') || 1;
 		const modifier = interaction.options.getNumber('modifier') || 0;
+		const invisible = interaction.options.getBoolean('invisible') || false;
 
 		GlobalFonts.registerFromPath('src/assets/fonts/immortal.ttf', 'Immortal');
 
@@ -65,7 +66,7 @@ export default <ShrimpCommand>{
 			});
 		}
 
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply({ ephemeral: invisible });
 
 		const embedColor = (await client.getGuildSettings(interaction.guild)).categories.general.settings.embedColor.value;
 
@@ -180,7 +181,8 @@ export default <ShrimpCommand>{
 		)
 		.addNumberOption((modifier) =>
 			modifier.setName('modifier').setDescription('The modifier to add or subtract to/from your roll, 0 by default').setRequired(false)
-				)
+		)
 		.addBooleanOption((invisible) =>
+			invisible.setName('private').setDescription('whether or not you want this roll to be invisible or not').setRequired(false)
 		),
 };
