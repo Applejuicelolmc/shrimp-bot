@@ -76,7 +76,7 @@ export default <ShrimpCommand>{
 			public choice: '🪨' | '📄' | '✂️' | '' = '';
 
 			constructor(player: GuildMember) {
-				this.name = player.displayName;
+				this.name = player.displayName || player.user.tag;
 				this.id = player.user.id;
 				this.member = player;
 			}
@@ -120,11 +120,11 @@ export default <ShrimpCommand>{
 
 		const gameEmbed = new EmbedBuilder()
 			.setTitle(
-				playerOne.name.toLocaleLowerCase().includes('ant') ||
-					playerTwo.name.toLocaleLowerCase().includes('ant')
-					? bold(italic('ROCKS PAPERS SCISSORS - ᵃⁿᵗ ᵉᵈᶦᵗᶦᵒⁿ'))
+				playerOne.name.toLocaleLowerCase().includes('ant') || playerTwo.name.toLocaleLowerCase().includes('ant')
+					? bold(italic('ROCKS PAPERS SCISSORS - (っ◔◡◔)っ ♥ Ant Edition ♥')) // ᵃⁿᵗ ᵉᵈᶦᵗᶦᵒⁿ ♥
 					: bold(italic('ROCK PAPER SCISSORS'))
 			)
+			.setColor(embedColor as number) // Works for now but let's hope this doesn't bite me in the ass...
 			.setDescription(`${playerOne.member.user} has challenged ${playerTwo.member.user}!`)
 			.setFooter({
 				text: `Waiting for ${playerTwo.name} to accept your challenge...`,
@@ -168,9 +168,9 @@ export default <ShrimpCommand>{
 				const botMatchMessage = await interaction.fetchReply();
 
 				const botMatchCollector = botMatchMessage.createMessageComponentCollector({
-						componentType: ComponentType.Button,
-						time: 30000,
-					});
+					componentType: ComponentType.Button,
+					time: 30000,
+				});
 
 				botMatchCollector.on('collect', async (botMatchButton) => {
 					await botMatchButton.deferUpdate();
@@ -313,9 +313,9 @@ export default <ShrimpCommand>{
 			const challengeMessage = (await interaction.fetchReply()) as Message;
 
 			const challengeButtonCollector = challengeMessage.createMessageComponentCollector({
-					componentType: ComponentType.Button,
-					time: 30000,
-				});
+				componentType: ComponentType.Button,
+				time: 30000,
+			});
 
 			challengeButtonCollector.on('collect', async (challengeButton) => {
 				await challengeButton.deferUpdate();
@@ -365,9 +365,9 @@ export default <ShrimpCommand>{
 			challengeButtonCollector.on('end', async (_collected, reason) => {
 				const gameMessage = (await interaction.fetchReply()) as Message;
 				const gameButtonCollector = gameMessage.createMessageComponentCollector({
-						componentType: ComponentType.Button,
-						time: 30000,
-					});
+					componentType: ComponentType.Button,
+					time: 30000,
+				});
 
 				switch (reason) {
 					case 'time':
@@ -501,68 +501,68 @@ export default <ShrimpCommand>{
 						});
 
 						gameButtonCollector.on('end', async (_collected, reason) => {
-								if (reason === 'time') {
-									await interaction.editReply({
-										embeds: [
-											gameEmbed.setFooter({
+							if (reason === 'time') {
+								await interaction.editReply({
+									embeds: [
+										gameEmbed.setFooter({
 											text: `${playerOne.status === 'CHOOSING' ? playerOne.name : playerTwo.name} didn't choose in time and lost...`,
-												iconURL:
+											iconURL:
 												playerOne.status === 'CHOOSING'
 													? playerOne.member.displayAvatarURL(imageOptions)
 													: playerTwo.member.displayAvatarURL(imageOptions),
-											}),
-										],
-										components: [],
-									});
-								}
+										}),
+									],
+									components: [],
+								});
+							}
 
-								if (!gameEmbed.data.fields) {
-									return;
-								}
+							if (!gameEmbed.data.fields) {
+								return;
+							}
 
 							if (matchUps[playerOne.choice as '🪨' | '📄' | '✂️'].strongTo === playerTwo.choice) {
 								gameEmbed.data.fields[0] = playerOne.showChoices(true);
 
-									await interaction.editReply({
-										embeds: [
-											gameEmbed
-												.setFooter({
-													text: `${playerOne.name} has won!`,
+								await interaction.editReply({
+									embeds: [
+										gameEmbed
+											.setFooter({
+												text: `${playerOne.name} has won!`,
 												iconURL: playerOne.member.displayAvatarURL(imageOptions),
-												})
+											})
 											.setThumbnail(playerOne.member.displayAvatarURL(imageOptions)),
-										],
-										components: [],
-									});
-								}
+									],
+									components: [],
+								});
+							}
 
 							if (matchUps[playerOne.choice as '🪨' | '📄' | '✂️'].weakTo === playerTwo.choice) {
 								gameEmbed.data.fields[2] = playerTwo.showChoices(true);
 
-									await interaction.editReply({
-										embeds: [
-											gameEmbed
-												.setFooter({
-													text: `${playerTwo.name} has won!`,
+								await interaction.editReply({
+									embeds: [
+										gameEmbed
+											.setFooter({
+												text: `${playerTwo.name} has won!`,
 												iconURL: playerTwo.member.displayAvatarURL(imageOptions),
-												})
+											})
 											.setThumbnail(playerTwo.member.displayAvatarURL(imageOptions)),
-										],
-										components: [],
-									});
-								}
+									],
+									components: [],
+								});
+							}
 
-								if (playerOne.choice === playerTwo.choice) {
-									await interaction.editReply({
-										embeds: [
-											gameEmbed.setFooter({
-												text: "It's a draw!",
+							if (playerOne.choice === playerTwo.choice) {
+								await interaction.editReply({
+									embeds: [
+										gameEmbed.setFooter({
+											text: "It's a draw!",
 											iconURL: client.user!.displayAvatarURL(imageOptions),
-											}),
-										],
-										components: [],
-									});
-								}
+										}),
+									],
+									components: [],
+								});
+							}
 						});
 
 						break;
