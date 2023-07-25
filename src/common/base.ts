@@ -1,12 +1,28 @@
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationCommandType, ButtonBuilder, ChannelType, ChatInputCommandInteraction, Client, Collection, CommandInteraction, ContextMenuCommandBuilder, EmojiResolvable, SlashCommandBuilder, UserContextMenuCommandInteraction } from "discord.js";
-import { normalize, resolve } from "path";
-import startLogger from "../handlers/logHandler";
-import { ButtonStyle } from "discord.js";
+import {
+	APIApplicationCommandOptionChoice,
+	ApplicationCommandOptionType,
+	ApplicationCommandType,
+	ButtonBuilder,
+	ChannelType,
+	ChatInputCommandInteraction,
+	Client,
+	Collection,
+	ContextMenuCommandBuilder,
+	EmojiResolvable,
+	Guild,
+	SlashCommandBuilder,
+	UserContextMenuCommandInteraction,
+} from 'discord.js';
+import { normalize, resolve } from 'path';
+import startLogger from '../handlers/logHandler';
+import { ButtonStyle } from 'discord.js';
+import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings';
+import { generateDefaultSettings } from '../handlers/mongoDBHandler';
 
 export class ShrimpClient extends Client {
 	private _commands = new Collection<string, ShrimpCommand>();
 	private _categories = new Collection<string, ShrimpCategory>();
-	private _logger = startLogger(this);
+	private _logger = startLogger();
 	private _paths = {
 		commands: normalize(resolve('.', 'src', `commands`)),
 		common: normalize(resolve('.', 'src', `common`)),
@@ -51,6 +67,11 @@ export class ShrimpClient extends Client {
 	get debugLogger() {
 		return this._logger.get('debug');
 	}
+
+	get warningLogger() {
+		return this._logger.get('warning');
+	}
+
 	get paths() {
 		return this._paths;
 	}
@@ -61,6 +82,31 @@ export class ShrimpClient extends Client {
 
 	get customEmojis() {
 		return this._guildEmoji();
+	}
+
+	async getGuildSettings(guild: Guild): Promise<IGuildSettingsSchema> {
+		try {
+			return (await GuildSettings.findOne({
+				guildId: guild.id,
+			})) as IGuildSettingsSchema;
+		} catch (error) {
+			this.handleError('Fetching guildSettings', error as Error);
+		}
+
+		return await generateDefaultSettings(guild);
+	}
+
+	handleError(title: string, error: Error) {
+		try {
+			if (error instanceof Error) {
+				console.log(error.stack);
+				return this.errorLogger.error(`${title}: ${error.stack}`);
+			} else {
+				return this.errorLogger.error(`${title}: ${error}`);
+			}
+		} catch (error) {
+			this.handleError('Bad shit', error as Error);
+		}
 	}
 }
 
