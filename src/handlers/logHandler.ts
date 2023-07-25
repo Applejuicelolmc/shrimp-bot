@@ -2,18 +2,18 @@ import winston, { Container, format, loggers, transports } from 'winston';
 import chalk from 'chalk';
 import { formatDate, formatTime } from '../common/utilityMethods';
 
-export default function startLogger(client: ShrimpClient): Container {
+export default function startLogger(): Container {
 	const { printf, timestamp, label, combine } = format;
 
 	const consoleFormat = printf(({ message, timestamp, label }) => {
-		return `${chalk.yellowBright(formatTime(timestamp))} | ${label} | ${message}`;
+		return `${chalk.cyan(formatTime(timestamp))} | ${label} | ${message}`;
 	});
 
 	const fileFormat = printf(({ message, timestamp, label }) => {
 		return `${formatTime(timestamp)} | ${label} | ${message}`;
 	});
 
-	function generateFormat(labelName: string, format: any) {
+	function generateFormat(labelName: string, format: winston.Logform.Format) {
 		return combine(
 			label({
 				label: labelName,
@@ -25,9 +25,17 @@ export default function startLogger(client: ShrimpClient): Container {
 
 	loggers.add('info', {
 		format: generateFormat(chalk.blue('info '), consoleFormat),
-		transports: [
-			new transports.Console()
-		]
+		transports: [new transports.Console()],
+	});
+
+	loggers.add('debug', {
+		format: generateFormat(chalk.magentaBright('debug'), consoleFormat),
+		transports: [new transports.Console()],
+	});
+
+	loggers.add('warning', {
+		format: generateFormat(chalk.yellowBright('warn '), consoleFormat),
+		transports: [new transports.Console()],
 	});
 
 	loggers.add('error', {
