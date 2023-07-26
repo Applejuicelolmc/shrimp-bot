@@ -1,25 +1,23 @@
-import { BufferResolvable, Colors, EmbedBuilder, Events, Message, TextChannel, Webhook } from "discord.js";
-import { ShrimpEvent } from "../common/base";
-import GuildSettings from "../models/guildSettings";
+import { BufferResolvable, Colors, EmbedBuilder, Events, Message, TextChannel, Webhook } from 'discord.js';
+import { ShrimpEvent } from '../common/base';
 
-export default {
+export default <ShrimpEvent>{
 	name: Events.MessageDelete,
 	once: false,
 	async execute(client, message: Message) {
-		const { errorLogger } = client;
-		const currentGuild = await GuildSettings.findOne({ guildId: message.guildId });
-
-		if (!message.guild || message.author.bot || !currentGuild) {
+		if (!message.guild || message.author.bot) {
 			return;
-		};
+		}
 
-		if (!currentGuild.logSettings.deleteWebhook || !currentGuild.logSettings.logChannel) {
+		const logSettings = (await client.getGuildSettings(message.guild)).categories.logging.settings;
+
+		if (logSettings.deleteWebhook.value === 'none' || logSettings.logChannel.value === 'none') {
 			return;
-		};
+		}
 
-		const logDeletes = currentGuild.logSettings.logDeletes;
-		const logChannel = client.channels.cache.get(currentGuild.logSettings.logChannel) as TextChannel;
-		const deleteWebhook = await client.fetchWebhook(currentGuild.logSettings.deleteWebhook.id) as Webhook;
+		const logDeletes = logSettings.enabled;
+		const logChannel = client.channels.cache.get(logSettings.logChannel.value.id) as TextChannel;
+		const deleteWebhook = (await client.fetchWebhook(logSettings.deleteWebhook.value.id)) as Webhook;
 		//TODO handle error when the webhook is not found
 
 		try {
@@ -32,40 +30,31 @@ export default {
 					.setColor(Colors.Red)
 					.setTimestamp()
 					.setFooter({
-						text: `Message ID: ${message.id}`
-					})
+						text: `Message ID: ${message.id}`,
+					});
 
 				if (message.attachments.size > 0) {
 					const attachmentEmbeds: EmbedBuilder[] = [];
 					const attachmentFiles: BufferResolvable[] = [];
 
-					for (const [messageID, attachment] of message.attachments) {
-
-						attachmentEmbeds.push(
-							EmbedBuilder.from(logEmbed).setImage(`attachment://${attachment.name}`)
-						)
+					for (const [, attachment] of message.attachments) {
+						attachmentEmbeds.push(EmbedBuilder.from(logEmbed).setImage(`attachment://${attachment.name}`));
 
 						attachmentFiles.push(attachment.proxyURL as BufferResolvable);
 					}
 
 					return deleteWebhook.send({
 						embeds: attachmentEmbeds,
-						files: attachmentFiles
+						files: attachmentFiles,
 					});
 				}
 
 				deleteWebhook.send({
-					embeds: [
-						logEmbed
-					]
-				})
+					embeds: [logEmbed],
+				});
 			}
 		} catch (error) {
-			if (error instanceof Error) {
-				errorLogger.error(`messageDelete event: ${error.stack}`);
-			} else {
-				errorLogger.error(`messageDelete event: ${error}`);
-			}
+			client.handleError('messageDelete event', error as Error);
 		}
-	}
-} as ShrimpEvent
+	},
+};

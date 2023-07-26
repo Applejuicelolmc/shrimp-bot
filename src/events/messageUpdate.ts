@@ -1,91 +1,84 @@
-import { BufferResolvable, Colors, EmbedBuilder, Events, Message, TextChannel, Webhook } from "discord.js";
-import { ShrimpEvent } from "../common/base";
-import GuildSettings from "../models/guildSettings";
+import { BufferResolvable, Colors, EmbedBuilder, Events, Message, TextChannel, Webhook } from 'discord.js';
+import { ShrimpEvent } from '../common/base';
 
-export default {
+export default <ShrimpEvent>{
 	name: Events.MessageUpdate,
 	once: false,
 	async execute(client, oldMessage: Message, newMessage: Message) {
-		const { errorLogger } = client;
-		const currentGuild = await GuildSettings.findOne({ guildId: oldMessage.guildId });
-
-		if (!oldMessage.guild || oldMessage.author.bot || !currentGuild) {
+		if (!oldMessage.guild || oldMessage.author.bot) {
 			return;
-		};
+		}
 
-		if (!currentGuild.logSettings.editWebhook || !currentGuild.logSettings.logChannel) {
+		const logSettings = (await client.getGuildSettings(oldMessage.guild)).categories.logging.settings;
+
+		if (logSettings.editWebhook.value === 'none' || logSettings.logChannel.value === 'none') {
+			console.log(logSettings.editWebhook.value, logSettings.logChannel.value, 'no');
 			return;
-		};
+		}
 
-		const logDeletes = currentGuild.logSettings.logDeletes;
-		const logChannel = client.channels.cache.get(currentGuild.logSettings.logChannel) as TextChannel;
-		const editWebhook = await client.fetchWebhook(currentGuild.logSettings.editWebhook.id) as Webhook;
+		const logEdits = logSettings.enabled;
+		const logChannel = client.channels.cache.get(logSettings.logChannel.value.id) as TextChannel;
+		const editWebhook = (await client.fetchWebhook(logSettings.editWebhook.value.id)) as Webhook;
 		//TODO handle error when the webhook is not found
 
 		try {
-			if (logDeletes && logChannel && editWebhook) {
+			if (logEdits && logChannel && editWebhook) {
 				const logEmbed = new EmbedBuilder()
 					.setTitle(`**${oldMessage.member?.user.username}#${oldMessage.member?.user.discriminator} in ${oldMessage.channel}**`)
-					.setDescription(`**From:** \`\`\`${oldMessage.content == '' ? '\u200b' : oldMessage.content}\`\`\`\n**To:** \`\`\`${newMessage.content == '' ? '\u200b' : newMessage.content}\`\`\``)
+					.setDescription(
+						`**From:** \`\`\`${oldMessage.content == '' ? '\u200b' : oldMessage.content}\`\`\`\n**To:** \`\`\`${
+							newMessage.content == '' ? '\u200b' : newMessage.content
+						}\`\`\``
+					)
 					.setURL(newMessage.url)
 					.setThumbnail(newMessage.author.avatarURL())
 					.setColor(Colors.Blue)
 					.setTimestamp()
 					.setFooter({
-						text: `Message ID: ${newMessage.id}`
-					})
+						text: `Message ID: ${newMessage.id}`,
+					});
 
 				if (oldMessage.attachments.size > 0) {
 					const attachmentEmbeds: EmbedBuilder[] = [];
 					const attachmentFiles: BufferResolvable[] = [];
 
 					editWebhook.send({
-						embeds: [
-							logEmbed
-						],
+						embeds: [logEmbed],
 					});
 
-					let count = 0
+					let count = 0;
 
-					for (const [messageID, attachment] of oldMessage.attachments) {
-						count++
+					for (const [, attachment] of oldMessage.attachments) {
+						count++;
 
 						attachmentEmbeds.push(
 							new EmbedBuilder({
 								title: `Attachement ${count}`,
-								color: Colors.Red
+								color: Colors.Red,
 							}).setImage(`attachment://${attachment.name}`)
-						)
+						);
 
 						attachmentFiles.push(attachment.proxyURL as BufferResolvable);
 					}
 
 					if (attachmentFiles.length > 1) {
 						return editWebhook.send({
-							files: attachmentFiles
+							files: attachmentFiles,
 						});
 					}
 
 					return editWebhook.send({
 						embeds: attachmentEmbeds,
-						files: attachmentFiles
+						files: attachmentFiles,
 					});
-
-
 				}
 
 				editWebhook.send({
-					embeds: [
-						logEmbed
-					]
-				})
+					embeds: [logEmbed],
+				});
 			}
 		} catch (error) {
-			if (error instanceof Error) {
-				errorLogger.error(`messageUpdate event: ${error.stack}`);
-			} else {
-				errorLogger.error(`messageUpdate event: ${error}`);
-			}
+			client.handleError('messageUpdate event', error as Error);
 		}
-	}
-} as ShrimpEvent
+	},
+};

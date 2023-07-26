@@ -5,8 +5,7 @@ import { env } from 'process';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
-		const { errorLogger } = client;
-		const { options } = interaction as ChatInputCommandInteraction
+		const { options } = interaction as ChatInputCommandInteraction;
 
 		const configuration = new Configuration({
 			apiKey: env.OPENAI_TOKEN,
@@ -38,15 +37,12 @@ export default <ShrimpCommand>{
 				content: `***Input:***\n\`\`\`${input}\`\`\`\n***Output:***\n\`\`\`${response.data.choices[0].message?.content}\`\`\``,
 			});
 		} catch (error) {
-			if (error instanceof Error) {
-				errorLogger.error(`AskAi command: ${error.stack}`);
-			} else {
-				errorLogger.error(`AskAi command: ${error}`);
-			}
+			client.handleError('AskAi command', error as Error);
 		}
 	},
 
 	slash: new SlashCommandBuilder()
 		.setName('askai')
 		.setDescription('Ask something to chatGPT.')
+		.addStringOption((input) => input.setName('input').setDescription('your question').setRequired(true)),
 };

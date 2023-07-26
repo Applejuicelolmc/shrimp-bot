@@ -1,10 +1,11 @@
-import { EmbedBuilder, Message, SlashCommandBuilder } from "discord.js";
-import { ShrimpCommand } from "../../common/base";
+import { AttachmentBuilder, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { ShrimpCommand } from '../../common/base';
 
 const pongGif = new AttachmentBuilder('src/assets/gifs/ping-pong.gif', {
 	name: 'ping-pong.gif',
 });
 
+export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
 		if (!interaction.guild) {
 			return;
@@ -14,7 +15,7 @@ const pongGif = new AttachmentBuilder('src/assets/gifs/ping-pong.gif', {
 
 		const pingEmbed = new EmbedBuilder().setTitle(`***PONG***`).setColor(generalSettings.embedColor.value).setThumbnail('attachment://ping-pong.gif');
 
-
+		
 
 		try {
 			await interaction.deferReply({
@@ -43,13 +44,9 @@ const pongGif = new AttachmentBuilder('src/assets/gifs/ping-pong.gif', {
 				embeds: [pingEmbed.setTitle(`***LATENCY STATS***`)],
 			});
 		} catch (error) {
-			if (error instanceof Error) {
-				errorLogger.error(`Ping command: ${error.message}`);
-			} else {
-				errorLogger.error(`Ping command: ${error}`);
-			}
+			client.handleError('Ping command', error as Error);
 		}
-	}, 
+	},
 
 	slash: new SlashCommandBuilder().setName('ping').setDescription('Calculates current ping.'),
 };

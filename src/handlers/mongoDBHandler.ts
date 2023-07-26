@@ -1,28 +1,40 @@
 import mongoose from 'mongoose';
 import { ShrimpClient } from '../common/base';
+import { Colors, Guild } from 'discord.js';
+import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings';
 
 export default async function DBHandler(client: ShrimpClient): Promise<void> {
-	const { commands, categories, infoLogger, errorLogger, paths } = client;
 	const uri = process.env.MONGO_DB_URI!;
 
 	try {
-		await mongoose.connect(uri)
-		infoLogger.info(`MongoDB: Connected to the database`);
-
-		mongoose.connection.on('error', error => {
-			infoLogger.error(error);
+		await mongoose.connect(uri, {
+			family: 4,
+			connectTimeoutMS: 300000,
+			serverSelectionTimeoutMS: 300000,
+			minHeartbeatFrequencyMS: 5000,
 		});
 
-		mongoose.connection.on('disconnected', error => {
-			infoLogger.error(`MongoDB: Disconnected from database: ${error}`);
+		client.infoLogger.info(`MongoDB: Connected to the database`);
+
+		const start = Date.now();
+
+		mongoose.connection.on('error', (error) => {
+			client.infoLogger.error(`MongoDB - ${error}`);
+		});
+
+		mongoose.connection.on('disconnected', () => {
+			const end = Date.now();
+
+			client.infoLogger.error(`MongoDB - Disconnected from database: this lasted ${((end - start) / 1000) * 60}minutes`);
+		});
+
+		mongoose.connection.on('reconnected', () => {
+			client.infoLogger.error(`MongoDB - Reconnected to the database`);
 		});
 	} catch (error) {
-		if (error instanceof Error) {
-			errorLogger.error(`MongoDB: ${error.message}`);
-		} else {
-			errorLogger.error(`MongoDB: ${error}`);
-		}
+		client.handleError('MongoDB', error as Error);
 	}
+}
 
 export async function generateDefaultSettings(guild: Guild): Promise<IGuildSettingsSchema> {
 	return await GuildSettings.create(<IGuildSettingsSchema>{

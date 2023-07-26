@@ -1,33 +1,29 @@
 import { Events, Interaction } from 'discord.js';
 import { ShrimpEvent } from '../common/base';
 
-export default {
+export default <ShrimpEvent>{
 	name: Events.InteractionCreate,
 	once: false,
 	async execute(client, interaction: Interaction) {
 		const { commands, infoLogger, errorLogger } = client;
 
-		if (!interaction) {
+		if (!interaction || !interaction.guild) {
 			errorLogger.error(`Didn't receive interaction`);
 		}
 
 		if (interaction.isChatInputCommand() || interaction.isUserContextMenuCommand()) {
-			const { commandName } = interaction;
-
-			if (!commands.has(commandName)) {
-				return;
-			}
-
-			const cmd = commands.get(commandName);
+			const cmd = commands.get(interaction.commandName);
 
 			if (!cmd) {
-				return;
+				return interaction.reply({
+					content: 'This command is outdated',
+				});
 			}
 
 			try {
 				const startTime = performance.now();
 
-				cmd?.execute(client, interaction);
+				await cmd?.execute(client, interaction);
 
 				const endTime = performance.now();
 

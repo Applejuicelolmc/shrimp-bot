@@ -24,26 +24,20 @@ const client = new ShrimpClient({
 				name: 'the planktoons',
 				url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
 				type: ActivityType.Watching,
-			}
-		]
-	},
+			},
 		],
 	},
 });
 
 (async function main(): Promise<void> {
-	infoLogger.info(`Shrimp is booting...`)
-	await eventHandler(client);
-	await DBHandler(client);
-	await commandHandler(client);
+	client.infoLogger.info(`Shrimp is booting... (PID: ${process.pid})`);
 
 	try {
 		client.login(process.env.DISCORD_TOKEN);
 	} catch (error) {
-		if (error instanceof Error) {
-			errorLogger.error(`Login: ${error.message}`);
-		} else {
-			errorLogger.error(`Login: ${error}`);
-		}
+		client.handleError('Login', error as Error);
 	}
-}());
+	await eventHandler(client);
+	await DBHandler(client);
+	await commandHandler(client);
+})();
