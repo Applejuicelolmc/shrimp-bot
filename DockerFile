@@ -1,0 +1,11 @@
+FROM node:latest
+
+RUN mkdir /usr/src/shrimp/
+WORKDIR /usr/src/shrimp
+
+COPY package.json /usr/src/shrimp
+RUN npm install
+
+COPY . /usr/src/shrimp
+
+CMD ['node', 'start']
