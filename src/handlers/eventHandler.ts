@@ -20,10 +20,8 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 			for (const eventFile of events) {
 				const event = (await import(`${client.paths.events}/${eventFile}`)).default as ShrimpEvent;
 
-				if (
-					event.name === 'debug' //&& process.env.ENVIRONMENT === 'production'
-				) {
-					continue; //Ignore debug event in production, nvm just ignore it in general :p
+				if (event.name === 'debug' && process.env.ENVIRONMENT === 'production') {
+					continue;
 				}
 
 				if (event.once) {
