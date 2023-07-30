@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { ShrimpClient } from '../common/base';
 import { Colors, Guild } from 'discord.js';
 import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings';
+import { formatTime } from '../common/utilityMethods';
 
 export default async function DBHandler(client: ShrimpClient): Promise<void> {
 	const uri = process.env.MONGO_DB_URI!;
@@ -25,7 +26,7 @@ export default async function DBHandler(client: ShrimpClient): Promise<void> {
 		mongoose.connection.on('disconnected', () => {
 			const end = Date.now();
 
-			client.infoLogger.error(`MongoDB - Disconnected from database: this lasted ${((end - start) / 1000) * 60}minutes`);
+			client.infoLogger.error(`MongoDB - Disconnected from database (Connected for ${formatTime(end - start)})`);
 		});
 
 		mongoose.connection.on('reconnected', () => {
