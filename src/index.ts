@@ -27,7 +27,7 @@ const client = new ShrimpClient({
 	client.infoLogger.info(`Shrimp is booting... (PID: ${process.pid})`);
 
 	try {
-		client.login(process.env.DISCORD_TOKEN);
+		await client.login();
 	} catch (error) {
 		client.handleError('Login', error as Error);
 	}
