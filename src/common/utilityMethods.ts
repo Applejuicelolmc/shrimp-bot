@@ -16,14 +16,12 @@ export function formatDate(date: number, separator: string): string {
 }
 
 export function formatTime(time: number, locale = undefined): string {
-	const formattedTime = new Date(time).toLocaleString(locale, {
+	return new Date(time).toLocaleString(locale, {
 		hourCycle: 'h23',
 		hour: '2-digit',
 		minute: '2-digit',
 		second: '2-digit',
 	});
-
-	return formattedTime;
 }
 
 export function rollDice(dice: number): number {
