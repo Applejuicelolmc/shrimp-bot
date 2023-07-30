@@ -15,8 +15,6 @@ export default <ShrimpCommand>{
 
 		const pingEmbed = new EmbedBuilder().setTitle(`***PONG***`).setColor(generalSettings.embedColor.value).setThumbnail('attachment://ping-pong.gif');
 
-		
-
 		try {
 			await interaction.deferReply({
 				ephemeral: true,
