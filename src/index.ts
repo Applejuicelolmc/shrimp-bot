@@ -11,11 +11,11 @@ if (Number(process.version.slice(1).split('.')[0]) < 16) {
 const client = new ShrimpClient({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
 	presence: {
-		status: 'online',
+		status: 'dnd',
 		afk: false,
 		activities: [
 			{
-				name: 'the planktoons',
+				name: 'the world burn 🔥',
 				url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
 				type: ActivityType.Watching,
 			},
