@@ -1,6 +1,5 @@
 import { readdir } from 'fs/promises';
 import { ShrimpClient, ShrimpEvent } from '../common/base';
-import { sleep } from '../common/utilityMethods';
 
 export default async function eventHandler(client: ShrimpClient): Promise<void> {
 	async function fetchEvents(): Promise<string[]> {
