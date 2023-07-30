@@ -29,6 +29,10 @@ export default <ShrimpCommand>{
 			forceStatic: false,
 		};
 
+		const drawGif = new AttachmentBuilder('src/assets/gifs/draw.gif', {
+			name: 'draw.gif',
+		});
+
 		function deniedEmbed(text: string) {
 			return new EmbedBuilder().setColor(Colors.Red).setDescription(`${client.customEmojis.get('981339000705024040')} ${text}`);
 		}
@@ -124,7 +128,7 @@ export default <ShrimpCommand>{
 		const gameEmbed = new EmbedBuilder()
 			.setTitle(
 				playerOne.name.toLocaleLowerCase().includes('ant') || playerTwo.name.toLocaleLowerCase().includes('ant')
-					? bold(italic('ROCKS PAPERS SCISSORS - (っ◔◡◔)っ ♥ Ant Edition ♥')) // ᵃⁿᵗ ᵉᵈᶦᵗᶦᵒⁿ ♥
+					? bold(italic('ROCKS PAPERS SCISSORS - ᵃⁿᵗ ᵉᵈᶦᵗᶦᵒⁿ ')) // (っ◔◡◔)っ ♥ ᵃⁿᵗ ᵉᵈᶦᵗᶦᵒⁿ ♥
 					: bold(italic('ROCK PAPER SCISSORS'))
 			)
 			.setColor(embedColor as number) // Works for now but let's hope this doesn't bite me in the ass...
@@ -283,11 +287,6 @@ export default <ShrimpCommand>{
 							components: [],
 						});
 					}
-
-					const drawGif = new AttachmentBuilder('src/assets/gifs/draw.gif', {
-						name: 'draw.gif',
-					});
-					
 
 					if (playerOne.choice === playerTwo.choice) {
 						await interaction.editReply({
