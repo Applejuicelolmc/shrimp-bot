@@ -12,7 +12,6 @@ export default <ShrimpEvent>{
 		const logSettings = (await client.getGuildSettings(oldMessage.guild)).categories.logging.settings;
 
 		if (logSettings.editWebhook.value === 'none' || logSettings.logChannel.value === 'none') {
-			console.log(logSettings.editWebhook.value, logSettings.logChannel.value, 'no');
 			return;
 		}
 
