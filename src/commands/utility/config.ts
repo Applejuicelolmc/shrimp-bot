@@ -23,8 +23,6 @@ export default <ShrimpCommand>{
 
 		const guildSettings = await client.getGuildSettings(interaction.guild);
 
-		console.log(guildSettings.categories)
-
 		const homeEmbed = new EmbedBuilder()
 			.setTitle(`***BOT CONFIGURATION***`)
 			.setColor(guildSettings.categories.general.settings.embedColor.value)
@@ -120,8 +118,6 @@ export default <ShrimpCommand>{
 						embeds: [LastEmbed],
 						components: [button.message.components[0], button.message.components[1], settingRow],
 					});
-
-					console.log(button.customId);
 				});
 
 				pages.forEach((page) => {
