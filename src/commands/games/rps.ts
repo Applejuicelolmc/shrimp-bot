@@ -1,4 +1,3 @@
-
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
@@ -113,7 +112,11 @@ export default <ShrimpCommand>{
 
 		const playerOne = new Player(interaction.member as GuildMember);
 		const playerTwo = new Player(
-			interaction.isUserContextMenuCommand() ? (interaction.targetMember as GuildMember) : (interaction.options.getMember('opponent') ? interaction.options.getMember('opponent') as GuildMember : interaction.guild.members.cache.get(client.user!.id) as GuildMember )
+			interaction.isUserContextMenuCommand()
+				? (interaction.targetMember as GuildMember)
+				: interaction.options.getMember('opponent')
+				? (interaction.options.getMember('opponent') as GuildMember)
+				: (interaction.guild.members.cache.get(client.user!.id) as GuildMember)
 		);
 
 		const embedColor = (await client.getGuildSettings(interaction.guild)).categories.general.settings.embedColor.value;
@@ -289,13 +292,14 @@ export default <ShrimpCommand>{
 					if (playerOne.choice === playerTwo.choice) {
 						await interaction.editReply({
 							embeds: [
-								gameEmbed.setFooter({
-									text: "It's a draw!",
-									iconURL: client.user!.displayAvatarURL(imageOptions),
-								})
-								.setThumbnail('attachment://draw.gif'),
+								gameEmbed
+									.setFooter({
+										text: "It's a draw!",
+										iconURL: client.user!.displayAvatarURL(imageOptions),
+									})
+									.setThumbnail('attachment://draw.gif'),
 							],
-							files: [ drawGif ],
+							files: [drawGif],
 							components: [],
 						});
 					}
@@ -555,11 +559,14 @@ export default <ShrimpCommand>{
 							if (playerOne.choice === playerTwo.choice) {
 								await interaction.editReply({
 									embeds: [
-										gameEmbed.setFooter({
-											text: "It's a draw!",
-											iconURL: client.user!.displayAvatarURL(imageOptions),
-										}),
+										gameEmbed
+											.setFooter({
+												text: "It's a draw!",
+												iconURL: client.user!.displayAvatarURL(imageOptions),
+											})
+											.setThumbnail('attachment://draw.gif'),
 									],
+									files: [drawGif],
 									components: [],
 								});
 							}
