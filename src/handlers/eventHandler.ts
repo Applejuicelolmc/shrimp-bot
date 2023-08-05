@@ -66,15 +66,17 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 
 			process.on('warning', (warning) => {
 				try {
-					if (warning.stack) {
+					if (process.env.ENVIRONMENT === 'development' && warning.stack) {
 						const messageArray = warning.stack.split(/\n/g);
 
 						for (const message of messageArray) {
 							client.warningLogger.info(`${message}`);
 						}
+
+						return;
 					}
 
-					client.warningLogger.info(`${warning.message}`);
+					return client.warningLogger.info(`${warning.message}`);
 				} catch (error) {
 					client.handleError('Warning event', error as Error);
 				}
