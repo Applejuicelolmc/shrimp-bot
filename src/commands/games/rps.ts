@@ -147,7 +147,7 @@ export default <ShrimpCommand>{
 		};
 
 		try {
-			if (playerTwo.id === client.user?.id) {
+			if (playerTwo.id === client.user?.id || playerOne.id === playerTwo.id) {
 				const choices: ('🪨' | '📄' | '✂️')[] = ['🪨', '📄', '✂️'];
 
 				await interaction.reply({
@@ -157,7 +157,7 @@ export default <ShrimpCommand>{
 							.addFields([playerOne.showStatusField(), spacingField, playerTwo.showStatusField()])
 							.setFooter({
 								text: 'Challenge Accepted!',
-								iconURL: client.user.displayAvatarURL(imageOptions),
+								iconURL: client.user?.displayAvatarURL(imageOptions),
 							}),
 					],
 
