@@ -14,7 +14,8 @@ export default <ShrimpEvent>{
 
 			if (!cmd) {
 				return interaction.reply({
-					content: 'This command is outdated',
+					content: 'This command is outdated, try again later',
+					ephemeral: true,
 				});
 			}
 
