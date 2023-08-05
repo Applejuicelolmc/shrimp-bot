@@ -23,14 +23,10 @@ export default <ShrimpEvent>{
 
 				await cmd?.execute(client, interaction);
 
-				const endTime = performance.now();
+				const time = Math.round((performance.now() - startTime) * 100) / 100;
 
 				if (process.env.ENVIRONMENT === 'development') {
-					infoLogger.info(
-						`The ${interaction.commandName} command was executed by ${interaction.user.username} in ~${
-							Math.round((endTime - startTime) * 100) / 100
-						}ms`
-					);
+					client.infoLogger.info(`${interaction.commandName} by ${interaction.user.username} (~${time}ms)`);
 				}
 			} catch (error) {
 				client.handleError(`Couldn't execute command`, error as Error);
