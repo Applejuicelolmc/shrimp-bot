@@ -79,7 +79,7 @@ export default <ShrimpCommand>{
 			public choice: '🪨' | '📄' | '✂️' | '' = '';
 
 			constructor(player: GuildMember) {
-				this.name = player.displayName || player.user.tag;
+				this.name = player.displayName;
 				this.id = player.user.id;
 				this.member = player;
 			}
