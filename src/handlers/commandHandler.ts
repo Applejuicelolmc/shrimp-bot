@@ -112,16 +112,22 @@ export async function resetCommands(client: ShrimpClient): Promise<void> {
 	}
 }
 
-export default async function commandHandler(
-	client: ShrimpClient
-): Promise<void> {
+export default async function commandHandler(client: ShrimpClient): Promise<void> {
 	if (process.argv.includes('reset')) {
-		await resetCommands(client);
+		try {
+			await resetCommands(client);
+		} catch (error) {
+			client.handleError('Command handler', error as Error);
+		}
 	}
 
-	try {
-		await loadCommands(client, fetchCommands(client));
-	} catch (error) {
-		client.handleError('Command handler', error as Error);
+	const slashCommands = fetchCommands(client);
+
+	if (process.argv.includes('deploy')) {
+		try {
+			await loadCommands(client, slashCommands);
+		} catch (error) {
+			client.handleError('Command handler', error as Error);
+		}
 	}
 }
