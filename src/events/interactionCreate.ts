@@ -5,14 +5,12 @@ export default <ShrimpEvent>{
 	name: Events.InteractionCreate,
 	once: false,
 	async execute(client, interaction: Interaction) {
-		const { commands, infoLogger, errorLogger } = client;
-
 		if (!interaction || !interaction.guild) {
-			errorLogger.error(`Didn't receive interaction`);
+			client.errorLogger.error(`Didn't receive interaction`);
 		}
 
 		if (interaction.isChatInputCommand() || interaction.isUserContextMenuCommand()) {
-			const cmd = commands.get(interaction.commandName);
+			const cmd = client.commands.get(interaction.commandName);
 
 			if (!cmd) {
 				return interaction.reply({
@@ -35,13 +33,9 @@ export default <ShrimpEvent>{
 					);
 				}
 			} catch (error) {
-				if (error instanceof Error) {
-					errorLogger.error(`Couldn't execute command: ${error.stack}`);
-				} else {
-					errorLogger.error(`Couldn't execute command: ${error}`);
-				}
+				client.handleError(`Couldn't execute command`, error as Error);
 
-				await interaction.reply({
+				return interaction.reply({
 					content: `There was an error while executing this command! If this keeps happening please report this in my support server.\n\n***ERROR MESSAGE:***\n\`${error}\``,
 					ephemeral: true,
 				});
