@@ -89,7 +89,7 @@ export async function generateDefaultSettings(guild: Guild): Promise<IGuildSetti
 }
 
 export async function updateDB(guild: Guild): Promise<void> {
-	//TODO Add function to update guildSettings in case new settings are added, keeping original settings as they were before
+	//TODO: Add function to update guildSettings in case new settings are added, keeping original settings as they were before
 
 	const oldGuildSettings = (await GuildSettings.findOne({ guildId: guild.id })) as IGuildSettingsSchema;
 
