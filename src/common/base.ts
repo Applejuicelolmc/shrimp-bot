@@ -99,6 +99,10 @@ export class ShrimpClient extends Client {
 		return this._paths;
 	}
 
+	get defaultPresence() {
+		return this._defaultPresence;
+	}
+
 	get alertWebhook() {
 		return this._alertWebhook;
 	}

@@ -57,6 +57,8 @@ export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommand
 		client.categories.set(category.name, category);
 	}
 
+	client.infoLogger.info('Commands are ready');
+
 	return allCommands;
 }
 
@@ -128,4 +130,6 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 			client.handleError('Command handler', error as Error);
 		}
 	}
+
+	client.user?.setPresence(client.defaultPresence);
 }
