@@ -13,7 +13,7 @@ export default <ShrimpCommand>{
 
 			await resetCommands(client);
 
-			await loadCommands(client, fetchCommands(client));
+			await loadCommands(client, await fetchCommands(client));
 
 			await interaction.editReply('reloaded all commands!');
 		} catch (error) {
