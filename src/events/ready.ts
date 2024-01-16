@@ -7,8 +7,7 @@ export default <ShrimpEvent>{
 	name: Events.ClientReady,
 	once: true,
 	async execute(client) {
-		const { infoLogger } = client;
-		infoLogger.info(`Logged in as ${client.user?.tag}!`);
+		client.infoLogger.info(`Logged in as ${client.user?.tag}!`);
 
 		for (const [, guild] of client.guilds.cache) {
 			if (await GuildSettings.exists({ guildId: guild.id })) {
@@ -18,7 +17,7 @@ export default <ShrimpEvent>{
 
 			const guildSettings = await generateDefaultSettings(guild);
 
-			infoLogger.info(`MongoDB: Added Guildsettings for ${guildSettings.guildName}`);
+			client.infoLogger.info(`MongoDB: Added Guildsettings for ${guildSettings.guildName}`);
 		}
 	},
 };
