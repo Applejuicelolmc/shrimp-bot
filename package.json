@@ -33,6 +33,7 @@
 		"dotenv": "^16.0.3",
 		"mongodb": "^5.3.0",
 		"mongoose": "^7.0.4",
+		"mustache": "^4.2.0",
 		"ora": "^6.3.0",
 		"rss-parser": "^3.12.0",
 		"ts-node": "^10.9.1",
@@ -41,6 +42,7 @@
 		"winston": "^3.8.2"
 	},
 	"devDependencies": {
+		"@types/mustache": "^4.2.2",
 		"@typescript-eslint/eslint-plugin": "^5.59.8",
 		"@typescript-eslint/parser": "^5.59.8",
 		"eslint": "^8.41.0",

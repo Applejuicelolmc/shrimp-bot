@@ -43,7 +43,10 @@ const client = new ShrimpClient({
 				.setColor(Colors.Aqua),
 		],
 	});
+
+	//TODO: There must be a better way...
 	await eventHandler(client);
 	await DBHandler(client);
 	await commandHandler(client);
+	await MustacheHandler(client);
 })();
