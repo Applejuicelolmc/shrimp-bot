@@ -1,3 +1,5 @@
+import { codeBlock } from 'discord.js';
+
 export async function sleep(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -26,4 +28,31 @@ export function formatTime(time: number, locale = undefined): string {
 
 export function rollDice(dice: number): number {
 	return Math.floor(Math.random() * dice) + 1;
+}
+
+export function generateDeck(test = false) {
+	const deck: string[] = [];
+	const suites = ['♥️', '♣️', '♠️', '♦️'] as const;
+	const ranks = test
+		? ([' Ace ', ' 10  ', ' Ace ', ' 10  ', ' Ace ', ' 10  '] as const)
+		: ([' Ace ', '  2  ', '  3  ', '  4  ', '  5  ', '  6  ', '  7  ', '  8  ', '  9  ', ' 10  ', 'Jack ', 'Queen', 'King '] as const);
+
+	for (const suite of suites) {
+		for (const rank of ranks) {
+			deck.push(codeBlock(`${suite} ${rank} ${suite}`));
+		}
+	}
+
+	return deck;
+}
+
+export function shuffleArray(array: string[]): string[] {
+	for (let i = array.length - 1; i > 0; i--) {
+		// Totally didn't steal this from stackoverflow...
+
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+
+	return array;
 }
