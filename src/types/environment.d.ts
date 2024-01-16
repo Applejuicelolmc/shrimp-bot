@@ -8,6 +8,7 @@ declare global {
 			MONGO_DB_URI: string;
 			CLIENT_ID: string;
 			DEV_GUILD_ID: string;
+			ALERT_WEBHOOK_URL: string;
 			ENVIRONMENT: 'production' | 'development';
 		}
 	}

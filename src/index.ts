@@ -1,4 +1,4 @@
-import { ActivityType, GatewayIntentBits } from 'discord.js';
+import { ActivityType, Colors, EmbedBuilder, GatewayIntentBits, bold } from 'discord.js';
 import { ShrimpClient } from './common/base';
 import eventHandler from './handlers/eventHandler';
 import commandHandler from './handlers/commandHandler';
@@ -32,6 +32,17 @@ const client = new ShrimpClient({
 		client.handleError('Login', error as Error);
 	}
 
+	await client.alertWebhook.send({
+		embeds: [
+			new EmbedBuilder()
+				.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
+				.addFields({
+					name: `${bold(`Event:`)}`,
+					value: `Logged in (PID: ${process.pid})`,
+				})
+				.setColor(Colors.Aqua),
+		],
+	});
 	await eventHandler(client);
 	await DBHandler(client);
 	await commandHandler(client);

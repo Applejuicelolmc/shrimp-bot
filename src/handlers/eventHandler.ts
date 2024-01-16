@@ -40,12 +40,33 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 
 	function runProcessEvents(): void {
 		try {
-			process.on('SIGINT', () => {
-				try {
-					process.exit(0);
-				} catch (error) {
-					client.handleError('SIGINT event', error as Error);
-				}
+			process.on('SIGINT', async () => {
+				client.user?.setPresence({
+					status: 'invisible',
+					afk: false,
+					activities: [
+						{
+							name: `Logging off`,
+							type: ActivityType.Custom,
+						},
+					],
+				});
+
+				await client.alertWebhook.send({
+					embeds: [
+						new EmbedBuilder()
+							.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
+							.addFields({
+								name: `Event:`,
+								value: `Logged off`,
+							})
+							.setColor(Colors.Orange),
+					],
+				});
+
+				await sleep(1000);
+
+				process.exit(0);
 			});
 
 			process.on('SIGTERM', () => {

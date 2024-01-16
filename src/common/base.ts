@@ -1,5 +1,6 @@
 import {
 	APIApplicationCommandOptionChoice,
+	ActivityType,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	ButtonBuilder,
@@ -7,11 +8,17 @@ import {
 	ChatInputCommandInteraction,
 	Client,
 	Collection,
+	Colors,
 	ContextMenuCommandBuilder,
+	EmbedBuilder,
 	EmojiResolvable,
 	Guild,
+	PresenceData,
 	SlashCommandBuilder,
 	UserContextMenuCommandInteraction,
+	WebhookClient,
+	bold,
+	codeBlock,
 } from 'discord.js';
 import { normalize, resolve } from 'path';
 import startLogger from '../handlers/logHandler';
@@ -28,6 +35,22 @@ export class ShrimpClient extends Client {
 		common: normalize(resolve('.', 'src', `common`)),
 		events: normalize(resolve('.', 'src', `events`)),
 		handlers: normalize(resolve('.', 'src', `handlers`)),
+	};
+
+	private _alertWebhook = new WebhookClient({
+		url: process.env.ALERT_WEBHOOK_URL as string,
+	});
+
+	private _defaultPresence: PresenceData = {
+		status: 'idle',
+		afk: false,
+		activities: [
+			{
+				name: `Flying to da moon 🪐`,
+				url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+				type: ActivityType.Custom,
+			},
+		],
 	};
 
 	private _buttons = {
@@ -76,6 +99,10 @@ export class ShrimpClient extends Client {
 		return this._paths;
 	}
 
+	get alertWebhook() {
+		return this._alertWebhook;
+	}
+
 	get buttons() {
 		return this._buttons;
 	}
@@ -99,7 +126,19 @@ export class ShrimpClient extends Client {
 	handleError(title: string, error: Error) {
 		try {
 			if (error instanceof Error) {
-				console.log(error.stack);
+				this.alertWebhook.send({
+					embeds: [
+						new EmbedBuilder()
+							.setTitle(`${bold(`ERROR | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
+							.addFields([
+								{
+									name: `${title}:`,
+									value: codeBlock(`${error.stack}`),
+								},
+							])
+							.setColor(Colors.Red),
+					],
+				});
 				return this.errorLogger.error(`${title}: ${error.stack}`);
 			} else {
 				return this.errorLogger.error(`${title}: ${error}`);

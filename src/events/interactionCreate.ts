@@ -1,4 +1,4 @@
-import { Events, Interaction } from 'discord.js';
+import { Colors, EmbedBuilder, Events, Interaction, bold } from 'discord.js';
 import { ShrimpEvent } from '../common/base';
 
 export default <ShrimpEvent>{
@@ -27,12 +27,24 @@ export default <ShrimpEvent>{
 				const time = Math.round((performance.now() - startTime) * 100) / 100;
 
 				if (process.env.ENVIRONMENT === 'development') {
-					client.infoLogger.info(`${interaction.commandName} by ${interaction.user.username} (~${time}ms)`);
+					client.infoLogger.info(`${interaction.commandName} by ${interaction.user.displayName} (~${time}ms)`);
+
+					await client.alertWebhook.send({
+						embeds: [
+							new EmbedBuilder()
+								.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
+								.addFields({
+									name: `Interaction:`,
+									value: `/${interaction.commandName} by ${interaction.user.displayName} (~${time}ms)`,
+								})
+								.setColor(Colors.Aqua),
+						],
+					});
 				}
 			} catch (error) {
 				client.handleError(`Couldn't execute command`, error as Error);
 
-				return interaction.reply({
+				return await interaction.reply({
 					content: `There was an error while executing this command! If this keeps happening please report this in my support server.\n\n***ERROR MESSAGE:***\n\`${error}\``,
 					ephemeral: true,
 				});
