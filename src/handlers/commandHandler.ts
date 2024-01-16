@@ -60,18 +60,16 @@ export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommand
 	return allCommands;
 }
 
-export async function loadCommands(client: ShrimpClient, commands: Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]>): Promise<void> {
-	const resolvedCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = await commands;
-
+export async function loadCommands(client: ShrimpClient, commands: (SlashCommandBuilder | ContextMenuCommandBuilder)[]): Promise<void> {
 	try {
 		if (process.env.ENVIRONMENT === 'development') {
 			// Register commands to dev server only
 			try {
 				await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.DEV_GUILD_ID!), {
-					body: resolvedCommands,
+					body: commands,
 				});
 
-				client.infoLogger.info(`Registered ${resolvedCommands.length} commands to the dev server`);
+				client.infoLogger.info(`Registered ${commands.length} commands to the dev server`);
 			} catch (error) {
 				client.handleError('Registering commands to the dev server', error as Error);
 			}
@@ -79,10 +77,10 @@ export async function loadCommands(client: ShrimpClient, commands: Promise<(Slas
 			// Register commands to all joined servers
 			try {
 				await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-					body: resolvedCommands,
+					body: commands,
 				});
 
-				client.infoLogger.info(`Registered ${resolvedCommands.length} commands globally`);
+				client.infoLogger.info(`Registered ${commands.length} commands globally`);
 			} catch (error) {
 				client.handleError('Registering commands globally', error as Error);
 			}
@@ -121,7 +119,7 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		}
 	}
 
-	const slashCommands = fetchCommands(client);
+	const slashCommands = await fetchCommands(client);
 
 	if (process.argv.includes('deploy')) {
 		try {
