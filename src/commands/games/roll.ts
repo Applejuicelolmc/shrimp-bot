@@ -5,7 +5,7 @@ import { GlobalFonts, createCanvas, loadImage } from '@napi-rs/canvas';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction: ChatInputCommandInteraction) {
-		//TODO Add some theming options via server settings
+		//TODO: Add some theming options via server settings
 
 		const dice = interaction.options.getNumber('dice');
 		const amount = interaction.options.getNumber('amount') || 1;
@@ -37,7 +37,7 @@ export default <ShrimpCommand>{
 					break;
 			}
 
-			// TODO Theme
+			// TODO: Theme
 			// Purple background (for testing purposes)
 			// context.fillStyle = `#9b59b6`;
 			// context.fillRect(0, 0, canvas.width, canvas.height);
@@ -49,7 +49,7 @@ export default <ShrimpCommand>{
 
 			context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-			// TODO Theme
+			// TODO: Theme
 			// Changes how images/text/icons/etc are layered on top of each other
 			// Gotta play some more with this
 			// context.globalCompositeOperation = 'destination-in';

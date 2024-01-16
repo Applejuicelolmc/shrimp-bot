@@ -18,7 +18,7 @@ export default <ShrimpEvent>{
 		const logDeletes = logSettings.enabled;
 		const logChannel = client.channels.cache.get(logSettings.logChannel.value.id) as TextChannel;
 		const deleteWebhook = (await client.fetchWebhook(logSettings.deleteWebhook.value.id)) as Webhook;
-		//TODO handle error when the webhook is not found
+		//TODO: handle error when the webhook is not found
 
 		try {
 			if (logDeletes && logChannel && deleteWebhook) {

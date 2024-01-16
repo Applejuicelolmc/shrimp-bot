@@ -10,7 +10,7 @@ export default <ShrimpEvent>{
 		}
 
 		try {
-			return; // TODO Do something with this
+			return; // TODO: Do something with this
 		} catch (error) {
 			client.handleError('messageCreate event', error as Error);
 		}

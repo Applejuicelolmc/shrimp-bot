@@ -18,7 +18,7 @@ export default <ShrimpEvent>{
 		const logEdits = logSettings.enabled;
 		const logChannel = client.channels.cache.get(logSettings.logChannel.value.id) as TextChannel;
 		const editWebhook = (await client.fetchWebhook(logSettings.editWebhook.value.id)) as Webhook;
-		//TODO handle error when the webhook is not found
+		//TODO: handle error when the webhook is not found
 
 		try {
 			if (logEdits && logChannel && editWebhook) {

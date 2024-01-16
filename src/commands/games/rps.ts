@@ -18,7 +18,7 @@ import { EmbedBuilder, bold, italic } from '@discordjs/builders';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
-		// TODO cleanup/optimize
+		// TODO: cleanup/optimize
 
 		if (!interaction || !interaction.guild) {
 			return;
@@ -172,9 +172,7 @@ export default <ShrimpCommand>{
 
 				playerTwo.updateChoice(choices[Math.floor(Math.random() * choices.length)], gameEmbed, 2);
 
-				const botMatchMessage = await interaction.fetchReply();
-
-				const botMatchCollector = botMatchMessage.createMessageComponentCollector({
+				const botMatchCollector = (await interaction.fetchReply()).createMessageComponentCollector({
 					componentType: ComponentType.Button,
 					time: 30000,
 				});
