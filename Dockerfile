@@ -1,6 +1,6 @@
-FROM node:latest
+FROM node:alpine
 
-RUN mkdir /usr/src/shrimp/
+RUN mkdir -p /usr/src/shrimp/
 WORKDIR /usr/src/shrimp
 
 COPY package.json /usr/src/shrimp
@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . /usr/src/shrimp
 
-CMD ['node', 'start']
+CMD ["npm", "start"]

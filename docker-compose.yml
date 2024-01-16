@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+    shrimp:
+        build: .
+        command: npm start
+        restart: always
+        env_file: ./config/main.env
