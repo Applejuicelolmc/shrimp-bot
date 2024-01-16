@@ -1,5 +1,7 @@
 import { readdir } from 'fs/promises';
 import { ShrimpClient, ShrimpEvent } from '../common/base';
+import { ActivityType, Colors, EmbedBuilder, bold } from 'discord.js';
+import { sleep } from '../common/utilityMethods';
 
 export default async function eventHandler(client: ShrimpClient): Promise<void> {
 	async function fetchEvents(): Promise<string[]> {
@@ -70,59 +72,39 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 			});
 
 			process.on('SIGTERM', () => {
-				try {
-					client.infoLogger.info('SIGTERM Received!');
-				} catch (error) {
-					client.handleError('SIGTERM event', error as Error);
-				}
+				client.infoLogger.info('SIGTERM Received!');
 			});
 
 			process.on('SIGQUIT', () => {
-				try {
-					client.infoLogger.info('SIGQUIT Received!');
-				} catch (error) {
-					client.handleError('SIGQUIT event', error as Error);
-				}
+				client.infoLogger.info('SIGQUIT Received!');
 			});
 
 			process.on('warning', (warning) => {
-				try {
-					if (process.env.ENVIRONMENT === 'development' && warning.stack) {
-						const messageArray = warning.stack.split(/\n/g);
+				if (process.env.ENVIRONMENT === 'development' && warning.stack) {
+					const messageArray = warning.stack.split(/\n/g);
 
-						for (const message of messageArray) {
-							client.warningLogger.info(`${message}`);
-						}
-
-						return;
+					for (const message of messageArray) {
+						client.warningLogger.info(`${message}`);
 					}
 
-					return client.warningLogger.info(`${warning.message}`);
-				} catch (error) {
-					client.handleError('Warning event', error as Error);
+					return;
 				}
+
+				return client.warningLogger.info(`${warning.message}`);
 			});
 
-			process.on('exit', (exitCode) => {
-				try {
-					client.destroy();
-
-					if (exitCode === 0) {
-						return client.infoLogger.info('Logged off');
-					} else {
-						return client.infoLogger.error(`Logged off with exit code ${exitCode}`);
-					}
-				} catch (error) {
-					client.handleError('Exit event', error as Error);
+			process.on('exit', async (exitCode) => {
+				if (exitCode === 0) {
+					client.infoLogger.info('Logged off');
+				} else {
+					client.infoLogger.error(`Logged off with exit code ${exitCode}`);
 				}
+
+				return await client.destroy();
 			});
 
 			process.on('uncaughtException', (uncaughtException) => {
-				try {
-					client.handleError('Uncaught Exception', uncaughtException);
-				} catch (error) {
-					client.handleError('uncaughtException event', error as Error);
-				}
+				client.handleError('Uncaught Exception', uncaughtException);
 			});
 		} catch (error) {
 			client.handleError('Process event', error as Error);
