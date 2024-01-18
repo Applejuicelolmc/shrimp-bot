@@ -80,7 +80,11 @@ export default <ShrimpCommand>{
 		let timeLimit = 15 * 60 * 1000;
 
 		try {
-			interaction.reply({
+			if (!interaction) {
+				return;
+			}
+
+			await interaction.reply({
 				embeds: [homeEmbed],
 				components: [menuRow, buttonRow],
 				ephemeral: true,
@@ -142,6 +146,10 @@ export default <ShrimpCommand>{
 
 			categoryMenuCollector.on('end', async (_collected, reason) => {
 				if (reason === 'time') {
+					if (!interaction) {
+						return;
+					}
+
 					await interaction.editReply({
 						embeds: [
 							LastEmbed.setFooter({
@@ -154,6 +162,10 @@ export default <ShrimpCommand>{
 			});
 
 			while (timeLimit >= 1) {
+				if (!interaction) {
+					return;
+				}
+
 				await interaction.editReply({
 					embeds: [
 						LastEmbed.setFooter({
