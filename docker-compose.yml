@@ -1,8 +1,7 @@
 version: '3'
 
 services:
-    shrimp:
+    shrimp-bot:
         build: .
-        command: npm start
-        restart: always
-        env_file: ./config/main.env
+        command: clear && ts-node -r ./src/index.ts
+        restart: unless-stopped

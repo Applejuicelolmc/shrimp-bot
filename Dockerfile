@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . /usr/src/shrimp
 
-CMD ["npm", "start"]
+CMD ["npx", "ts-node", "-r" ,"./src/index.ts"]
