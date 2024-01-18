@@ -1,6 +1,6 @@
 # 🦐 Shrimp the discord bot 🦐
 
-![Last commit on main)](https://img.shields.io/github/last-commit/Applejuicelolmc/shrimp-bot/main) ![Commit activity on main](https://img.shields.io/github/commit-activity/m/Applejuicelolmc/shrimp-bot/main) ![Total Lines](https://img.shields.io/tokei/lines/github/Applejuicelolmc/shrimp-bot)
+![Last commit on main)](https://img.shields.io/github/last-commit/Applejuicelolmc/shrimp-bot/main) ![Commit activity on main](https://img.shields.io/github/commit-activity/m/Applejuicelolmc/shrimp-bot/main)
 
 [![Profile Picture](https://cdn.discordapp.com/avatars/483636847906521091/6fc100c817629fc08ca7bccf2d7134e7.webp?size=256)](https://letmegooglethat.com/?q=shrimp+emoji)
 
