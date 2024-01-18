@@ -43,6 +43,8 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 	function runProcessEvents(): void {
 		try {
 			process.on('SIGINT', async () => {
+				client.infoLogger.info('Got ctrl-c`d :c');
+
 				client.user?.setPresence({
 					status: 'invisible',
 					afk: false,
