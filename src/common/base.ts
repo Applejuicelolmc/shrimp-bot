@@ -130,20 +130,21 @@ export class ShrimpClient extends Client {
 	handleError(title: string, error: Error) {
 		try {
 			if (error instanceof Error) {
-				this.alertWebhook.send({
+				this.errorLogger.error(`${title}: ${error.stack}`);
+
+				return this.alertWebhook.send({
 					embeds: [
 						new EmbedBuilder()
 							.setTitle(`${bold(`ERROR | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
 							.addFields([
 								{
 									name: `${title}:`,
-									value: codeBlock(`${error.stack}`),
+									value: codeBlock(`${error.stack!.length > 1024 ? error.message : error.stack}`),
 								},
 							])
 							.setColor(Colors.Red),
 					],
 				});
-				return this.errorLogger.error(`${title}: ${error.stack}`);
 			} else {
 				return this.errorLogger.error(`${title}: ${error}`);
 			}
