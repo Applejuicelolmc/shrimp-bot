@@ -3,5 +3,6 @@ Thumbs.db
 
 node_modules
 logs
+.pnpm-store/**
 
 config/main.env

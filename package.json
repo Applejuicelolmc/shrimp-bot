@@ -8,9 +8,10 @@
 		"url": "https://github.com/Applejuicelolmc/shrimp-bot"
 	},
 	"scripts": {
+		"preinstall": "npx only-allow pnpm",
 		"start": "clear && ts-node -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
-		"deploy": "npm start deploy",
-		"reset": "npm start reset",
+		"deploy": "pnpm start deploy",
+		"reset": "pnpm start reset",
 		"lint": "eslint . --ext .ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -42,6 +43,7 @@
 	"author": "Applejuicelolmc",
 	"license": "GNU GPL v3",
 	"dependencies": {
+		"@discordjs/builders": "^1.7.0",
 		"@napi-rs/canvas": "^0.1.41",
 		"@types/node": "^18.13.0",
 		"chalk": "^4.1.2",
