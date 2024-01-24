@@ -7,6 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/Applejuicelolmc/shrimp-bot"
 	},
+	"packageManager": "pnpm@8.14.3",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"start": "clear && ts-node -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
