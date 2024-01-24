@@ -49,7 +49,7 @@ Coming soon, once I can get settings working via mongodb
 
 </summary>
 
-Disclaimer: my current dockerhub image: `applejuicelolmc/shrimp-bot:yippee` is private and usually not up to date, so cannot be accessed for now, I'm still working out some CI/CD stuff so this can be made public, for now run the bot with via [Docker Compose](Starting-your-bot-locally-with-docker-compose) or [Locally](Running-your-bot-with-npm)
+Disclaimer: my current dockerhub image: `applejuicelolmc/shrimp-bot:yippee` is private and usually not up to date, so cannot be accessed for now, I'm still working out some CI/CD stuff so this can be made public, for now run the bot with via [Docker Compose](#starting-your-bot-locally-with-docker-compose) or [Locally](#running-your-bot-with-npm)
 
 1. Make sure you have a working portainer setup
 2. Clone this repository or copy the `example.env` to the computer you use to access portainer
