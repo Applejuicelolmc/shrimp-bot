@@ -4,7 +4,12 @@
 
 [![Profile Picture](https://cdn.discordapp.com/avatars/483636847906521091/6fc100c817629fc08ca7bccf2d7134e7.webp?size=256)](https://letmegooglethat.com/?q=shrimp+emoji)
 
+<details open>
+<summary>
+
 ## Table of Contents
+
+</summary>
 
 - [About Shrimp](#about-shrimp)
 - [Features](#features)
@@ -13,9 +18,12 @@
   - [Bot configuration (soon™)](#bot-configuration)
 - [Deploying the bot](#deploying-the-bot)
   - [Requirements](#requirements)
-  - [Starting your bot with portainer](#starting-your-bot-with-portainer)
-  - [Starting your bot with docker compose](#starting-your-bot-locally-with-docker-compose)
-  - [Running your bot with npm](#running-your-bot-with-npm)
+  - [Deployment methods](#deployment-methods)
+    - [Starting your bot with portainer](#starting-your-bot-with-portainer)
+    - [Starting your bot with docker compose](#starting-your-bot-locally-with-docker-compose)
+    - [Running your bot with npm](#running-your-bot-with-npm)
+
+</details>
 
 ## About Shrimp
 
@@ -41,11 +49,17 @@ Coming soon, once I can get settings working via mongodb
 - NodeJS 16.9.0 or greater (only when running locally)
 - Either a local Mongodb database or a Mongodb Atlas database
 
-<details open>
-
+<details>
 <summary>
 
-### Starting your bot with portainer
+### Deployment methods
+
+</summary>
+
+<details open>
+<summary>
+
+#### Starting your bot with portainer
 
 </summary>
 
@@ -62,10 +76,9 @@ Disclaimer: my current dockerhub image: `applejuicelolmc/shrimp-bot:yippee` is p
 </details>
 
 <details>
-
 <summary>
 
-### Starting your bot locally with docker compose
+#### Starting your bot locally with docker compose
 
 </summary>
 
@@ -78,10 +91,9 @@ Disclaimer: my current dockerhub image: `applejuicelolmc/shrimp-bot:yippee` is p
 </details>
 
 <details>
-
 <summary>
 
-### Running your bot with npm
+#### Running your bot with npm
 
 </summary>
 
@@ -91,6 +103,8 @@ Disclaimer: my current dockerhub image: `applejuicelolmc/shrimp-bot:yippee` is p
 4. Edit your new `main.env` file and add the neccesary tokens/id's described in it
 5. Start your bot by running `npm start`
 6. Removed some existing commands? Run `npm run reset` to reset the existing commands on all servers before adding the new commands (Gonna automate this sometime)
+
+</details>
 
 </details>
 
