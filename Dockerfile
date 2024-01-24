@@ -4,7 +4,7 @@ RUN mkdir -p /usr/src/shrimp/
 WORKDIR /usr/src/shrimp
 
 COPY package.json /usr/src/shrimp
-RUN npm install
+RUN pnpm install
 
 COPY . /usr/src/shrimp
 
