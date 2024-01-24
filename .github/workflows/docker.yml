@@ -8,25 +8,9 @@ on:
 jobs:    
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16]
     
     steps:
       - uses: actions/checkout@v4.1.1
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.4.0
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Docker login
         env:
@@ -34,6 +18,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag applejuicelolmc/shrimp-bot:${{ github.sha }}
         
