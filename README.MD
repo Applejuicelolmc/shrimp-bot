@@ -1,8 +1,7 @@
 # 🦐 Shrimp the discord bot 🦐
 
 ![Last commit on main)](https://img.shields.io/github/last-commit/Applejuicelolmc/shrimp-bot/main) ![Commit activity on main](https://img.shields.io/github/commit-activity/m/Applejuicelolmc/shrimp-bot/main)
-[CodeQL](https://github.com/applejuicelolmc/shrimp-bot/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/applejuicelolmc/shrimp-bot/actions/workflows/codeql.yml) 
-
+[![CodeQL](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/github-code-scanning/codeql)
 [![Profile Picture](https://cdn.discordapp.com/avatars/483636847906521091/6fc100c817629fc08ca7bccf2d7134e7.webp?size=256)](https://letmegooglethat.com/?q=shrimp+emoji)
 
 <details open>
@@ -22,7 +21,7 @@
   - [Deployment methods](#deployment-methods)
     - [Starting your bot with portainer](#starting-your-bot-with-portainer)
     - [Starting your bot with docker compose](#starting-your-bot-locally-with-docker-compose)
-    - [Running your bot with npm](#running-your-bot-with-npm)
+    - [Running your bot with pnpm](#running-your-bot-with-pnpm)
 
 </details>
 
