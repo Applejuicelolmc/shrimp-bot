@@ -7,7 +7,7 @@
 
 [![Profile Picture](https://cdn.discordapp.com/avatars/483636847906521091/6fc100c817629fc08ca7bccf2d7134e7.webp?size=256)](https://letmegooglethat.com/?q=shrimp+emoji)
 
-<details open>
+<details>
 <summary>
 
 ## Table of Contents
