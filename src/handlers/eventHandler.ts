@@ -73,8 +73,35 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 				process.exit(0);
 			});
 
-			process.on('SIGTERM', () => {
-				client.infoLogger.info('SIGTERM Received!');
+			process.on('SIGTERM', async () => {
+				client.infoLogger.info('Container got shut down');
+
+				client.user?.setPresence({
+					status: 'invisible',
+					afk: false,
+					activities: [
+						{
+							name: `Logging off`,
+							type: ActivityType.Custom,
+						},
+					],
+				});
+
+				await client.alertWebhook.send({
+					embeds: [
+						new EmbedBuilder()
+							.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
+							.addFields({
+								name: `Event:`,
+								value: `Logged off`,
+							})
+							.setColor(Colors.Orange),
+					],
+				});
+
+				await sleep(1000);
+
+				process.exit(0);
 			});
 
 			process.on('SIGQUIT', () => {
