@@ -9,7 +9,7 @@ if (Number(process.version.slice(1).split('.')[0]) < 16) {
 	throw new Error('NodeJS 16.9.0 or higher is required. Re-run the bot with the correct NodeJS version.');
 }
 
-const client = new ShrimpClient({
+export const client = new ShrimpClient({
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
