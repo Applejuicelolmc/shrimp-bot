@@ -11,6 +11,6 @@ RUN pnpm install
 COPY . /usr/src/shrimp
 
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
-	CMD npx ts-node ./src/healthCheck.ts
+	CMD npx ts-node -r ./src/healthCheck.ts
 
 CMD ["npx", "ts-node", "-r" ,"./src/index.ts"]
