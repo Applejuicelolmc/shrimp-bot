@@ -1,6 +1,8 @@
 import { Status } from 'discord.js';
 import { client } from '.';
 
+let exitCode: number;
+
 switch (client.ws.status) {
 	case Status.Idle:
 	case Status.Ready:
@@ -11,9 +13,13 @@ switch (client.ws.status) {
 	case Status.WaitingForGuilds:
 	case Status.Nearly:
 		client.infoLogger.info(`Docker health: Client Healthy`);
-		process.exit(0);
+		exitCode = 0;
+		break;
 
 	case Status.Disconnected:
 		client.infoLogger.info(`Docker health: Client disconnected`);
-		process.exit(1);
+		exitCode = 1;
+		break;
 }
+
+process.exit(exitCode);
