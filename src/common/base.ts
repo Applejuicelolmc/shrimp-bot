@@ -31,10 +31,13 @@ export class ShrimpClient extends Client {
 	private _categories = new Collection<string, ShrimpCategory>();
 	private _logger = startLogger();
 	private _paths = {
+		assets: normalize(resolve('.', 'src', `assets`)),
 		commands: normalize(resolve('.', 'src', `commands`)),
 		common: normalize(resolve('.', 'src', `common`)),
 		events: normalize(resolve('.', 'src', `events`)),
 		handlers: normalize(resolve('.', 'src', `handlers`)),
+		models: normalize(resolve('.', 'src', `models`)),
+		types: normalize(resolve('.', 'src', `types`)),
 	};
 
 	private _alertWebhook = new WebhookClient({
@@ -125,6 +128,28 @@ export class ShrimpClient extends Client {
 		}
 
 		return await generateDefaultSettings(guild);
+	}
+
+	async changeAvatar(pathToAvatar = `${this.paths.assets}/gifs/avatar.gif`): Promise<void> {
+		try {
+			if (this.user) {
+				this.user.setAvatar(pathToAvatar);
+
+				await this.alertWebhook.send({
+					embeds: [
+						new EmbedBuilder()
+							.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
+							.addFields({
+								name: `${bold(`Event:`)}`,
+								value: `Updated avatar`,
+							})
+							.setColor(Colors.Aqua),
+					],
+				});
+			}
+		} catch (error) {
+			this.handleError('change avatar', error as Error);
+		}
 	}
 
 	handleError(title: string, error: Error) {

@@ -54,6 +54,14 @@ export const client = new ShrimpClient({
 		],
 	});
 
+	if (process.argv.includes('update-avatar')) {
+		try {
+			await client.changeAvatar();
+		} catch (error) {
+			client.handleError('change avatar', error as Error);
+		}
+	}
+
 	//TODO: There must be a better way...
 	await eventHandler(client);
 	await DBHandler(client);

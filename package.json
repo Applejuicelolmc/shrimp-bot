@@ -13,6 +13,7 @@
 		"start": "clear && ts-node -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
 		"deploy": "pnpm start deploy",
 		"reset": "pnpm start reset",
+		"update-avatar": "pnpm start update-avatar",
 		"lint": "eslint . --ext .ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
