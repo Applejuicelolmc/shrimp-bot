@@ -117,7 +117,7 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		try {
 			await resetCommands(client);
 		} catch (error) {
-			client.handleError('Command handler', error as Error);
+			client.handleError('Command handler (reset)', error as Error);
 		}
 	}
 
@@ -127,7 +127,7 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		try {
 			await loadCommands(client, slashCommands);
 		} catch (error) {
-			client.handleError('Command handler', error as Error);
+			client.handleError('Command handler (deploy)', error as Error);
 		}
 	}
 
