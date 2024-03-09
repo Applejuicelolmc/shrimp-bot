@@ -1,9 +1,9 @@
 # 🦐 Shrimp the discord bot 🦐
 
-[![applejuicelolmc/shrimp-bot:latest](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/docker.yml/badge.svg)](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/docker.yml) 
+[![applejuicelolmc/shrimp-bot:latest](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/docker.yml/badge.svg)](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/docker.yml)
 [![CodeQL](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/github-code-scanning/codeql)
 ![Last commit on main)](https://img.shields.io/github/last-commit/Applejuicelolmc/shrimp-bot/main)
-![Commit activity on main](https://img.shields.io/github/commit-activity/m/Applejuicelolmc/shrimp-bot/main) 
+![Commit activity on main](https://img.shields.io/github/commit-activity/m/Applejuicelolmc/shrimp-bot/main)
 
 [![Profile Picture](https://cdn.discordapp.com/avatars/483636847906521091/6fc100c817629fc08ca7bccf2d7134e7.webp?size=256)](https://letmegooglethat.com/?q=shrimp+emoji)
 
