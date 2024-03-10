@@ -3,7 +3,6 @@ import { ShrimpClient } from './common/base';
 import eventHandler from './handlers/eventHandler';
 import commandHandler from './handlers/commandHandler';
 import DBHandler from './handlers/mongoDBHandler';
-import MustacheHandler from './handlers/mustacheHandler';
 
 if (Number(process.version.slice(1).split('.')[0]) < 16) {
 	throw new Error('NodeJS 16.9.0 or higher is required. Re-run the bot with the correct NodeJS version.');
@@ -66,12 +65,4 @@ export const client = new ShrimpClient({
 	await eventHandler(client);
 	await DBHandler(client);
 	await commandHandler(client);
-
-	if (process.argv.includes('update-commands')) {
-		try {
-			await MustacheHandler(client);
-		} catch (error) {
-			client.handleError('update commands', error as Error);
-		}
-	}
 })();

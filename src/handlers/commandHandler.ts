@@ -1,6 +1,7 @@
 import { readdir, stat } from 'fs/promises';
 import { ShrimpCategory, ShrimpClient, ShrimpCommand } from '../common/base';
 import { ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from 'discord.js';
+import MustacheHandler from './mustacheHandler';
 
 const rest = new REST({
 	version: '10',
@@ -128,6 +129,14 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 			await loadCommands(client, slashCommands);
 		} catch (error) {
 			client.handleError('Command handler (deploy)', error as Error);
+		}
+	}
+
+	if (process.argv.includes('update-commands')) {
+		try {
+			await MustacheHandler(client);
+		} catch (error) {
+			client.handleError('update commands', error as Error);
 		}
 	}
 
