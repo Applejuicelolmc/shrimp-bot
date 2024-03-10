@@ -5,7 +5,7 @@
 ![Last commit on main)](https://img.shields.io/github/last-commit/Applejuicelolmc/shrimp-bot/main)
 ![Commit activity on main](https://img.shields.io/github/commit-activity/m/Applejuicelolmc/shrimp-bot/main)
 
-[![Profile Picture](/src/assets/gifs/avatar.gif)](https://letmegooglethat.com/?q=shrimp+emoji)
+![Profile Picture](/src/assets/gifs/avatar.gif)
 
 <details>
 <summary>
