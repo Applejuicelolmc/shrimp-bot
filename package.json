@@ -14,6 +14,7 @@
 		"deploy": "pnpm start deploy",
 		"reset": "pnpm start reset",
 		"update-avatar": "pnpm start update-avatar",
+		"update-commands": "pnpm start update-commands",
 		"lint": "eslint . --ext .ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

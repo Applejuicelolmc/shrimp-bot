@@ -66,5 +66,12 @@ export const client = new ShrimpClient({
 	await eventHandler(client);
 	await DBHandler(client);
 	await commandHandler(client);
-	await MustacheHandler(client);
+
+	if (process.argv.includes('update-commands')) {
+		try {
+			await MustacheHandler(client);
+		} catch (error) {
+			client.handleError('update commands', error as Error);
+		}
+	}
 })();
