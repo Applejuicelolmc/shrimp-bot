@@ -16,7 +16,7 @@
 
 - [About Shrimp](#about-shrimp)
 - [Features](#features)
-  - [Commands (soon™)](#commands)
+  - [Commands](#commands)
 - [Setup](#setup)
   - [Bot configuration (soon™)](#bot-configuration)
 - [Deploying the bot](#deploying-the-bot)
@@ -36,7 +36,7 @@ This is a work in progress personal discord bot that I started as a little side 
 
 ### Commands
 
-Coming soon, once I automate command documentation
+Here's a list of all the commands that are currently available for the bot: [Commands](/readme/commands.md)
 
 ## Setup
 
