@@ -20,14 +20,14 @@ export default <ShrimpEvent>{
 			}
 
 			try {
-				const startTime = performance.now();
+				const startTime = process.hrtime();
 
 				await cmd?.execute(client, interaction);
 
-				const time = Math.round((performance.now() - startTime) * 100) / 100;
+				const totalTime = process.hrtime(startTime);
 
 				if (process.env.ENVIRONMENT === 'development') {
-					client.infoLogger.info(`${interaction.commandName} by ${interaction.user.displayName} (~${time}ms)`);
+					client.infoLogger.info(`${interaction.commandName} by ${interaction.user.displayName} (~${totalTime[1] / 1000000}ms)`);
 
 					await client.alertWebhook.send({
 						embeds: [
@@ -35,7 +35,7 @@ export default <ShrimpEvent>{
 								.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
 								.addFields({
 									name: `Interaction:`,
-									value: `/${interaction.commandName} by ${interaction.user.displayName} (~${time}ms)`,
+									value: `/${interaction.commandName} by ${interaction.user.displayName} (~${totalTime[1] / 1000000}ms)`,
 								})
 								.setColor(Colors.Aqua),
 						],
