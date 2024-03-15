@@ -18,6 +18,46 @@ export default <ShrimpCommand>{
 			return;
 		}
 
+		const diceEmojis = {
+			d20: '',
+			d12: '',
+			d10: '',
+			d8: '',
+			d6: '',
+			d4: '',
+		};
+
+		interaction.guild.emojis.cache.map((emoji) => {
+			switch (emoji.name) {
+				case 'd20':
+					diceEmojis.d20 = `<:${emoji.name}:${emoji.id}>`;
+					break;
+
+				case 'd12':
+					diceEmojis.d12 = `<:${emoji.name}:${emoji.id}>`;
+					break;
+
+				case 'd10':
+					diceEmojis.d10 = `<:${emoji.name}:${emoji.id}>`;
+					break;
+
+				case 'd8':
+					diceEmojis.d8 = `<:${emoji.name}:${emoji.id}>`;
+					break;
+
+				case 'd6':
+					diceEmojis.d6 = `<:${emoji.name}:${emoji.id}>`;
+					break;
+
+				case 'd4':
+					diceEmojis.d4 = `<:${emoji.name}:${emoji.id}>`;
+					break;
+
+				default:
+					break;
+			}
+		});
+
 		async function createDice(dice: number, total: number): Promise<AttachmentBuilder> {
 			const canvas = createCanvas(256, 256);
 			const context = canvas.getContext('2d');
@@ -77,6 +117,36 @@ export default <ShrimpCommand>{
 			.setThumbnail(interaction.user.avatarURL());
 
 		let totalValues = 0;
+		let diceEmoji = `🎲`;
+
+		switch (dice) {
+			case 20:
+				diceEmoji = `${diceEmojis.d20}`;
+				break;
+
+			case 12:
+				diceEmoji = `${diceEmojis.d12}`;
+				break;
+
+			case 10:
+				diceEmoji = `${diceEmojis.d10}`;
+				break;
+
+			case 8:
+				diceEmoji = `${diceEmojis.d8}`;
+				break;
+
+			case 6:
+				diceEmoji = `${diceEmojis.d6}`;
+				break;
+
+			case 4:
+				diceEmoji = `${diceEmojis.d4}`;
+				break;
+
+			default:
+				break;
+		}
 
 		for (let i = 0; i < amount; i++) {
 			const currentRoll = rollDice(dice);
@@ -88,7 +158,7 @@ export default <ShrimpCommand>{
 			}
 
 			rollEmbed.addFields({
-				name: `🎲 ${currentRoll}`,
+				name: `${diceEmoji} ${currentRoll}`,
 				value: `\u200b`,
 				inline: true,
 			});
@@ -124,7 +194,7 @@ export default <ShrimpCommand>{
 		}
 
 		rollEmbed.addFields({
-			name: `***TOTAL: 🎲 ${totalValues + modifier}***`,
+			name: `***TOTAL: ${diceEmoji} ${totalValues + modifier}***`,
 			value: `\u200b`,
 			inline: false,
 		});
