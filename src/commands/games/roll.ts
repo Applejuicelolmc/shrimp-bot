@@ -10,7 +10,7 @@ export default <ShrimpCommand>{
 		const dice = interaction.options.getNumber('dice');
 		const amount = interaction.options.getNumber('amount') || 1;
 		const modifier = interaction.options.getNumber('modifier') || 0;
-		const invisible = interaction.options.getBoolean('invisible') || false;
+		const invisible = interaction.options.getBoolean('private') || false;
 
 		GlobalFonts.registerFromPath('src/assets/fonts/immortal.ttf', 'Immortal');
 
