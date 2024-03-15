@@ -28,3 +28,5 @@ Developer commands
 |:--------|-------------|
 | reload | reload all commands |
 | presence | update bot presence |
+
+[Back to readme](/README.MD#commands)

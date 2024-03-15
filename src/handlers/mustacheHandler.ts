@@ -69,6 +69,10 @@ export default async function MustacheHandler(client: ShrimpClient) {
 			await appendFile('./readme/commands.md', Mustache.render(data.toString(), mustacheData));
 		}
 
+		await appendFile('./readme/commands.md', '\n');
+
+		await appendFile('./readme/commands.md', '[Back to readme](/README.MD#commands)\n');
+
 		const totalSeconds = process.hrtime(start);
 
 		client.infoLogger.info(`Updated command list (~ ${totalSeconds[1] / 1000000} ms)`);
