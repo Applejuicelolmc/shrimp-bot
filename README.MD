@@ -3,9 +3,16 @@
 [![applejuicelolmc/shrimp-bot:latest](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/docker.yml/badge.svg)](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/docker.yml)
 [![CodeQL](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/Applejuicelolmc/shrimp-bot/actions/workflows/github-code-scanning/codeql)
 ![Last commit on main)](https://img.shields.io/github/last-commit/Applejuicelolmc/shrimp-bot/main)
-![Commit activity on main](https://img.shields.io/github/commit-activity/m/Applejuicelolmc/shrimp-bot/main)
+![commits](https://badgen.net/github/commits/applejuicelolmc/shrimp-bot/main)
+![Repo Size](https://img.shields.io/github/repo-size/Applejuicelolmc/shrimp-bot)
 
 ![Profile Picture](/src/assets/gifs/avatar.gif)
+
+[![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en/)
+[![PNPM](https://img.shields.io/badge/Pnpm-FF6C37?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
+[![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)]( https://www.typescriptlang.org/)
+[![Mongodb](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com/repository/docker/applejuicelolmc/shrimp-bot/general)
 
 <details>
 <summary>
