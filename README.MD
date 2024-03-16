@@ -6,7 +6,7 @@
 ![commits](https://badgen.net/github/commits/applejuicelolmc/shrimp-bot/main)
 ![Repo Size](https://img.shields.io/github/repo-size/Applejuicelolmc/shrimp-bot)
 
-![Profile Picture](/src/assets/gifs/avatar.gif)
+![Profile Picture](https://cdn.discordapp.com/avatars/483636847906521091/a_d88ccd63c07b9179e952e2881e8b9d4e.gif?size=512)
 
 [![NodeJS](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en/)
 [![PNPM](https://img.shields.io/badge/Pnpm-FF6C37?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
