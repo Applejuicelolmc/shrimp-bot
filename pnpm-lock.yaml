@@ -15,8 +15,8 @@ importers:
         specifier: ^0.1.51
         version: 0.1.51
       '@types/node':
-        specifier: ^18.19.22
-        version: 18.19.22
+        specifier: ^18.19.24
+        version: 18.19.24
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -30,8 +30,8 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
       mongoose:
-        specifier: ^7.6.9
-        version: 7.6.9
+        specifier: ^7.6.10
+        version: 7.6.10
       mustache:
         specifier: ^4.2.0
         version: 4.2.0
@@ -43,7 +43,7 @@ importers:
         version: 3.13.0
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@18.19.22)(typescript@5.4.2)
+        version: 10.9.2(@types/node@18.19.24)(typescript@5.4.2)
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -416,8 +416,8 @@ packages:
     resolution: {integrity: sha512-PLwiVvTBg59tGFL/8VpcGvqOu3L4OuveNvPi0EYbWchRdEVP++yRUXJPFl+CApKEq13017/4Nf7aQ5lTtHUNsA==}
     dev: true
 
-  /@types/node@18.19.22:
-    resolution: {integrity: sha512-p3pDIfuMg/aXBmhkyanPshdfJuX5c5+bQjYLIikPLXAUycEogij/c50n/C+8XOA5L93cU4ZRXtn+dNQGi0IZqQ==}
+  /@types/node@18.19.24:
+    resolution: {integrity: sha512-eghAz3gnbQbvnHqB+mgB2ZR3aH6RhdEmHGS48BnV75KceQPHqabkxKI0BbUSsqhqy2Ddhc2xD/VAR9ySZd57Lw==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -437,14 +437,14 @@ packages:
   /@types/whatwg-url@8.2.2:
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
     dependencies:
-      '@types/node': 18.19.22
+      '@types/node': 18.19.24
       '@types/webidl-conversions': 7.0.3
     dev: false
 
   /@types/ws@8.5.9:
     resolution: {integrity: sha512-jbdrY0a8lxfdTp/+r7Z4CkycbOFN8WX+IOchLJr3juT/xzbJ8URyTVSJ/hvNdadTgM1mnedb47n+Y31GsFnQlg==}
     dependencies:
-      '@types/node': 18.19.22
+      '@types/node': 18.19.24
     dev: false
 
   /@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.57.0)(typescript@5.4.2):
@@ -1405,8 +1405,8 @@ packages:
       '@mongodb-js/saslprep': 1.1.5
     dev: false
 
-  /mongoose@7.6.9:
-    resolution: {integrity: sha512-3lR1fA/gS1E9Bn0woFqIysnnjCFDYtVo3yY+rGsVg1Q7kHX+gUTgAHTEKXrkwKxk2gHFdUfAsLt/Zjrdf6+nZA==}
+  /mongoose@7.6.10:
+    resolution: {integrity: sha512-vfvGxXwFk6rZVRaMC+8pgXj1uOR2RafZpgaA3fO6ygDJN7dXnBQ3ehuacwaVD+U3hmZetqHimORJhvLEpdRl1w==}
     engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.5.1
@@ -1774,7 +1774,7 @@ packages:
     resolution: {integrity: sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA==}
     dev: false
 
-  /ts-node@10.9.2(@types/node@18.19.22)(typescript@5.4.2):
+  /ts-node@10.9.2(@types/node@18.19.24)(typescript@5.4.2):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
     peerDependencies:
@@ -1793,7 +1793,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 18.19.22
+      '@types/node': 18.19.24
       acorn: 8.11.3
       acorn-walk: 8.3.2
       arg: 4.1.3
