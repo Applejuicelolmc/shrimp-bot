@@ -7,6 +7,12 @@ const rest = new REST({
 	version: '10',
 }).setToken(process.env.DISCORD_TOKEN!);
 
+type categoryInfo = {
+	'description': string;
+	'position': number;
+	'emoji': string;
+};
+
 export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]> {
 	const allCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = [];
 	const sortedCategories: ShrimpCategory[] = [];
@@ -23,7 +29,8 @@ export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommand
 
 		const commandFiles = categoryFolder.filter((file) => file.endsWith('.ts'));
 
-		const { description, position, emoji } = await import(`${client.paths.commands}/${category}/info.json`, { assert: { type: 'json' } });
+		const { description, position, emoji } = (await import(`${client.paths.commands}/${category}/info.json`, { assert: { type: 'json' } }))
+			.default as categoryInfo; // why do you do this linter :(
 
 		sortedCategories.push({
 			name: category,
