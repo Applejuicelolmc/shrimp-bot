@@ -1,6 +1,6 @@
 import { AttachmentBuilder, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
-import { ShrimpCommand } from '../../common/base';
-import { rollDice } from '../../common/utilityMethods';
+import { ShrimpCommand } from '../../common/base.js';
+import { rollDice } from '../../common/utilityMethods.js';
 import { GlobalFonts, createCanvas, loadImage } from '@napi-rs/canvas';
 
 export default <ShrimpCommand>{

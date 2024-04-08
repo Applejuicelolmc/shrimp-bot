@@ -1,8 +1,8 @@
 import { ActivityType, Colors, EmbedBuilder, GatewayIntentBits, bold } from 'discord.js';
-import { ShrimpClient } from './common/base';
-import eventHandler from './handlers/eventHandler';
-import commandHandler from './handlers/commandHandler';
-import DBHandler from './handlers/mongoDBHandler';
+import { ShrimpClient } from './common/base.js';
+import eventHandler from './handlers/eventHandler.js';
+import commandHandler from './handlers/commandHandler.js';
+import DBHandler from './handlers/mongoDBHandler.js';
 
 if (Number(process.version.slice(1).split('.')[0]) < 16) {
 	throw new Error('NodeJS 16.9.0 or higher is required. Re-run the bot with the correct NodeJS version.');

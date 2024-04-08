@@ -1,7 +1,7 @@
 import { readdir, stat } from 'fs/promises';
-import { ShrimpCategory, ShrimpClient, ShrimpCommand } from '../common/base';
+import { ShrimpCategory, ShrimpClient, ShrimpCommand } from '../common/base.js';
 import { ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from 'discord.js';
-import MustacheHandler from './mustacheHandler';
+import MustacheHandler from './mustacheHandler.js';
 
 const rest = new REST({
 	version: '10',

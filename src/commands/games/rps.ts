@@ -13,7 +13,7 @@ import {
 	Message,
 	SlashCommandBuilder,
 } from 'discord.js';
-import { ShrimpCommand } from '../../common/base';
+import { ShrimpCommand } from '../../common/base.js';
 import { EmbedBuilder, bold, italic } from '@discordjs/builders';
 
 export default <ShrimpCommand>{
@@ -119,8 +119,8 @@ export default <ShrimpCommand>{
 			interaction.isUserContextMenuCommand()
 				? (interaction.targetMember as GuildMember)
 				: interaction.options.getMember('opponent')
-				? (interaction.options.getMember('opponent') as GuildMember)
-				: (interaction.guild.members.cache.get(client.user!.id) as GuildMember)
+					? (interaction.options.getMember('opponent') as GuildMember)
+					: (interaction.guild.members.cache.get(client.user!.id) as GuildMember)
 		);
 
 		const embedColor = (await client.getGuildSettings(interaction.guild)).categories.general.settings.embedColor.value;

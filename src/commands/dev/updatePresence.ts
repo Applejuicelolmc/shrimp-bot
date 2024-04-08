@@ -1,5 +1,5 @@
 import { ActivityType, SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { ShrimpCommand } from '../../common/base';
+import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction: ChatInputCommandInteraction): Promise<void> {

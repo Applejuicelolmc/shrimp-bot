@@ -1,6 +1,6 @@
 import { ColorResolvable, TextChannel, Webhook } from 'discord.js';
 import { Schema, model } from 'mongoose';
-import { ShrimpCommand } from '../common/base';
+import { ShrimpCommand } from '../common/base.js';
 
 export type Settings = NonNullable<IColorSetting | IDisableCommandsSetting | IBooleanSetting | ITextChannelSetting | IWebhookSetting>;
 

@@ -1,5 +1,5 @@
 import { BufferResolvable, Colors, EmbedBuilder, Events, Message, TextChannel, Webhook } from 'discord.js';
-import { ShrimpEvent } from '../common/base';
+import { ShrimpEvent } from '../common/base.js';
 
 export default <ShrimpEvent>{
 	name: Events.MessageUpdate,

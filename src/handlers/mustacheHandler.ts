@@ -1,6 +1,6 @@
 import Mustache from 'mustache';
-import { ShrimpClient } from '../common/base';
-import { capitalize } from '../common/utilityMethods';
+import { ShrimpClient } from '../common/base.js';
+import { capitalize } from '../common/utilityMethods.js';
 import { EmojiResolvable } from 'discord.js';
 import { appendFile, readFile, writeFile } from 'fs/promises';
 

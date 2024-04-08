@@ -21,10 +21,10 @@ import {
 	codeBlock,
 } from 'discord.js';
 import { normalize, resolve } from 'path';
-import startLogger from '../handlers/logHandler';
+import startLogger from '../handlers/logHandler.js';
 import { ButtonStyle } from 'discord.js';
-import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings';
-import { generateDefaultSettings } from '../handlers/mongoDBHandler';
+import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.js';
+import { generateDefaultSettings } from '../handlers/mongoDBHandler.js';
 
 export class ShrimpClient extends Client {
 	private _commands = new Collection<string, ShrimpCommand>();

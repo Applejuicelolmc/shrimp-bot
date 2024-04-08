@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import { ShrimpClient } from '../common/base';
+import { ShrimpClient } from '../common/base.js';
 import { Colors, Guild } from 'discord.js';
-import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings';
-import { formatTime } from '../common/utilityMethods';
+import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.js';
+import { formatTime } from '../common/utilityMethods.js';
 
 export default async function DBHandler(client: ShrimpClient): Promise<void> {
 	const uri = process.env.MONGO_DB_URI!;

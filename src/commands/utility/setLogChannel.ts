@@ -1,6 +1,14 @@
 import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder, TextChannel } from 'discord.js';
-import { ShrimpCommand } from '../../common/base';
-import GuildSettings, { IBaseCategory, IBooleanSetting, IGuildSettingsSchema, ILogCategory, ILogSettings, ITextChannelSetting, IWebhookSetting } from '../../models/guildSettings';
+import { ShrimpCommand } from '../../common/base.js';
+import GuildSettings, {
+	IBaseCategory,
+	IBooleanSetting,
+	IGuildSettingsSchema,
+	ILogCategory,
+	ILogSettings,
+	ITextChannelSetting,
+	IWebhookSetting,
+} from '../../models/guildSettings.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
@@ -43,16 +51,15 @@ export default <ShrimpCommand>{
 						},
 						'deleteWebhook': <IWebhookSetting>{
 							value: messageDeletedHook,
-						}
-					}
-				}
-				
-			}
+						},
+					},
+				},
+			};
 			const updateSettings = await GuildSettings.updateOne(filter, {
 				$set: updatedSettings,
 			});
 
-			console.log(updateSettings)
+			console.log(updateSettings);
 
 			console.log('done with updating guildsettings');
 		} catch (error) {

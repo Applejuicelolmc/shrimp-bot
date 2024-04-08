@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { ShrimpCommand } from '../../common/base';
-import { fetchCommands, loadCommands, resetCommands } from '../../handlers/commandHandler';
+import { ShrimpCommand } from '../../common/base.js';
+import { fetchCommands, loadCommands, resetCommands } from '../../handlers/commandHandler.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
