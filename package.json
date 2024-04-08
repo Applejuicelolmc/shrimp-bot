@@ -52,7 +52,7 @@
 		"chalk": "^4.1.2",
 		"discord.js": "^14.14.1",
 		"dotenv": "^16.4.5",
-		"mongodb": "^5.9.2",
+		"mongodb": "^6.5.0",
 		"mongoose": "^7.6.10",
 		"mustache": "^4.2.0",
 		"ora": "^6.3.1",
