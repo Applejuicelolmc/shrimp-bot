@@ -4,8 +4,8 @@ import eventHandler from './handlers/eventHandler.js';
 import commandHandler from './handlers/commandHandler.js';
 import DBHandler from './handlers/mongoDBHandler.js';
 
-if (Number(process.version.slice(1).split('.')[0]) < 16) {
-	throw new Error('NodeJS 16.9.0 or higher is required. Re-run the bot with the correct NodeJS version.');
+if (Number(process.version.slice(1).split('.')[0]) < 18) {
+	throw new Error('NodeJS 18.15.0 or higher is required. Re-run the bot with the correct NodeJS version.');
 }
 
 export const client = new ShrimpClient({
