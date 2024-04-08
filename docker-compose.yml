@@ -3,5 +3,5 @@ version: '3'
 services:
     shrimp-bot:
         build: .
-        command: clear && ts-node -r ./src/index.ts deploy
+        command: clear && ts-node-esm -r ./src/index.ts deploy
         restart: unless-stopped

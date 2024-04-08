@@ -1,4 +1,4 @@
-FROM node:16-alpine AS base
+FROM node:18-alpine AS base
 
 RUN npm i -g pnpm
 
@@ -13,4 +13,4 @@ COPY . /usr/src/shrimp
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
 	CMD npx ts-node -r ./src/healthCheck.ts
 
-CMD ["npx", "ts-node", "-r" ,"./src/index.ts", "deploy"]
+CMD ["npx", "ts-node-esm", "-r" ,"./src/index.ts", "deploy"]
