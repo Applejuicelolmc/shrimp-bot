@@ -12,6 +12,8 @@ export default <ShrimpCommand>{
 		const modifier = interaction.options.getNumber('modifier') || 0;
 		const invisible = interaction.options.getBoolean('private') || false;
 
+		await interaction.deferReply({ ephemeral: invisible });
+
 		GlobalFonts.registerFromPath('src/assets/fonts/immortal.ttf', 'Immortal');
 
 		if (!dice || !interaction || !interaction.guild) {
@@ -105,8 +107,6 @@ export default <ShrimpCommand>{
 				name: 'dice.png',
 			});
 		}
-
-		await interaction.deferReply({ ephemeral: invisible });
 
 		const embedColor = (await client.getGuildSettings(interaction.guild)).categories.general.settings.embedColor.value;
 
