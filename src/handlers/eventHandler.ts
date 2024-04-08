@@ -86,7 +86,7 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 					afk: false,
 					activities: [
 						{
-							name: `Logging off`,
+							name: `Logging off (PID: ${process.pid})`,
 							type: ActivityType.Custom,
 						},
 					],
@@ -98,7 +98,7 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 							.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
 							.addFields({
 								name: `Event:`,
-								value: `Logged off`,
+								value: `Logged off (PID: ${process.pid})`,
 							})
 							.setColor(Colors.Orange),
 					],
@@ -129,16 +129,16 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 
 			process.on('exit', async (exitCode) => {
 				if (exitCode === 0) {
-					client.infoLogger.info('Logged off');
+					client.infoLogger.info('Logged off (PID: ${process.pid})');
 				} else {
-					client.infoLogger.error(`Logged off with exit code ${exitCode}`);
+					client.infoLogger.error(`Logged off with exit code ${exitCode} (PID: ${process.pid})`);
 				}
 
 				return await client.destroy();
 			});
 
 			process.on('uncaughtException', (uncaughtException) => {
-				client.handleError('Uncaught Exception', uncaughtException);
+				client.handleError('Uncaught Exception', uncaughtException as Error);
 			});
 		} catch (error) {
 			client.handleError('Process event', error as Error);
