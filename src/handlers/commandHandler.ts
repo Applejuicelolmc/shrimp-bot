@@ -23,7 +23,7 @@ export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommand
 
 		const commandFiles = categoryFolder.filter((file) => file.endsWith('.ts'));
 
-		const { description, position, emoji } = await import(`${client.paths.commands}/${category}/info.json`);
+		const { description, position, emoji } = await import(`${client.paths.commands}/${category}/info.json`, { assert: { type: 'json' } });
 
 		sortedCategories.push({
 			name: category,
@@ -79,9 +79,15 @@ export async function loadCommands(client: ShrimpClient, commands: (SlashCommand
 		} else {
 			// Register commands to all joined servers
 			try {
-				await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-					body: commands,
-				});
+				// const oldCommands: any = await rest.get(Routes.applicationCommands(process.env.CLIENT_ID!));
+
+				// console.log(commands[0]);
+
+				// const newCommands: any = await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
+				// 	body: commands,
+				// });
+
+				// console.log(newCommands[0].id === oldCommands[0].id);
 
 				client.infoLogger.info(`Registered ${commands.length} commands globally`);
 			} catch (error) {
