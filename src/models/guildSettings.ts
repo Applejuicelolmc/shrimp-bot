@@ -34,11 +34,11 @@ export interface IBaseCategory {
 	description: string;
 }
 
-export interface IGeneralCategory extends IBaseCategory{
+export interface IGeneralCategory extends IBaseCategory {
 	settings: IGeneralSettings;
 }
 
-export interface ILogCategory extends IBaseCategory{
+export interface ILogCategory extends IBaseCategory {
 	settings: ILogSettings;
 }
 
@@ -46,8 +46,8 @@ export interface IGuildSettingsSchema {
 	guildName: string;
 	guildId: string;
 	categories: {
-		general: IGeneralCategory
-		logging: ILogCategory
+		general: IGeneralCategory;
+		logging: ILogCategory;
 	};
 }
 
