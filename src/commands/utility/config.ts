@@ -123,11 +123,11 @@ export default <ShrimpCommand>{
 					});
 				});
 
-				pages.forEach((page) => {
+				pages.forEach(async (page) => {
 					if (page.value === category.values[0]) {
 						LastEmbed = page.embed;
 
-						category.editReply({
+						await category.editReply({
 							embeds: [
 								LastEmbed.setFooter({
 									text: LastEmbed.data.footer!.text,
