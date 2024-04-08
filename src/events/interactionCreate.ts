@@ -44,10 +44,17 @@ export default <ShrimpEvent>{
 			} catch (error) {
 				client.handleError(`Couldn't execute command`, error as Error);
 
-				return await interaction.reply({
-					content: `There was an error while executing this command! If this keeps happening please report this in my support server.\n\n***ERROR MESSAGE:***\n\`${error}\``,
-					ephemeral: true,
-				});
+				if (interaction.deferred || interaction.replied) {
+					return await interaction.followUp({
+						content: `There was an error while executing this command! If this keeps happening please report this in my support server.\n\n***ERROR MESSAGE:***\n\`${error}\``,
+						ephemeral: true,
+					});
+				} else if (interaction.isRepliable()) {
+					return await interaction.reply({
+						content: `There was an error while executing this command! If this keeps happening please report this in my support server.\n\n***ERROR MESSAGE:***\n\`${error}\``,
+						ephemeral: true,
+					});
+				}
 			}
 		}
 	},
