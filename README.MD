@@ -8,7 +8,7 @@
 
 ![Profile Picture](https://cdn.discordapp.com/avatars/483636847906521091/a_d88ccd63c07b9179e952e2881e8b9d4e.gif?size=512)
 
-[![NodeJS](https://img.shields.io/badge/Node.js-v18.17.0-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en/)
+[![NodeJS](https://img.shields.io/badge/Node.js-v18.15.3-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en/)
 [![PNPM](https://img.shields.io/badge/Pnpm-v8.14.3-FF6C37?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 [![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)]( https://www.typescriptlang.org/)
 [![Mongodb](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
@@ -91,7 +91,7 @@ Coming soon, once I can get settings working via mongodb
 
 #### 3️⃣ Running your bot with pnpm
 
-[![NodeJS](https://img.shields.io/badge/Node.js-v18.17.0-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en/)
+[![NodeJS](https://img.shields.io/badge/Node.js-v18.15.3-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/en/)
 [![PNPM](https://img.shields.io/badge/Pnpm-v8.14.3-FF6C37?style=for-the-badge&logo=pnpm&logoColor=white)](https://pnpm.io/)
 
 1. Clone this repository to your computer/server
