@@ -29,4 +29,4 @@ Developer commands
 | reload | reload all commands |
 | presence | update bot presence |
 
-[Back to readme](/README.MD#commands)
+[Back to readme](https://github.com/Applejuicelolmc/shrimp-bot?tab=readme-ov-file#commands)
