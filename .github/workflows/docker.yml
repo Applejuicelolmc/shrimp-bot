@@ -1,26 +1,28 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
-jobs:    
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v4.1.1
+jobs:
+    build:
+        name: Build Docker Image
+        runs-on: ubuntu-latest
 
-      - name: Docker login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag applejuicelolmc/shrimp-bot:latest
-        
-      - name: Docker Push
-        run: docker push applejuicelolmc/shrimp-bot:latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4.1.1
+
+            - name: Docker login
+              env:
+                  DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+                  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+              run: |
+                  docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+            - name: Build the Docker image
+              run: docker build . --file Dockerfile --tag applejuicelolmc/shrimp-bot:latest
+
+            - name: Push image to Docker Hub
+              run: docker push applejuicelolmc/shrimp-bot:latest
