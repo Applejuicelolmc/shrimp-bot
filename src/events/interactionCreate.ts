@@ -6,7 +6,7 @@ export default <ShrimpEvent>{
 	once: false,
 	async execute(client, interaction: Interaction) {
 		if (!interaction || !interaction.guild) {
-			client.errorLogger.error(`Didn't receive interaction`);
+			return client.errorLogger.error(`Didn't receive interaction`);
 		}
 
 		if (interaction.isChatInputCommand() || interaction.isUserContextMenuCommand()) {
@@ -22,7 +22,7 @@ export default <ShrimpEvent>{
 			try {
 				const startTime = process.hrtime();
 
-				await cmd?.execute(client, interaction);
+				await cmd.execute(client, interaction);
 
 				const totalTime = process.hrtime(startTime);
 
