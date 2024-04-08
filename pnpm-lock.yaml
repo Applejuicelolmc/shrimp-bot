@@ -4,77 +4,75 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-importers:
+dependencies:
+  '@discordjs/builders':
+    specifier: ^1.7.0
+    version: 1.7.0
+  '@napi-rs/canvas':
+    specifier: ^0.1.51
+    version: 0.1.51
+  '@types/node':
+    specifier: ^20.12.5
+    version: 20.12.5
+  chalk:
+    specifier: ^4.1.2
+    version: 4.1.2
+  discord.js:
+    specifier: ^14.14.1
+    version: 14.14.1
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
+  mongodb:
+    specifier: ^5.9.2
+    version: 5.9.2
+  mongoose:
+    specifier: ^7.6.10
+    version: 7.6.10
+  mustache:
+    specifier: ^4.2.0
+    version: 4.2.0
+  ora:
+    specifier: ^6.3.1
+    version: 6.3.1
+  rss-parser:
+    specifier: ^3.13.0
+    version: 3.13.0
+  ts-node:
+    specifier: ^10.9.2
+    version: 10.9.2(@types/node@20.12.5)(typescript@5.4.3)
+  tslib:
+    specifier: ^2.6.2
+    version: 2.6.2
+  typescript:
+    specifier: ^5.4.3
+    version: 5.4.3
+  winston:
+    specifier: ^3.13.0
+    version: 3.13.0
 
-  .:
-    dependencies:
-      '@discordjs/builders':
-        specifier: ^1.7.0
-        version: 1.7.0
-      '@napi-rs/canvas':
-        specifier: ^0.1.51
-        version: 0.1.51
-      '@types/node':
-        specifier: ^18.19.29
-        version: 18.19.29
-      chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
-      discord.js:
-        specifier: ^14.14.1
-        version: 14.14.1
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      mongodb:
-        specifier: ^5.9.2
-        version: 5.9.2
-      mongoose:
-        specifier: ^7.6.10
-        version: 7.6.10
-      mustache:
-        specifier: ^4.2.0
-        version: 4.2.0
-      ora:
-        specifier: ^6.3.1
-        version: 6.3.1
-      rss-parser:
-        specifier: ^3.13.0
-        version: 3.13.0
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@18.19.29)(typescript@5.4.3)
-      tslib:
-        specifier: ^2.6.2
-        version: 2.6.2
-      typescript:
-        specifier: ^5.4.3
-        version: 5.4.3
-      winston:
-        specifier: ^3.13.0
-        version: 3.13.0
-    devDependencies:
-      '@types/mustache':
-        specifier: ^4.2.5
-        version: 4.2.5
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^5.62.0
-        version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.57.0)(typescript@5.4.3)
-      '@typescript-eslint/parser':
-        specifier: ^5.62.0
-        version: 5.62.0(eslint@8.57.0)(typescript@5.4.3)
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.0
-      eslint-config-prettier:
-        specifier: ^8.10.0
-        version: 8.10.0(eslint@8.57.0)
-      eslint-plugin-prettier:
-        specifier: ^4.2.1
-        version: 4.2.1(eslint-config-prettier@8.10.0)(eslint@8.57.0)(prettier@2.8.8)
-      prettier:
-        specifier: 2.8.8
-        version: 2.8.8
+devDependencies:
+  '@types/mustache':
+    specifier: ^4.2.5
+    version: 4.2.5
+  '@typescript-eslint/eslint-plugin':
+    specifier: ^5.62.0
+    version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@8.57.0)(typescript@5.4.3)
+  '@typescript-eslint/parser':
+    specifier: ^5.62.0
+    version: 5.62.0(eslint@8.57.0)(typescript@5.4.3)
+  eslint:
+    specifier: ^8.57.0
+    version: 8.57.0
+  eslint-config-prettier:
+    specifier: ^8.10.0
+    version: 8.10.0(eslint@8.57.0)
+  eslint-plugin-prettier:
+    specifier: ^4.2.1
+    version: 4.2.1(eslint-config-prettier@8.10.0)(eslint@8.57.0)(prettier@2.8.8)
+  prettier:
+    specifier: 2.8.8
+    version: 2.8.8
 
 packages:
 
@@ -418,6 +416,12 @@ packages:
 
   /@types/node@18.19.29:
     resolution: {integrity: sha512-5pAX7ggTmWZdhUrhRWLPf+5oM7F80bcKVCBbr0zwEkTNzTJL2CWQjznpFgHYy6GrzkYi2Yjy7DHKoynFxqPV8g==}
+    dependencies:
+      undici-types: 5.26.5
+    dev: false
+
+  /@types/node@20.12.5:
+    resolution: {integrity: sha512-BD+BjQ9LS/D8ST9p5uqBxghlN+S42iuNxjsUGjeZobe/ciXzk2qb1B6IXc6AnRLS+yFJRpN2IPEHMzwspfDJNw==}
     dependencies:
       undici-types: 5.26.5
     dev: false
@@ -1774,7 +1778,7 @@ packages:
     resolution: {integrity: sha512-ufKpbmrugz5Aou4wcr5Wc1UUFWOLhq+Fm6qa6P0w0K5Qw2yhaUoiWszhCVuNQyNwrlGiscHOmqYoAox1PtvgjA==}
     dev: false
 
-  /ts-node@10.9.2(@types/node@18.19.29)(typescript@5.4.3):
+  /ts-node@10.9.2(@types/node@20.12.5)(typescript@5.4.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
     peerDependencies:
@@ -1793,7 +1797,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 18.19.29
+      '@types/node': 20.12.5
       acorn: 8.11.3
       acorn-walk: 8.3.2
       arg: 4.1.3
