@@ -41,32 +41,37 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 	}
 
 	function runProcessEvents(): void {
+		let timesSent = 0;
+
 		try {
 			process.on('SIGINT', async () => {
-				client.infoLogger.info('Got ctrl-c`d :c');
+				if (timesSent < 1) {
+					timesSent += 1;
+					client.infoLogger.info(`Got ctrl-c\`d :c (PID: ${process.pid})`);
 
-				client.user?.setPresence({
-					status: 'invisible',
-					afk: false,
-					activities: [
-						{
-							name: `Logging off`,
-							type: ActivityType.Custom,
-						},
-					],
-				});
+					client.user?.setPresence({
+						status: 'invisible',
+						afk: false,
+						activities: [
+							{
+								name: `Logging off (PID: ${process.pid})`,
+								type: ActivityType.Custom,
+							},
+						],
+					});
 
-				await client.alertWebhook.send({
-					embeds: [
-						new EmbedBuilder()
-							.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
-							.addFields({
-								name: `Event:`,
-								value: `Logged off`,
-							})
-							.setColor(Colors.Orange),
-					],
-				});
+					await client.alertWebhook.send({
+						embeds: [
+							new EmbedBuilder()
+								.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
+								.addFields({
+									name: `Event:`,
+									value: `Logged off (PID: ${process.pid})`,
+								})
+								.setColor(Colors.Orange),
+						],
+					});
+				}
 
 				await sleep(1000);
 
