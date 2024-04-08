@@ -71,7 +71,7 @@ export default async function MustacheHandler(client: ShrimpClient) {
 
 		await appendFile('./readme/commands.md', '\n');
 
-		await appendFile('./readme/commands.md', '[Back to readme](/README.MD#commands)\n');
+		await appendFile('./readme/commands.md', '[Back to readme](https://github.com/Applejuicelolmc/shrimp-bot?tab=readme-ov-file#commands)\n');
 
 		const totalSeconds = process.hrtime(start);
 
