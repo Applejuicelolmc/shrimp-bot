@@ -4,7 +4,7 @@ import { capitalize } from '../common/utilityMethods.js';
 import { EmojiResolvable } from 'discord.js';
 import { appendFile, readFile, writeFile } from 'fs/promises';
 
-export default async function MustacheHandler(client: ShrimpClient) {
+export default async function commandMDGenerator(client: ShrimpClient) {
 	const mustacheTemplatePath = `${client.paths.common}/command.mustache`;
 
 	const mdTableHeaderString = '| Command | Description |'; // TODO: Implement options ( Option Name | Option Description | Option Type | Required |)
@@ -77,6 +77,6 @@ export default async function MustacheHandler(client: ShrimpClient) {
 
 		client.infoLogger.info(`Updated command list (~ ${totalSeconds[1] / 1000000} ms)`);
 	} catch (error) {
-		client.handleError('MustacheHandler', error as Error);
+		client.handleError('Command.md Generator', error as Error);
 	}
 }
