@@ -129,7 +129,7 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 
 			process.on('exit', async (exitCode) => {
 				if (exitCode === 0) {
-					client.infoLogger.info('Logged off (PID: ${process.pid})');
+					client.infoLogger.info(`Logged off (PID: ${process.pid})`);
 				} else {
 					client.infoLogger.error(`Logged off with exit code ${exitCode} (PID: ${process.pid})`);
 				}
