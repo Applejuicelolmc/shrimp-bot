@@ -11,7 +11,7 @@
 	"packageManager": "pnpm@8.14.3",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
-		"start": "clear && ts-node-esm -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
+		"start": "clear && node --no-warnings --loader ts-node/esm -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
 		"deploy": "pnpm start deploy",
 		"reset": "pnpm start reset",
 		"update-avatar": "pnpm start update-avatar",
