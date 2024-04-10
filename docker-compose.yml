@@ -1,7 +1,0 @@
-version: '3'
-
-services:
-    shrimp-bot:
-        build: .
-        command: clear && ts-node-esm -r ./src/index.ts
-        restart: unless-stopped
