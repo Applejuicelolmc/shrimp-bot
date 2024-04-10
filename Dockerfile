@@ -11,6 +11,6 @@ RUN pnpm install
 COPY . /usr/src/shrimp
 
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
-	CMD node --loader ts-node/esm -r ./src/healthCheck.ts
+	CMD pnpm run healthcheck
 
 CMD pnpm start
