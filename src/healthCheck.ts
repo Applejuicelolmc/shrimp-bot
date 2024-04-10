@@ -20,6 +20,11 @@ switch (client.ws.status) {
 		client.infoLogger.info(`Docker health: Client disconnected`);
 		exitCode = 1;
 		break;
+
+	default:
+		client.infoLogger.info(`Docker health: Client unhealthy`);
+		exitCode = 1;
+		break;
 }
 
 process.exit(exitCode);
