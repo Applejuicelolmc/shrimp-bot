@@ -1,4 +1,4 @@
-FROM node:18.20.1-alpine3.19 AS base
+FROM node:20-alpine AS base
 
 RUN npm i -g pnpm
 
@@ -11,6 +11,6 @@ RUN pnpm install
 COPY . /usr/src/shrimp
 
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
-	CMD npx ts-node -r ./src/healthCheck.ts
+	CMD node --loader ts-node/esm -r ./src/healthCheck.ts
 
-CMD ["npx", "ts-node-esm", "-r" ,"./src/index.ts"]
+CMD node --loader ts-node/esm -r ./src/index.ts
