@@ -12,7 +12,7 @@
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"start": "clear && node --no-warnings --loader ts-node/esm -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
-		"healthCheck": "npx ts-node/esm -r ./src/healthCheck.ts",
+		"healthCheck": "node --no-warnings --loader ts-node/esm -r ./src/healthCheck.ts",
 		"deploy": "pnpm start deploy",
 		"reset": "pnpm start reset",
 		"update-avatar": "pnpm start update-avatar",
