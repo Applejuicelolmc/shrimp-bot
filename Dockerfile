@@ -1,5 +1,9 @@
 FROM node:20-alpine AS base
 
+RUN apk update && \
+	apk upgrade && \
+	apk add --update-cache git
+
 RUN npm i -g pnpm
 
 RUN mkdir -p /usr/src/shrimp/
