@@ -14,7 +14,9 @@ RUN pnpm install
 
 COPY . /usr/src/shrimp
 
+USER nonroot
+
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
-	CMD pnpm run healthCheck
+	CMD pnpm run healthCheck.ts
 
 CMD pnpm start
