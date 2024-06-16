@@ -13,8 +13,11 @@ type categoryInfo = {
 	'emoji': string;
 };
 
-export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommandBuilder | ContextMenuCommandBuilder)[]> {
-	const allCommands: (SlashCommandBuilder | ContextMenuCommandBuilder)[] = [];
+type mixedCommands = (SlashCommandBuilder | ContextMenuCommandBuilder)[];
+
+export async function fetchCommands(client: ShrimpClient): Promise<[mixedCommands, mixedCommands]> {
+	const mainCommands: mixedCommands = [];
+	const devCommands: mixedCommands = [];
 	const sortedCategories: ShrimpCategory[] = [];
 	const commandFolder = await readdir(client.paths.commands);
 
@@ -22,7 +25,7 @@ export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommand
 		const stats = await stat(`${client.paths.commands}/${category}`);
 
 		if (stats.isFile()) {
-			continue; //ignore files when reading commands folder
+			continue;
 		}
 
 		const categoryFolder = await readdir(`${client.paths.commands}/${category}`);
@@ -49,10 +52,18 @@ export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommand
 
 			sortedCategories[sortedCategories.length - 1].info.commandNames.push(command.slash.name);
 
-			allCommands.push(command.slash);
+			if (category === 'dev') {
+				devCommands.push(command.slash);
 
-			if (command.context) {
-				allCommands.push(command.context);
+				if (command.context) {
+					devCommands.push(command.context);
+				}
+			} else {
+				mainCommands.push(command.slash);
+
+				if (command.context) {
+					mainCommands.push(command.context);
+				}
 			}
 		}
 	}
@@ -67,40 +78,25 @@ export async function fetchCommands(client: ShrimpClient): Promise<(SlashCommand
 
 	client.infoLogger.info('Commands are ready');
 
-	return allCommands;
+	return [mainCommands, devCommands];
 }
 
-export async function loadCommands(client: ShrimpClient, commands: (SlashCommandBuilder | ContextMenuCommandBuilder)[]): Promise<void> {
+export async function loadCommands(client: ShrimpClient, commands: [mixedCommands, mixedCommands]): Promise<void> {
+	const mainCommands = commands[0];
+	const devCommands = commands[1];
+
 	try {
-		if (process.env.ENVIRONMENT === 'development') {
-			// Register commands to dev server only
-			try {
-				await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.DEV_GUILD_ID!), {
-					body: commands,
-				});
+		await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.DEV_GUILD_ID!), {
+			body: devCommands, // Register dev commands to dev server only
+		});
 
-				client.infoLogger.info(`Registered ${commands.length} commands to the dev server`);
-			} catch (error) {
-				client.handleError('Registering commands to the dev server', error as Error);
-			}
-		} else {
-			// Register commands to all joined servers
-			try {
-				// const oldCommands: any = await rest.get(Routes.applicationCommands(process.env.CLIENT_ID!));
+		client.infoLogger.info(`Registered ${devCommands.length} commands to the dev server`);
 
-				// console.log(commands[0]);
+		await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
+			body: mainCommands, // Register main commands to all joined servers
+		});
 
-				// const newCommands: any = await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
-				// 	body: commands,
-				// });
-
-				// console.log(newCommands[0].id === oldCommands[0].id);
-
-				client.infoLogger.info(`Registered ${commands.length} commands globally`);
-			} catch (error) {
-				client.handleError('Registering commands globally', error as Error);
-			}
-		}
+		client.infoLogger.info(`Registered ${mainCommands.length} commands globally`);
 	} catch (error) {
 		client.handleError('Registering commands', error as Error);
 	}
@@ -127,30 +123,19 @@ export async function resetCommands(client: ShrimpClient): Promise<void> {
 }
 
 export default async function commandHandler(client: ShrimpClient): Promise<void> {
-	if (process.argv.includes('reset')) {
-		try {
-			await resetCommands(client);
-		} catch (error) {
-			client.handleError('Command handler (reset)', error as Error);
-		}
-	}
+	const commands = await fetchCommands(client);
 
-	const slashCommands = await fetchCommands(client);
+	if (process.argv.includes('reset')) {
+		await resetCommands(client);
+		await loadCommands(client, commands);
+	}
 
 	if (process.argv.includes('deploy')) {
-		try {
-			await loadCommands(client, slashCommands);
-		} catch (error) {
-			client.handleError('Command handler (deploy)', error as Error);
-		}
+		await loadCommands(client, commands);
 	}
 
-	if (process.argv.includes('update-commands')) {
-		try {
-			await commandMDGenerator(client);
-		} catch (error) {
-			client.handleError('update commands', error as Error);
-		}
+	if (process.argv.includes('genenerate-md')) {
+		await commandMDGenerator(client);
 	}
 
 	client.user?.setPresence(client.defaultPresence);
