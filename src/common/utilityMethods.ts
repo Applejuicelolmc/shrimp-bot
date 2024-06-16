@@ -45,6 +45,9 @@ export function generateDeck() {
 }
 
 export function shuffleArray(array: string[]): string[] {
+	// Somehow found source on wikipedia after forgetting about it
+	// https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+
 	for (let i = array.length - 1; i > 0; i--) {
 		// Totally didn't steal this from stackoverflow...
 
