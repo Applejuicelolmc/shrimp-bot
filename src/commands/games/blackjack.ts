@@ -25,7 +25,7 @@ export default <ShrimpCommand>{
 
 		await interaction.deferReply({ ephemeral: true });
 
-		const shuffledDeck = shuffleArray(generateDeck(interaction.options.getBoolean('test')!));
+		const shuffledDeck = shuffleArray(generateDeck());
 
 		const embedColor = (await client.getGuildSettings(interaction.guild!)).categories.general.settings.embedColor.value;
 
@@ -410,6 +410,5 @@ export default <ShrimpCommand>{
 	slash: new SlashCommandBuilder()
 		.setName('blackjack')
 		.setDescription('Play blackjack with me')
-		.addBooleanOption((mp) => mp.setName('multiplayer').setDescription('Wanna play with more people?').setRequired(false))
-		.addBooleanOption((test) => test.setName('test').setDescription('flag for testing purposes, makes deck aces only').setRequired(false)),
+		.addBooleanOption((mp) => mp.setName('multiplayer').setDescription('Wanna play with more people?').setRequired(false)),
 };
