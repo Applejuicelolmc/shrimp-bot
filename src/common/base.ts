@@ -68,6 +68,8 @@ export class ShrimpClient extends Client {
 		leave: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Leave').setCustomId('leave-button'),
 		accept: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Accept').setCustomId('accept-button'),
 		decline: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Decline').setCustomId('decline-button'),
+		spin: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Spin').setCustomId('spin-button'),
+		stop: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Stop').setCustomId('stop-button'),
 	};
 
 	private _guildEmoji() {
