@@ -3,6 +3,8 @@ import { client } from './index.js';
 
 let exitCode: number;
 
+console.log(client.ws.status);
+
 switch (client.ws.status) {
 	case Status.Idle:
 	case Status.Ready:
