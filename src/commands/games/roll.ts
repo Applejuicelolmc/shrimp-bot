@@ -21,44 +21,13 @@ export default <ShrimpCommand>{
 		}
 
 		const diceEmojis = {
-			d20: '',
-			d12: '',
-			d10: '',
-			d8: '',
-			d6: '',
-			d4: '',
+			d20: client.emojis.cache.get(`1218283573195313172`) || `🎲`,
+			d12: client.emojis.cache.get(`1218283408199782572`) || `🎲`,
+			d10: client.emojis.cache.get(`1218283414214545612`) || `🎲`,
+			d8: client.emojis.cache.get(`1218283412071387177`) || `🎲`,
+			d6: client.emojis.cache.get(`1218283409906864138`) || `🎲`,
+			d4: client.emojis.cache.get(`1218283411169480824`) || `🎲`,
 		};
-
-		interaction.guild.emojis.cache.map((emoji) => {
-			switch (emoji.name) {
-				case 'd20':
-					diceEmojis.d20 = `<:${emoji.name}:${emoji.id}>`;
-					break;
-
-				case 'd12':
-					diceEmojis.d12 = `<:${emoji.name}:${emoji.id}>`;
-					break;
-
-				case 'd10':
-					diceEmojis.d10 = `<:${emoji.name}:${emoji.id}>`;
-					break;
-
-				case 'd8':
-					diceEmojis.d8 = `<:${emoji.name}:${emoji.id}>`;
-					break;
-
-				case 'd6':
-					diceEmojis.d6 = `<:${emoji.name}:${emoji.id}>`;
-					break;
-
-				case 'd4':
-					diceEmojis.d4 = `<:${emoji.name}:${emoji.id}>`;
-					break;
-
-				default:
-					break;
-			}
-		});
 
 		async function createDice(dice: number, total: number): Promise<AttachmentBuilder> {
 			const canvas = createCanvas(256, 256);
