@@ -29,6 +29,3 @@ jobs:
 
             - name: Build the Docker image
               run: docker buildx build --sbom=true --provenance=true --push . --file Dockerfile --tag applejuicelolmc/shrimp-bot:latest
-
-            - name: Push image to Docker Hub
-              run: docker push applejuicelolmc/shrimp-bot:latest
