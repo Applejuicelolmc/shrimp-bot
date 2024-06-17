@@ -28,7 +28,7 @@ jobs:
                   docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
             - name: Build the Docker image
-              run: docker buildx build --sbom=true --provenance=true . --file Dockerfile --tag applejuicelolmc/shrimp-bot:latest
+              run: docker buildx build --sbom=true --provenance=true --push . --file Dockerfile --tag applejuicelolmc/shrimp-bot:latest
 
             - name: Push image to Docker Hub
               run: docker push applejuicelolmc/shrimp-bot:latest
