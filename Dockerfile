@@ -4,10 +4,10 @@ RUN apk update && \
 	apk upgrade && \
 	apk add --update-cache git
 
+RUN npm i -g pnpm
+
 RUN adduser -D -g '' shrimp-bot
 USER shrimp-bot
-
-RUN npm i -g pnpm
 
 RUN mkdir -p /home/shrimp-bot/src/shrimp/
 WORKDIR /home/shrimp-bot/src/shrimp
