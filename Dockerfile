@@ -4,17 +4,20 @@ RUN apk update && \
 	apk upgrade && \
 	apk add --update-cache git
 
+RUN adduser -D -g '' shrimp-bot
+USER shrimp-bot
+
 RUN npm i -g pnpm
 
-RUN mkdir -p /usr/src/shrimp/
-WORKDIR /usr/src/shrimp
+RUN mkdir -p /home/shrimp-bot/src/shrimp/
+WORKDIR /home/shrimp-bot/src/shrimp
 
-COPY package.json pnpm-lock.yaml /usr/src/shrimp
+COPY package.json pnpm-lock.yaml /home/shrimp-bot/src/shrimp
 RUN pnpm install
 
-COPY . /usr/src/shrimp
+COPY . /home/shrimp-bot/src/shrimp
 
-USER nonroot
+
 
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
 	CMD pnpm run healthCheck.ts
