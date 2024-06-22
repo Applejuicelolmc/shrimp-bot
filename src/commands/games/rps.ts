@@ -16,7 +16,7 @@ import {
 	Message,
 	SlashCommandBuilder,
 } from 'discord.js';
-import { ShrimpCommand } from '../../common/base.ts';
+import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {

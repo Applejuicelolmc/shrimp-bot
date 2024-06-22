@@ -30,9 +30,9 @@ export async function fetchCommands(client: ShrimpClient): Promise<[mixedCommand
 
 		const categoryFolder = await readdir(`${client.paths.commands}/${category}`);
 
-		const commandFiles = categoryFolder.filter((file) => file.endsWith('.ts'));
+		const commandFiles = categoryFolder.filter((file) => file.endsWith('.js'));
 
-		const { description, position, emoji } = (await import(`${client.paths.commands}/${category}/info.json`, { assert: { type: 'json' } }))
+		const { description, position, emoji } = (await import(`../../src/commands/${category}/info.json`, { assert: { type: 'json' } }))
 			.default as categoryInfo; // why do you do this linter :(
 
 		sortedCategories.push({

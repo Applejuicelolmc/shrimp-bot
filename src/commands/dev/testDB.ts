@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { ShrimpCommand } from '../../common/base';
+import { ShrimpCommand } from '../../common/base.js';
 import { testGuild, updateDB } from '../../handlers/mongoDBHandler.js';
 
 export default <ShrimpCommand>{

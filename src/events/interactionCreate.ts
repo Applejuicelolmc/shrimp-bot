@@ -1,4 +1,4 @@
-import { ShrimpEvent } from '../common/base.ts';
+import { ShrimpEvent } from '../common/base.js';
 import { Colors, EmbedBuilder, Events, Interaction, bold } from 'discord.js';
 
 export default <ShrimpEvent>{

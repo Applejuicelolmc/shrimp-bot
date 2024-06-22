@@ -21,9 +21,9 @@ import {
 	bold,
 	codeBlock,
 } from 'discord.js';
-import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.ts';
-import { generateDefaultSettings } from '../handlers/mongoDBHandler.ts';
-import startLogger from '../handlers/logHandler.ts';
+import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.js';
+import { generateDefaultSettings } from '../handlers/mongoDBHandler.js';
+import startLogger from '../handlers/logHandler.js';
 import { normalize, resolve } from 'path';
 
 export class ShrimpClient extends Client {

@@ -1,7 +1,7 @@
 import { Events } from 'discord.js';
-import { ShrimpEvent } from '../common/base.ts';
-import GuildSettings from '../models/guildSettings.ts';
-import { generateDefaultSettings } from '../handlers/mongoDBHandler.ts';
+import { ShrimpEvent } from '../common/base.js';
+import GuildSettings from '../models/guildSettings.js';
+import { generateDefaultSettings } from '../handlers/mongoDBHandler.js';
 
 export default <ShrimpEvent>{
 	name: Events.ClientReady,

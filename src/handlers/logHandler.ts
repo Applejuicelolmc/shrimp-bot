@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { formatDate, formatTime } from '../common/utilityMethods.ts';
+import { formatDate, formatTime } from '../common/utilityMethods.js';
 import winston, { Container, format, loggers, transports } from 'winston';
 
 export default function startLogger(): Container {

@@ -10,9 +10,9 @@ import {
 	codeBlock,
 	italic,
 } from 'discord.js';
-import { capitalize, sleep } from '../../common/utilityMethods.ts';
-import { Settings } from '../../models/guildSettings.ts';
-import { ShrimpCommand } from '../../common/base.ts';
+import { capitalize, sleep } from '../../common/utilityMethods.js';
+import { Settings } from '../../models/guildSettings.js';
+import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {

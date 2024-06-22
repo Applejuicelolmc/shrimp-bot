@@ -10,8 +10,8 @@ import {
 	italic,
 	SlashCommandBuilder,
 } from 'discord.js';
-import { sleep } from '../../common/utilityMethods.ts';
-import { ShrimpCommand } from '../../common/base.ts';
+import { sleep } from '../../common/utilityMethods.js';
+import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction) {
@@ -20,7 +20,7 @@ export default <ShrimpCommand>{
 		}
 
 		// TODO: Add a scoring system
-		//TODO: Refactor?
+		//TODO: Refactor?t
 
 		const sevenEmote = client.emojis.cache.get(`1251601131562602536`)?.toString();
 		const galactusEmote = client.emojis.cache.get(`1251601134213271636`)?.toString();

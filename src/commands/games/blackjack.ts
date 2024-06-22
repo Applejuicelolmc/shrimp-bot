@@ -12,8 +12,8 @@ import {
 	bold,
 	italic,
 } from 'discord.js';
-import { generateDeck, shuffleArray } from '../../common/utilityMethods.ts';
-import { ShrimpCommand } from '../../common/base.ts';
+import { generateDeck, shuffleArray } from '../../common/utilityMethods.js';
+import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction) {

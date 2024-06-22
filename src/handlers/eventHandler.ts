@@ -1,6 +1,6 @@
 import { readdir } from 'fs/promises';
-import { sleep } from '../common/utilityMethods.ts';
-import { ShrimpClient, ShrimpEvent } from '../common/base.ts';
+import { sleep } from '../common/utilityMethods.js';
+import { ShrimpClient, ShrimpEvent } from '../common/base.js';
 import { ActivityType, Colors, EmbedBuilder, bold } from 'discord.js';
 
 export default async function eventHandler(client: ShrimpClient): Promise<void> {
@@ -8,7 +8,7 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 		try {
 			const eventFolder = await readdir(client.paths.events);
 			return eventFolder.filter((file) => {
-				return file.endsWith('.ts');
+				return file.endsWith('.js');
 			});
 		} catch (error) {
 			client.handleError('Fetching events', error as Error);

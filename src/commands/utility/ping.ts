@@ -1,4 +1,4 @@
-import { ShrimpCommand } from '../../common/base.ts';
+import { ShrimpCommand } from '../../common/base.js';
 import { AttachmentBuilder, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 
 const pongGif = new AttachmentBuilder('src/assets/gifs/ping-pong.gif', {
