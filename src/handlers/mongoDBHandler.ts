@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import { client } from '../index.ts';
+import { client } from '../index.js';
 import { Colors, Guild } from 'discord.js';
-import { ShrimpClient } from '../common/base.ts';
-// import { formatTime } from '../common/utilityMethods.ts';
-import GuildSettings, { IGeneralCategory, IGuildSettingsSchema, ILogCategory } from '../models/guildSettings.ts';
+import { ShrimpClient } from '../common/base.js';
+// import { formatTime } from '../common/utilityMethods.js';
+import GuildSettings, { IGeneralCategory, IGuildSettingsSchema, ILogCategory } from '../models/guildSettings.js';
 
 export const testGuild = {
 	id: 'testGuild',
