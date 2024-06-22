@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
 import { ShrimpClient } from '../common/base.js';
 import { Colors, Guild } from 'discord.js';
-import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.js';
-import { formatTime } from '../common/utilityMethods.js';
+import GuildSettings, { IGeneralCategory, IGuildSettingsSchema, ILogCategory } from '../models/guildSettings.js';
+// import { formatTime } from '../common/utilityMethods.js';
+import { client } from '../index.js';
+
+export const testGuild = {
+	id: 'testGuild',
+	name: 'Test Guild',
+} as Guild;
 
 export default async function DBHandler(client: ShrimpClient): Promise<void> {
 	const uri = process.env.MONGO_DB_URI!;
@@ -17,21 +23,23 @@ export default async function DBHandler(client: ShrimpClient): Promise<void> {
 
 		client.infoLogger.info(`MongoDB: Connected to the database`);
 
-		const start = Date.now();
+		// const start = Date.now();
 
-		mongoose.connection.on('error', (error) => {
-			client.infoLogger.error(`MongoDB - ${error}`);
-		});
+		// TODO: Something broke here, fix it
 
-		mongoose.connection.on('disconnected', () => {
-			const end = Date.now();
+		// mongoose.connection.on('error', (error: Error) => {
+		// 	client.infoLogger.error(`MongoDB - ${error}`);
+		// });
 
-			client.infoLogger.error(`MongoDB - Disconnected from database (Connected for ${formatTime(end - start)})`);
-		});
+		// mongoose.connection.on('disconnected', () => {
+		// 	const end = Date.now();
 
-		mongoose.connection.on('reconnected', () => {
-			client.infoLogger.error(`MongoDB - Reconnected to the database`);
-		});
+		// 	client.infoLogger.error(`MongoDB - Disconnected from database (Connected for ${formatTime(end - start)})`);
+		// });
+
+		// mongoose.connection.on('reconnected', () => {
+		// 	client.infoLogger.error(`MongoDB - Reconnected to the database`);
+		// });
 	} catch (error) {
 		client.handleError('MongoDB', error as Error);
 	}
@@ -88,10 +96,54 @@ export async function generateDefaultSettings(guild: Guild): Promise<IGuildSetti
 	});
 }
 
-export async function updateDB(guild: Guild): Promise<void> {
+interface categories {
+	general: IGeneralCategory;
+	logging: ILogCategory;
+}
+
+export async function updateDB(guild: Guild, category: categories | null = null, testing: boolean): Promise<void> {
 	//TODO: Add function to update guildSettings in case new settings are added, keeping original settings as they were before
+	// category.logging.settings.enabled;
+
+	console.log(category);
+
+	if (testing) {
+		if (guild.id !== testGuild.id) {
+			client.errorLogger.error(`MongoDB - Test updateDB function was called with a guild that is not the test guild.`);
+			return;
+		}
+
+		if (await GuildSettings.exists({ guildId: guild.id })) {
+			const oldTestGuildSettings = await GuildSettings.findOne({ guildId: guild.id });
+
+			if (!oldTestGuildSettings) {
+				client.errorLogger.error(`MongoDB - Test guild settings were not found in the database.`);
+				return;
+			}
+
+			const setting = {
+				'categories.general.settings.embedColor.value': Colors.Purple,
+			};
+
+			const update = {
+				$set: setting,
+			};
+
+			await oldTestGuildSettings.updateOne(update);
+
+			client.infoLogger.info(`MongoDB - Updated Guildsettings for ${guild.name}`);
+			return;
+		}
+
+		const guildSettings = await generateDefaultSettings(guild);
+
+		client.infoLogger.info(`MongoDB - Added default Guildsettings for ${guildSettings.guildName}`);
+		return;
+	}
 
 	const oldGuildSettings = (await GuildSettings.findOne({ guildId: guild.id })) as IGuildSettingsSchema;
 
 	console.log(oldGuildSettings.categories.general);
+
+	return;
 }
