@@ -11,8 +11,9 @@
 	"packageManager": "pnpm@9.0.5",
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
-		"start": "clear && node --no-warnings --loader ts-node/esm -r dotenv/config src/index.ts dotenv_config_path=config/main.env",
-		"healthCheck": "node --no-warnings --loader ts-node/esm -r ./src/healthCheck.ts",
+		"watch": "tsc -p .",
+		"start": "clear && ts-node -r dotenv/config ./dist/index.js dotenv_config_path=config/main.env",
+		"healthCheck": "ts-node -r dotenv/config ./dist/healthCheck.js dotenv_config_path=config/main.env",
 		"deploy": "pnpm start deploy",
 		"reset": "pnpm start reset",
 		"generate-md": "pnpm start generate-md",

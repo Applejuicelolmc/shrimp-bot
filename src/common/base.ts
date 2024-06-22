@@ -31,13 +31,13 @@ export class ShrimpClient extends Client {
 	private _categories = new Collection<string, ShrimpCategory>();
 	private _logger = startLogger();
 	private _paths = {
-		assets: normalize(resolve('.', 'src', `assets`)),
-		commands: normalize(resolve('.', 'src', `commands`)),
-		common: normalize(resolve('.', 'src', `common`)),
-		events: normalize(resolve('.', 'src', `events`)),
-		handlers: normalize(resolve('.', 'src', `handlers`)),
-		models: normalize(resolve('.', 'src', `models`)),
-		types: normalize(resolve('.', 'src', `types`)),
+		assets: normalize(resolve('.', 'dist', `assets`)),
+		commands: normalize(resolve('.', 'dist', `commands`)),
+		common: normalize(resolve('.', 'dist', `common`)),
+		events: normalize(resolve('.', 'dist', `events`)),
+		handlers: normalize(resolve('.', 'dist', `handlers`)),
+		models: normalize(resolve('.', 'dist', `models`)),
+		types: normalize(resolve('.', 'dist', `types`)),
 	};
 
 	private _alertWebhook = new WebhookClient({
