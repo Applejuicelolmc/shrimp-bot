@@ -1,7 +1,7 @@
 import { readdir } from 'fs/promises';
-import { ShrimpClient, ShrimpEvent } from '../common/base.js';
+import { sleep } from '../common/utilityMethods.ts';
+import { ShrimpClient, ShrimpEvent } from '../common/base.ts';
 import { ActivityType, Colors, EmbedBuilder, bold } from 'discord.js';
-import { sleep } from '../common/utilityMethods.js';
 
 export default async function eventHandler(client: ShrimpClient): Promise<void> {
 	async function fetchEvents(): Promise<string[]> {

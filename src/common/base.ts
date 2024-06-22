@@ -4,6 +4,7 @@ import {
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	ButtonBuilder,
+	ButtonStyle,
 	ChannelType,
 	ChatInputCommandInteraction,
 	Client,
@@ -20,11 +21,10 @@ import {
 	bold,
 	codeBlock,
 } from 'discord.js';
+import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.ts';
+import { generateDefaultSettings } from '../handlers/mongoDBHandler.ts';
+import startLogger from '../handlers/logHandler.ts';
 import { normalize, resolve } from 'path';
-import startLogger from '../handlers/logHandler.js';
-import { ButtonStyle } from 'discord.js';
-import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.js';
-import { generateDefaultSettings } from '../handlers/mongoDBHandler.js';
 
 export class ShrimpClient extends Client {
 	private _commands = new Collection<string, ShrimpCommand>();

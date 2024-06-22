@@ -1,6 +1,6 @@
-import winston, { Container, format, loggers, transports } from 'winston';
 import chalk from 'chalk';
-import { formatDate, formatTime } from '../common/utilityMethods.js';
+import { formatDate, formatTime } from '../common/utilityMethods.ts';
+import winston, { Container, format, loggers, transports } from 'winston';
 
 export default function startLogger(): Container {
 	const { printf, timestamp, label, combine } = format;

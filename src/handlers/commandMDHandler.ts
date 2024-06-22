@@ -1,7 +1,7 @@
 import Mustache from 'mustache';
-import { ShrimpClient } from '../common/base.js';
-import { capitalize } from '../common/utilityMethods.js';
 import { EmojiResolvable } from 'discord.js';
+import { ShrimpClient } from '../common/base.ts';
+import { capitalize } from '../common/utilityMethods.ts';
 import { appendFile, readFile, writeFile } from 'fs/promises';
 
 export default async function commandMDGenerator(client: ShrimpClient) {

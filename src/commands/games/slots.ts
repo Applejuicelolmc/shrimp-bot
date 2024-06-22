@@ -10,8 +10,8 @@ import {
 	italic,
 	SlashCommandBuilder,
 } from 'discord.js';
-import { ShrimpCommand } from '../../common/base.js';
-import { sleep } from '../../common/utilityMethods.js';
+import { sleep } from '../../common/utilityMethods.ts';
+import { ShrimpCommand } from '../../common/base.ts';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction) {

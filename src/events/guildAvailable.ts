@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import { ShrimpEvent } from '../common/base.js';
+import { ShrimpEvent } from '../common/base.ts';
 
 export default <ShrimpEvent>{
 	name: Events.GuildAvailable,

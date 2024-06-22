@@ -1,8 +1,8 @@
+import { ShrimpClient } from './common/base.ts';
+import DBHandler from './handlers/mongoDBHandler.ts';
+import eventHandler from './handlers/eventHandler.ts';
+import commandHandler from './handlers/commandHandler.ts';
 import { ActivityType, Colors, EmbedBuilder, GatewayIntentBits, bold } from 'discord.js';
-import { ShrimpClient } from './common/base.js';
-import eventHandler from './handlers/eventHandler.js';
-import commandHandler from './handlers/commandHandler.js';
-import DBHandler from './handlers/mongoDBHandler.js';
 
 export const client = new ShrimpClient({
 	intents: [

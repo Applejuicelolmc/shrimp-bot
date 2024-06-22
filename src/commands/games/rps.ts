@@ -2,19 +2,21 @@ import {
 	ActionRowBuilder,
 	ApplicationCommandType,
 	AttachmentBuilder,
+	bold,
 	ButtonBuilder,
 	ButtonStyle,
 	Colors,
 	ComponentType,
 	ContextMenuCommandBuilder,
+	EmbedBuilder,
 	EmbedField,
 	GuildMember,
 	ImageURLOptions,
+	italic,
 	Message,
 	SlashCommandBuilder,
 } from 'discord.js';
-import { ShrimpCommand } from '../../common/base.js';
-import { EmbedBuilder, bold, italic } from '@discordjs/builders';
+import { ShrimpCommand } from '../../common/base.ts';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {

@@ -1,5 +1,3 @@
-import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder, TextChannel } from 'discord.js';
-import { ShrimpCommand } from '../../common/base.js';
 import GuildSettings, {
 	IBaseCategory,
 	IBooleanSetting,
@@ -8,7 +6,9 @@ import GuildSettings, {
 	ILogSettings,
 	ITextChannelSetting,
 	IWebhookSetting,
-} from '../../models/guildSettings.js';
+} from '../../models/guildSettings.ts';
+import { ChannelType, ChatInputCommandInteraction, SlashCommandBuilder, TextChannel } from 'discord.js';
+import { ShrimpCommand } from '../../common/base.ts';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {

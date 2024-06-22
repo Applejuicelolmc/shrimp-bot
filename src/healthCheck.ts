@@ -1,5 +1,5 @@
 import { Status } from 'discord.js';
-import { client } from './index.js';
+import { client } from './index.ts';
 
 let exitCode: number;
 
