@@ -2,6 +2,7 @@ FROM node:20-alpine AS base
 
 RUN apk update && \
 	apk upgrade && \
+	apk add openssh-client && \
 	apk add --update-cache git
 
 RUN npm i -g pnpm
