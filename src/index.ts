@@ -2,7 +2,7 @@ import { ShrimpClient } from './common/base.js';
 import DBHandler from './handlers/mongoDBHandler.js';
 import eventHandler from './handlers/eventHandler.js';
 import commandHandler from './handlers/commandHandler.js';
-import { ActivityType, Colors, EmbedBuilder, GatewayIntentBits, bold } from 'discord.js';
+import { ActivityType, GatewayIntentBits } from 'discord.js';
 
 export const client = new ShrimpClient({
 	intents: [
@@ -36,18 +36,6 @@ export const client = new ShrimpClient({
 	} catch (error) {
 		client.handleError('Login', error as Error);
 	}
-
-	await client.alertWebhook.send({
-		embeds: [
-			new EmbedBuilder()
-				.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
-				.addFields({
-					name: `${bold(`Event:`)}`,
-					value: `Logged in (PID: ${process.pid})`,
-				})
-				.setColor(Colors.Aqua),
-		],
-	});
 
 	if (process.argv.includes('update-avatar')) {
 		try {
