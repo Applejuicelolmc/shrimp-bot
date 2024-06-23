@@ -5,10 +5,6 @@ import { fetchCommands, loadCommands, resetCommands } from '../../handlers/comma
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
 		try {
-			if (interaction.user.id !== '298054641705549844') {
-				return;
-			}
-
 			await interaction.deferReply({ ephemeral: true });
 
 			await resetCommands(client);

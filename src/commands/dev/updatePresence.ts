@@ -4,10 +4,6 @@ import { ShrimpCommand } from '../../common/base.js';
 export default <ShrimpCommand>{
 	async execute(client, interaction: ChatInputCommandInteraction): Promise<void> {
 		try {
-			if (interaction.user.id !== '298054641705549844') {
-				return;
-			}
-
 			const title = interaction.options.getString('title');
 			const type = interaction.options.getInteger('type');
 

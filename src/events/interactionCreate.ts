@@ -1,5 +1,6 @@
 import { ShrimpEvent } from '../common/base.js';
 import { Colors, EmbedBuilder, Events, Interaction, bold } from 'discord.js';
+import { fetchCommands } from '../handlers/commandHandler.js';
 
 export default <ShrimpEvent>{
 	name: Events.InteractionCreate,
@@ -19,8 +20,16 @@ export default <ShrimpEvent>{
 				});
 			}
 
+			const devCommands = (await fetchCommands(client))[1];
+
 			try {
 				const startTime = process.hrtime();
+
+				if (devCommands.includes(cmd.slash)) {
+					if (interaction.user.id !== '298054641705549844') {
+						return;
+					}
+				}
 
 				await cmd.execute(client, interaction);
 

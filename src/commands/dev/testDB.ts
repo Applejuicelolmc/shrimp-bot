@@ -5,10 +5,6 @@ import { testGuild, updateDB } from '../../handlers/mongoDBHandler.js';
 export default <ShrimpCommand>{
 	async execute(client, interaction: ChatInputCommandInteraction): Promise<void> {
 		try {
-			if (interaction.user.id !== '298054641705549844') {
-				return;
-			}
-
 			await updateDB(testGuild, null, true);
 
 			client.getGuildSettings;
