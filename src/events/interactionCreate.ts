@@ -26,7 +26,7 @@ export default <ShrimpEvent>{
 				const startTime = process.hrtime();
 
 				if (devCommands.includes(cmd.slash)) {
-					if (interaction.user.id !== '298054641705549844') {
+					if (interaction.user.id !== process.env.DEV_ID) {
 						return;
 					}
 				}
