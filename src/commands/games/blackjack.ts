@@ -215,7 +215,6 @@ export default <ShrimpCommand>{
 				await dealer.hit();
 
 				if (dealer.handValue > 21) {
-					console.log('over!!!');
 					blackJackEmbed.data.fields![2] = playerOne.showHandField(true);
 
 					await interaction.editReply({
