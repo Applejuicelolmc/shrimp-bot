@@ -134,7 +134,7 @@ export default async function commandHandler(client: ShrimpClient): Promise<void
 		await loadCommands(client, commands);
 	}
 
-	if (process.argv.includes('genenerate-md')) {
+	if (process.argv.includes('generate-md')) {
 		await commandMDGenerator(client);
 	}
 
