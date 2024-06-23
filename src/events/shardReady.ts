@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import { ShrimpEvent } from '../common/base.ts';
+import { ShrimpEvent } from '../common/base.js';
 
 export default <ShrimpEvent>{
 	name: Events.ShardReady,
@@ -11,6 +11,7 @@ export default <ShrimpEvent>{
 
 		try {
 			client.infoLogger.info(`Shard ready: ${args}`);
+			client.setHealthStatus(true);
 			return; // TODO: Do something with this
 		} catch (error) {
 			client.handleError('shardReady event', error as Error);

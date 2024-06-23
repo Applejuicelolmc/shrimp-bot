@@ -11,6 +11,7 @@ export default <ShrimpEvent>{
 
 		try {
 			client.infoLogger.info(`Shard resumed: ${args}`);
+			client.setHealthStatus(true);
 			return; // TODO: Do something with this
 		} catch (error) {
 			client.handleError('shardResume event', error as Error);

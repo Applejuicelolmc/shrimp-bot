@@ -25,6 +25,7 @@ import GuildSettings, { IGuildSettingsSchema } from '../models/guildSettings.js'
 import { generateDefaultSettings } from '../handlers/mongoDBHandler.js';
 import startLogger from '../handlers/logHandler.js';
 import { normalize, resolve } from 'path';
+import fs from 'fs';
 
 export class ShrimpClient extends Client {
 	private _commands = new Collection<string, ShrimpCommand>();
@@ -151,6 +152,27 @@ export class ShrimpClient extends Client {
 			}
 		} catch (error) {
 			this.handleError('change avatar', error as Error);
+		}
+	}
+
+	setHealthStatus(setHealthy: boolean) {
+		const unHealthyExists = fs.existsSync('config/unhealthy');
+
+		this.infoLogger.info(`Setting healthy status to: ${setHealthy}`);
+		this.infoLogger.info(`Unhealthy file exists: ${unHealthyExists}`);
+
+		if (setHealthy && unHealthyExists) {
+			try {
+				fs.rmSync(`config/unhealthy`);
+			} catch (error) {
+				this.handleError('Setting health status to true', error as Error);
+			}
+		} else if (!setHealthy && !unHealthyExists) {
+			try {
+				fs.writeFileSync(`config/unhealthy`, '');
+			} catch (error) {
+				this.handleError('Setting health status to false', error as Error);
+			}
 		}
 	}
 

@@ -11,6 +11,7 @@ export default <ShrimpEvent>{
 
 		try {
 			client.infoLogger.info(`Shard error: ${args}`);
+			client.setHealthStatus(false);
 			return; // TODO: Do something with this
 		} catch (error) {
 			client.handleError('shardError event', error as Error);

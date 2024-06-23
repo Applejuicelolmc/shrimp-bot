@@ -11,6 +11,7 @@ export default <ShrimpEvent>{
 
 		try {
 			client.infoLogger.info(`Shard disconnected: ${args}`);
+			client.setHealthStatus(false);
 			return; // TODO: Do something with this
 		} catch (error) {
 			client.handleError('shardDisconnect event', error as Error);
