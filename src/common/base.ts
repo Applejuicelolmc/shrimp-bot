@@ -41,6 +41,24 @@ export class ShrimpClient extends Client {
 		types: normalize(resolve('.', 'dist', `types`)),
 	};
 
+	private _gifs = {
+		avatar: new AttachmentBuilder(`src/assets/gifs/avatar.gif`, {
+			name: 'avatar.gif',
+		}),
+		bust: new AttachmentBuilder(`src/assets/gifs/bust.gif`, {
+			name: 'bust.gif',
+		}),
+		draw: new AttachmentBuilder(`src/assets/gifs/draw.gif`, {
+			name: 'draw.gif',
+		}),
+		pingpong: new AttachmentBuilder(`src/assets/gifs/ping-pong.gif`, {
+			name: 'ping-pong.gif',
+		}),
+		whoyou: new AttachmentBuilder(`src/assets/gifs/who-you.gif`, {
+			name: 'who-you.gif',
+		}),
+	};
+
 	private _alertWebhook = new WebhookClient({
 		url: process.env.ALERT_WEBHOOK_URL as string,
 	});
@@ -103,6 +121,10 @@ export class ShrimpClient extends Client {
 
 	get paths() {
 		return this._paths;
+	}
+
+	get gifs() {
+		return this._gifs;
 	}
 
 	get defaultPresence() {
