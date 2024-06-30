@@ -3,6 +3,7 @@ import {
 	ActivityType,
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
+	AttachmentBuilder,
 	ButtonBuilder,
 	ButtonStyle,
 	ChannelType,
@@ -29,6 +30,7 @@ import fs from 'fs';
 
 export class ShrimpClient extends Client {
 	private _commands = new Collection<string, ShrimpCommand>();
+	private _devCommands = new Collection<string, ShrimpCommand>();
 	private _categories = new Collection<string, ShrimpCategory>();
 	private _logger = startLogger();
 	private _paths = {
@@ -97,6 +99,10 @@ export class ShrimpClient extends Client {
 
 	get commands(): Collection<string, ShrimpCommand> {
 		return this._commands;
+	}
+
+	get devCommands(): Collection<string, ShrimpCommand> {
+		return this._devCommands;
 	}
 
 	get categories(): Collection<string, ShrimpCategory> {

@@ -48,7 +48,7 @@ export async function fetchCommands(client: ShrimpClient): Promise<[mixedCommand
 		for (const commandFile of commandFiles) {
 			const command = (await import(`${client.paths.commands}/${category}/${commandFile}`)).default as ShrimpCommand;
 
-			client.commands.set(command.slash.name, command);
+			category === 'dev' ? client.devCommands.set(command.slash.name, command) : client.commands.set(command.slash.name, command);
 
 			sortedCategories[sortedCategories.length - 1].info.commandNames.push(command.slash.name);
 
