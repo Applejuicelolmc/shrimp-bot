@@ -7,8 +7,8 @@ import { appendFile, readFile, writeFile } from 'fs/promises';
 export default async function commandMDGenerator(client: ShrimpClient) {
 	const mustacheTemplatePath = `src/common/command.mustache`;
 
-	const mdTableHeaderString = '| Command | Description |'; // TODO: Implement options ( Option Name | Option Description | Option Type | Required |)
-	const mdTableSeparatorString = '|:--------|-------------|'; // TODO: Implement options (-------------|--------------------|-------------|----------|)
+	const mdTableHeaderString = '| Command | Subcommand | Description |'; // TODO: Implement options ( Option Name | Option Description | Option Type | Required |)
+	const mdTableSeparatorString = '|:--------|------------|-------------|'; // TODO: Implement options (-------------|--------------------|-------------|----------|)
 	interface IMustacheData {
 		category: string;
 		position: number;
@@ -36,32 +36,26 @@ export default async function commandMDGenerator(client: ShrimpClient) {
 				commands: [],
 			};
 
-			for await (const command of client.commands) {
-				if (!categoryInfo.info.commandNames.includes(command[0])) {
+			for await (const [name, command] of client.commands) {
+				if (!categoryInfo.info.commandNames.includes(name)) {
 					continue;
 				}
 
-				const dataString = `| ${command[1].slash.name} | ${command[1].slash.description} |`;
-
-				// TODO: Implement options, for later :)
-
-				// if (command[1].slash.options) {
-				//
-				// 	if (command[1].slash.options.length > 1) {
-				// 		dataString += `| | | |`;
-				// 	}
-
-				// 	for (const option of command[1].slash.options) {
-				// 		const optionObject = option.toJSON();
-				// 		dataString += ` ${optionObject.name} | ${optionObject.description} | ${optionObject.type} | ${optionObject.required ? 'Yes' : 'No'}`;
-
-				// 		if (command[1].slash.options.length <= 2) {
-				// 			dataString = `| | |`;
-				// 		}
-				// 	}
-				// }
+				let dataString = `| ${command.slash.name} | | ${command.slash.description} |`;
 
 				mustacheData.commands.push(dataString);
+
+				for (let option of command.slash.options) {
+					if (option.hasOwnProperty('options')) {
+						// Only subcommands have options, until discord.js updates. See you until then ;)
+						const subName = option.toJSON().name;
+						const subDescription = option.toJSON().description;
+
+						dataString = `| ${command.slash.name} | ${subName} | ${subDescription} |`;
+
+						mustacheData.commands.push(dataString);
+					}
+				}
 			}
 
 			const data = await readFile(mustacheTemplatePath);
