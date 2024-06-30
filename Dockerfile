@@ -19,9 +19,8 @@ RUN pnpm install
 COPY . /home/shrimp-bot/src/shrimp
 
 RUN pnpm run watch
-RUN pnpm run deploy
 
 HEALTHCHECK --interval=12s --timeout=12s --start-period=30s \  
 	CMD pnpm run healthCheck
 
-CMD pnpm start
+CMD pnpm run deploy
