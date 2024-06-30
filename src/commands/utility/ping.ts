@@ -1,9 +1,5 @@
 import { ShrimpCommand } from '../../common/base.js';
-import { AttachmentBuilder, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
-
-const pongGif = new AttachmentBuilder('src/assets/gifs/ping-pong.gif', {
-	name: 'ping-pong.gif',
-});
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
@@ -22,7 +18,7 @@ export default <ShrimpCommand>{
 
 			await interaction.followUp({
 				embeds: [pingEmbed],
-				files: [pongGif],
+				files: [client.gifs.pingpong],
 			});
 
 			const msg = await interaction.fetchReply();

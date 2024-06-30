@@ -1,7 +1,6 @@
 import {
 	ActionRowBuilder,
 	ApplicationCommandType,
-	AttachmentBuilder,
 	bold,
 	ButtonBuilder,
 	ButtonStyle,
@@ -30,10 +29,6 @@ export default <ShrimpCommand>{
 			size: 4096,
 			forceStatic: false,
 		};
-
-		const drawGif = new AttachmentBuilder('src/assets/gifs/draw.gif', {
-			name: 'draw.gif',
-		});
 
 		function deniedEmbed(text: string) {
 			return new EmbedBuilder().setColor(Colors.Red).setDescription(`${client.customEmojis.get('981339000705024040')} ${text}`);
@@ -298,7 +293,7 @@ export default <ShrimpCommand>{
 									})
 									.setThumbnail('attachment://draw.gif'),
 							],
-							files: [drawGif],
+							files: [client.gifs.draw],
 							components: [],
 						});
 					}
@@ -565,7 +560,7 @@ export default <ShrimpCommand>{
 											})
 											.setThumbnail('attachment://draw.gif'),
 									],
-									files: [drawGif],
+									files: [client.gifs.draw],
 									components: [],
 								});
 							}
