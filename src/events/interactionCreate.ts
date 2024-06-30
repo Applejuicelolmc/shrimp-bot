@@ -1,6 +1,5 @@
 import { ShrimpEvent } from '../common/base.js';
 import { Colors, EmbedBuilder, Events, Interaction, bold } from 'discord.js';
-import { fetchCommands } from '../handlers/commandHandler.js';
 
 export default <ShrimpEvent>{
 	name: Events.InteractionCreate,
@@ -12,43 +11,44 @@ export default <ShrimpEvent>{
 
 		if (interaction.isChatInputCommand() || interaction.isUserContextMenuCommand()) {
 			const cmd = client.commands.get(interaction.commandName);
+			const devCmd = client.devCommands.get(interaction.commandName);
 
-			if (!cmd) {
+			if (!cmd && !devCmd) {
 				return interaction.reply({
-					content: 'This command is outdated, try again later',
+					content: 'This command is not loaded for now, try again later',
 					ephemeral: true,
 				});
 			}
 
-			const devCommands = (await fetchCommands(client))[1];
+			if (devCmd && interaction.user.id !== process.env.DEV_ID) {
+				return interaction.reply({
+					embeds: [
+						new EmbedBuilder()
+							.setTitle('Error')
+							.setColor(Colors.Red)
+							.setDescription(`You don't have permission to use this command!`)
+							.setImage('attachment://who-you.gif'),
+					],
+					files: [client.gifs.whoyou],
+					ephemeral: true,
+				});
+			}
 
 			try {
 				const startTime = process.hrtime();
 
-				if (devCommands.includes(cmd.slash)) {
-					if (interaction.user.id !== process.env.DEV_ID) {
-						return;
-					}
+				if (cmd) {
+					await cmd.execute(client, interaction);
 				}
 
-				await cmd.execute(client, interaction);
+				if (devCmd && interaction.user.id === process.env.DEV_ID) {
+					await devCmd.execute(client, interaction);
+				}
 
 				const totalTime = process.hrtime(startTime);
 
 				if (process.env.ENVIRONMENT === 'development') {
 					client.infoLogger.info(`${interaction.commandName} by ${interaction.user.displayName} (~${totalTime[1] / 1000000}ms)`);
-
-					await client.alertWebhook.send({
-						embeds: [
-							new EmbedBuilder()
-								.setTitle(`${bold(`INFO | <t:${Math.round(Date.now() / 1000)}:R>`)}`)
-								.addFields({
-									name: `Interaction:`,
-									value: `/${interaction.commandName} by ${interaction.user.displayName} (~${totalTime[1] / 1000000}ms)`,
-								})
-								.setColor(Colors.Aqua),
-						],
-					});
 				}
 			} catch (error) {
 				client.handleError(`Couldn't execute command`, error as Error);
