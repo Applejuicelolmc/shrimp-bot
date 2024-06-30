@@ -5,7 +5,7 @@ import { capitalize } from '../common/utilityMethods.js';
 import { appendFile, readFile, writeFile } from 'fs/promises';
 
 export default async function commandMDGenerator(client: ShrimpClient) {
-	const mustacheTemplatePath = `${client.paths.common}/command.mustache`;
+	const mustacheTemplatePath = `src/common/command.mustache`;
 
 	const mdTableHeaderString = '| Command | Description |'; // TODO: Implement options ( Option Name | Option Description | Option Type | Required |)
 	const mdTableSeparatorString = '|:--------|-------------|'; // TODO: Implement options (-------------|--------------------|-------------|----------|)
