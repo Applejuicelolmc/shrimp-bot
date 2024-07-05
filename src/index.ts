@@ -8,11 +8,8 @@ export const client = new ShrimpClient({
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent,
 		GatewayIntentBits.GuildEmojisAndStickers,
-		GatewayIntentBits.GuildMembers,
 		GatewayIntentBits.GuildIntegrations,
-		GatewayIntentBits.GuildPresences,
 		GatewayIntentBits.GuildWebhooks,
 		GatewayIntentBits.GuildMessageReactions,
 	],
