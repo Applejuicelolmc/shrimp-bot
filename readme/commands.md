@@ -7,7 +7,9 @@ Usefull commands
 | Command | Subcommand | Description |
 |:--------|------------|-------------|
 | config | | View&#x2F;edit the bot configuration for this server |
+| info | | Calculates current ping. |
 | ping | | Calculates current ping. |
+| prank | | Prank your friends with a fake message. |
 | setlogchannel | | Set log channel |
 
 ## 🎲 Games
