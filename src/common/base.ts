@@ -93,6 +93,11 @@ export class ShrimpClient extends Client {
 		stop: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Stop').setCustomId('stop-button'),
 	};
 
+	private _imageOptions: ImageURLOptions = {
+		size: 4096,
+		forceStatic: false,
+	};
+
 	private _guildEmoji() {
 		return this.emojis.cache;
 	}
@@ -143,6 +148,10 @@ export class ShrimpClient extends Client {
 
 	get buttons() {
 		return this._buttons;
+	}
+
+	get imageOptions() {
+		return this._imageOptions;
 	}
 
 	get customEmojis() {

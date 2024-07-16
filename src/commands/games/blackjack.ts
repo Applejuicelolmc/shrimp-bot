@@ -40,11 +40,6 @@ export default <ShrimpCommand>{
 			return new EmbedBuilder().setColor(Colors.Red).setDescription(`${client.customEmojis.get('981339000705024040')} ${text}`);
 		}
 
-		const imageOptions: ImageURLOptions = {
-			size: 4096,
-			forceStatic: false,
-		};
-
 		const hitButton = new ButtonBuilder({
 			style: ButtonStyle.Success,
 			customId: 'hit-button',
@@ -116,7 +111,7 @@ export default <ShrimpCommand>{
 					embeds: [
 						blackJackEmbed.setFooter({
 							text: `${this.name} chose to hit!`,
-							iconURL: this.member.displayAvatarURL(imageOptions),
+							iconURL: this.member.displayAvatarURL(client.imageOptions),
 						}),
 					],
 					components: this.position === 2 ? [buttonRow] : [],
@@ -173,9 +168,9 @@ export default <ShrimpCommand>{
 							blackJackEmbed
 								.setFooter({
 									text: this.position === 2 ? `${this.name} got 21, the dealer will try to tie` : `${this.name} got 21 and won!`,
-									iconURL: this.member.displayAvatarURL(imageOptions),
+									iconURL: this.member.displayAvatarURL(client.imageOptions),
 								})
-								.setThumbnail(this.member.displayAvatarURL(imageOptions)),
+								.setThumbnail(this.member.displayAvatarURL(client.imageOptions)),
 						],
 						components: [],
 					});
@@ -222,9 +217,9 @@ export default <ShrimpCommand>{
 							blackJackEmbed
 								.setFooter({
 									text: `${dealer.name} got busted! ${playerOne.name} won!`,
-									iconURL: playerOne.member.displayAvatarURL(imageOptions),
+									iconURL: playerOne.member.displayAvatarURL(client.imageOptions),
 								})
-								.setThumbnail(playerOne.member.displayAvatarURL(imageOptions)),
+								.setThumbnail(playerOne.member.displayAvatarURL(client.imageOptions)),
 						],
 						components: [],
 					});
@@ -244,7 +239,7 @@ export default <ShrimpCommand>{
 						embeds: [
 							blackJackEmbed.setFooter({
 								text: `This match ended in a draw!`,
-								iconURL: playerOne.member.displayAvatarURL(imageOptions),
+								iconURL: playerOne.member.displayAvatarURL(client.imageOptions),
 							}),
 						],
 						components: [],
@@ -277,9 +272,9 @@ export default <ShrimpCommand>{
 							blackJackEmbed
 								.setFooter({
 									text: `${dealer.name} has the highest hand and won!`,
-									iconURL: dealer.member.displayAvatarURL(imageOptions),
+									iconURL: dealer.member.displayAvatarURL(client.imageOptions),
 								})
-								.setThumbnail(dealer.member.displayAvatarURL(imageOptions)),
+								.setThumbnail(dealer.member.displayAvatarURL(client.imageOptions)),
 						],
 						components: [],
 					});
@@ -327,9 +322,9 @@ export default <ShrimpCommand>{
 									blackJackEmbed
 										.setFooter({
 											text: `${playerOne.name} got busted! ${dealer.name} won!`,
-											iconURL: dealer.member.displayAvatarURL(imageOptions),
+											iconURL: dealer.member.displayAvatarURL(client.imageOptions),
 										})
-										.setThumbnail(dealer.member.displayAvatarURL(imageOptions)),
+										.setThumbnail(dealer.member.displayAvatarURL(client.imageOptions)),
 								],
 								components: [],
 							});
@@ -345,9 +340,9 @@ export default <ShrimpCommand>{
 									blackJackEmbed
 										.setFooter({
 											text: `${playerOne.name} got 21 and won!`,
-											iconURL: playerOne.member.displayAvatarURL(imageOptions),
+											iconURL: playerOne.member.displayAvatarURL(client.imageOptions),
 										})
-										.setThumbnail(playerOne.member.displayAvatarURL(imageOptions)),
+										.setThumbnail(playerOne.member.displayAvatarURL(client.imageOptions)),
 								],
 								components: [],
 							});
@@ -384,7 +379,7 @@ export default <ShrimpCommand>{
 							embeds: [
 								blackJackEmbed.setDescription(`${playerOne.name} didn't respond in time, maybe another time ${playerOne.name}`).setFooter({
 									text: `${playerOne.name} didn't respond in time...`,
-									iconURL: playerOne.member.displayAvatarURL(imageOptions),
+									iconURL: playerOne.member.displayAvatarURL(client.imageOptions),
 								}),
 							],
 							components: [],
