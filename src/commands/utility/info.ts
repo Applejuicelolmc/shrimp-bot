@@ -1,6 +1,6 @@
 import { env } from 'process';
 import { ShrimpCommand } from '../../common/base.js';
-import { bold, EmbedBuilder, italic, SlashCommandBuilder, User } from 'discord.js';
+import { bold, EmbedBuilder, italic, SlashCommandBuilder } from 'discord.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
@@ -62,9 +62,10 @@ export default <ShrimpCommand>{
 			});
 
 		try {
+			await interaction.deferReply({ ephemeral: true });
+
 			await interaction.followUp({
 				embeds: [infoEmbed],
-				ephemeral: true,
 			});
 		} catch (error) {
 			client.handleError('Info command', error as Error);
