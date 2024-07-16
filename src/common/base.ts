@@ -225,10 +225,8 @@ export class ShrimpClient extends Client {
 	}
 
 	setHealthStatus(setHealthy: boolean) {
+		// TODO Fix permission error inside docker container when setting to false might be a bad path ¯\_(ツ)_/¯
 		const unHealthyExists = fs.existsSync('config/unhealthy');
-
-		this.infoLogger.info(`Setting healthy status to: ${setHealthy}`);
-		this.infoLogger.info(`Unhealthy file exists: ${unHealthyExists}`);
 
 		if (setHealthy && unHealthyExists) {
 			try {
@@ -239,6 +237,7 @@ export class ShrimpClient extends Client {
 		} else if (!setHealthy && !unHealthyExists) {
 			try {
 				fs.writeFileSync(`config/unhealthy`, '');
+				this.infoLogger.info(`Setting healthy status to: ${setHealthy}`);
 			} catch (error) {
 				this.handleError('Setting health status to false', error as Error);
 			}
@@ -285,6 +284,7 @@ export interface ShrimpCategory {
 export interface ShrimpCommand {
 	execute(client: ShrimpClient, interaction: ChatInputCommandInteraction | UserContextMenuCommandInteraction): Promise<void>;
 	slash: SlashCommandBuilder;
+	autocomplete?(client: ShrimpClient, interaction: AutocompleteInteraction): Promise<void>;
 	context?: ContextMenuCommandBuilder;
 }
 
