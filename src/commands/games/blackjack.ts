@@ -137,6 +137,8 @@ export default <ShrimpCommand>{
 				const royalCards = ['jack', 'queen', 'king'];
 
 				for (const card of this.hand) {
+					aceValue = 11;
+
 					if (royalCards.some((special) => card.toLowerCase().includes(special))) {
 						this.handValue += 10;
 					} else if (!card.toLowerCase().includes('ace')) {
@@ -145,11 +147,18 @@ export default <ShrimpCommand>{
 
 					if (card.toLowerCase().includes('ace')) {
 						aceCounter++;
+
 						this.handValue += aceValue;
 
 						if (this.handValue > 21) {
-							aceValue = 1;
-							this.handValue -= 10;
+							for (const subCard of this.hand) {
+								if (subCard.toLowerCase().includes('ace') && aceCounter === 1) {
+									aceValue = 1;
+									this.handValue -= 10;
+								} else if (subCard.toLowerCase().includes('ace') && aceCounter === 2) {
+									aceValue === 11;
+								}
+							}
 						}
 
 						if (aceValue === 1 && aceCounter === 2) {
@@ -209,7 +218,7 @@ export default <ShrimpCommand>{
 			while (dealer.handValue <= 16) {
 				await dealer.hit();
 
-				if (dealer.handValue > 21) {
+				if (dealer.handValue > 21 && playerOne.handValue <= 21) {
 					blackJackEmbed.data.fields![2] = playerOne.showHandField(true);
 
 					await interaction.editReply({
@@ -225,13 +234,35 @@ export default <ShrimpCommand>{
 					});
 
 					return;
+				} else if (dealer.handValue > 21 && playerOne.handValue > 21) {
+					blackJackEmbed.data.fields![2] = playerOne.showHandField();
+
+					await interaction.editReply({
+						embeds: [
+							blackJackEmbed
+								.setFooter({
+									text: `${dealer.name} and ${playerOne.name} got busted!`,
+									iconURL: dealer.member.displayAvatarURL(client.imageOptions),
+								})
+								.setThumbnail(dealer.member.displayAvatarURL(client.imageOptions)),
+						],
+						components: [],
+					});
+
+					return;
 				}
 			}
 
 			dealer.stand();
 
+			await interaction.editReply({
+				embeds: [blackJackEmbed.setFooter({ text: `${dealer.name} chose to stand!` })],
+				components: [],
+			});
+
 			if (playerOne.status === 'DONE' && dealer.status === 'DONE') {
 				if (playerOne.handValue === dealer.handValue) {
+					// Draw
 					blackJackEmbed.data.fields![0] = dealer.showHandField(true);
 					blackJackEmbed.data.fields![2] = playerOne.showHandField(true);
 
@@ -244,34 +275,67 @@ export default <ShrimpCommand>{
 						],
 						components: [],
 					});
-				}
 
-				if (await dealer.checkWin()) {
 					return;
 				}
 
-				if (playerOne.handValue > dealer.handValue) {
+				if (await dealer.checkWin()) {
+					//blackJack
+					return;
+				}
+
+				if (playerOne.handValue > dealer.handValue && playerOne.handValue <= 21) {
+					// player > dealer => player win
 					blackJackEmbed.data.fields![2] = playerOne.showHandField(true);
 					await interaction.editReply({
 						embeds: [
 							blackJackEmbed
 								.setFooter({
 									text: `${playerOne.name} has the highest hand and won!`,
-									iconURL: playerOne.member.displayAvatarURL(imageOptions),
+									iconURL: playerOne.member.displayAvatarURL(client.imageOptions),
 								})
-								.setThumbnail(playerOne.member.displayAvatarURL(imageOptions)),
+								.setThumbnail(playerOne.member.displayAvatarURL(client.imageOptions)),
+						],
+						components: [],
+					});
+				} else if (playerOne.handValue < dealer.handValue && dealer.handValue > 21) {
+					// dealer bust => player win
+					blackJackEmbed.data.fields![2] = playerOne.showHandField(true);
+					await interaction.editReply({
+						embeds: [
+							blackJackEmbed
+								.setFooter({
+									text: `${dealer.name} busted! ${playerOne.name} won!`,
+									iconURL: playerOne.member.displayAvatarURL(client.imageOptions),
+								})
+								.setThumbnail(playerOne.member.displayAvatarURL(client.imageOptions)),
 						],
 						components: [],
 					});
 				}
 
-				if (dealer.handValue > playerOne.handValue) {
+				if (dealer.handValue > playerOne.handValue && dealer.handValue <= 21) {
+					// dealer > player => dealer win
 					blackJackEmbed.data.fields![0] = dealer.showHandField(true);
 					await interaction.editReply({
 						embeds: [
 							blackJackEmbed
 								.setFooter({
 									text: `${dealer.name} has the highest hand and won!`,
+									iconURL: dealer.member.displayAvatarURL(client.imageOptions),
+								})
+								.setThumbnail(dealer.member.displayAvatarURL(client.imageOptions)),
+						],
+						components: [],
+					});
+				} else if (dealer.handValue < playerOne.handValue && playerOne.handValue > 21) {
+					// player bust => dealer win
+					blackJackEmbed.data.fields![0] = dealer.showHandField(true);
+					await interaction.editReply({
+						embeds: [
+							blackJackEmbed
+								.setFooter({
+									text: `${playerOne.name} busted! ${dealer.name} won!`,
 									iconURL: dealer.member.displayAvatarURL(client.imageOptions),
 								})
 								.setThumbnail(dealer.member.displayAvatarURL(client.imageOptions)),
@@ -321,7 +385,7 @@ export default <ShrimpCommand>{
 								embeds: [
 									blackJackEmbed
 										.setFooter({
-											text: `${playerOne.name} got busted! ${dealer.name} won!`,
+											text: `${playerOne.name} got busted! ${dealer.name} will continue!`,
 											iconURL: dealer.member.displayAvatarURL(client.imageOptions),
 										})
 										.setThumbnail(dealer.member.displayAvatarURL(client.imageOptions)),
@@ -368,6 +432,8 @@ export default <ShrimpCommand>{
 			});
 
 			buttonCollector.on('end', async (_collected, reason) => {
+				client.user?.setPresence(client.defaultPresence);
+
 				switch (reason) {
 					case 'time':
 						if (playerOne.handValue === 21) {
@@ -386,11 +452,11 @@ export default <ShrimpCommand>{
 						});
 						break;
 
-					case 'stand':
-						await dealerTurn();
-						break;
-
 					case 'end':
+					case 'stand':
+						playerOne.status = 'DONE';
+
+						await dealerTurn();
 						break;
 
 					default:
