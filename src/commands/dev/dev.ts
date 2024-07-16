@@ -35,12 +35,22 @@ export default <ShrimpCommand>{
 				}
 			}
 
-			async function updatePresence() {
+			async function updatePresence(defaultPresence: boolean = false) {
 				try {
 					const title = interaction.options.getString('title');
 					const type = interaction.options.getInteger('type');
 
 					await interaction.deferReply({ ephemeral: true });
+
+					if (defaultPresence) {
+						client.user?.setPresence(client.defaultPresence);
+
+						await interaction.editReply({
+							content: 'Successfully reset presence!',
+						});
+
+						return;
+					}
 
 					client.user?.setPresence({
 						status: 'idle',
