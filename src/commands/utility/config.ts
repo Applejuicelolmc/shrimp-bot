@@ -149,14 +149,16 @@ export default <ShrimpCommand>{
 						return;
 					}
 
-					await interaction.editReply({
-						embeds: [
-							LastEmbed.setFooter({
-								text: `This interaction has expired`,
-							}),
-						],
-						components: [],
-					});
+					if (interaction.isRepliable()) {
+						await interaction.editReply({
+							embeds: [
+								LastEmbed.setFooter({
+									text: `This interaction has expired`,
+								}),
+							],
+							components: [],
+						});
+					}
 				}
 			});
 
@@ -165,13 +167,15 @@ export default <ShrimpCommand>{
 					return;
 				}
 
-				await interaction.editReply({
-					embeds: [
-						LastEmbed.setFooter({
-							text: `Select a category from the menu below. (${timeLimit / 60000} minutes remaining)`,
-						}),
-					],
-				});
+				if (interaction.isRepliable()) {
+					await interaction.editReply({
+						embeds: [
+							LastEmbed.setFooter({
+								text: `Select a category from the menu below. (${timeLimit / 60000} minutes remaining)`,
+							}),
+						],
+					});
+				}
 
 				await sleep(60000);
 
