@@ -14,7 +14,7 @@
 		"watch": "tsc -p .",
 		"start": "clear && node --no-warnings -r dotenv/config ./dist/index.js dotenv_config_path=config/main.env",
 		"healthCheck": "node -r dotenv/config ./dist/healthCheck.js dotenv_config_path=config/main.env",
-		"deploy": "pnpm start deploy",
+		"deploycmd": "pnpm start deploy",
 		"reset": "pnpm start reset",
 		"generate-md": "pnpm start generate-md",
 		"update-avatar": "pnpm start update-avatar",
