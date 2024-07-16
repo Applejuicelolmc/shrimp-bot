@@ -1,7 +1,7 @@
-import { ActivityType, ChatInputCommandInteraction, ColorResolvable, Colors, GuildBasedChannel, SlashCommandBuilder } from 'discord.js';
+import { ActivityType, ChatInputCommandInteraction, Colors, SlashCommandBuilder } from 'discord.js';
 import { ShrimpCommand } from '../../common/base.js';
 import { fetchCommands, loadCommands, resetCommands } from '../../handlers/commandHandler.js';
-import { emdedColorUpdateSetting, settingPaths, testGuild, updateDB } from '../../handlers/mongoDBHandler.js';
+import { settingPaths, testGuild, updateDB } from '../../handlers/mongoDBHandler.js';
 
 export default <ShrimpCommand>{
 	async autocomplete(client, interaction) {
