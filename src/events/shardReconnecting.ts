@@ -12,7 +12,7 @@ export default <ShrimpEvent>{
 		try {
 			client.infoLogger.info(`Shard reconnecting: ${args}`);
 			client.setHealthStatus(true);
-			return; // TODO: Do something with this
+			return;
 		} catch (error) {
 			client.handleError('shardReconnecting event', error as Error);
 		}
