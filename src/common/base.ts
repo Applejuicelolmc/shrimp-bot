@@ -31,6 +31,7 @@ import { normalize, resolve } from 'path';
 import fs from 'fs';
 
 export class ShrimpClient extends Client {
+	private _startDateTime = (Date.now() / 1000).toString().slice(0, 10);
 	private _commands = new Collection<string, ShrimpCommand>();
 	private _devCommands = new Collection<string, ShrimpCommand>();
 	private _categories = new Collection<string, ShrimpCategory>();
@@ -124,6 +125,10 @@ export class ShrimpClient extends Client {
 
 	private _guildEmoji() {
 		return this.emojis.cache;
+	}
+
+	get startDateTime() {
+		return this._startDateTime;
 	}
 
 	get commands(): Collection<string, ShrimpCommand> {
