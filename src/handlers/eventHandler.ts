@@ -49,16 +49,7 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 					timesSent += 1;
 					client.infoLogger.info(`Got ctrl-c\`d :c (PID: ${process.pid})`);
 
-					client.user?.setPresence({
-						status: 'invisible',
-						afk: false,
-						activities: [
-							{
-								name: `Logging off (PID: ${process.pid})`,
-								type: ActivityType.Custom,
-							},
-						],
-					});
+					client.user?.setPresence(client.logOutPresence);
 
 					await client.alertWebhook.send({
 						embeds: [
@@ -81,16 +72,7 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 			process.on('SIGTERM', async () => {
 				client.infoLogger.info('Container got shut down');
 
-				client.user?.setPresence({
-					status: 'invisible',
-					afk: false,
-					activities: [
-						{
-							name: `Logging off (PID: ${process.pid})`,
-							type: ActivityType.Custom,
-						},
-					],
-				});
+				client.user?.setPresence(client.logOutPresence);
 
 				await client.alertWebhook.send({
 					embeds: [

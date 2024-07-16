@@ -4,6 +4,7 @@ import {
 	ApplicationCommandOptionType,
 	ApplicationCommandType,
 	AttachmentBuilder,
+	AutocompleteInteraction,
 	ButtonBuilder,
 	ButtonStyle,
 	ChannelType,
@@ -15,6 +16,7 @@ import {
 	EmbedBuilder,
 	EmojiResolvable,
 	Guild,
+	ImageURLOptions,
 	PresenceData,
 	SlashCommandBuilder,
 	UserContextMenuCommandInteraction,
@@ -65,6 +67,17 @@ export class ShrimpClient extends Client {
 		url: process.env.ALERT_WEBHOOK_URL as string,
 	});
 
+	private _preLoginPresence: PresenceData = {
+		status: 'dnd',
+		afk: false,
+		activities: [
+			{
+				name: `Starting up...`,
+				type: ActivityType.Custom,
+			},
+		],
+	};
+
 	private _defaultPresence: PresenceData = {
 		status: 'idle',
 		afk: false,
@@ -72,6 +85,17 @@ export class ShrimpClient extends Client {
 			{
 				name: `Flying to da moon 🪐`,
 				url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+				type: ActivityType.Custom,
+			},
+		],
+	};
+
+	private _logOUtPresence: PresenceData = {
+		status: 'invisible',
+		afk: false,
+		activities: [
+			{
+				name: `Logging off (PID: ${process.pid})`,
 				type: ActivityType.Custom,
 			},
 		],
@@ -138,8 +162,16 @@ export class ShrimpClient extends Client {
 		return this._gifs;
 	}
 
+	get preLoginPresence() {
+		return this._preLoginPresence;
+	}
+
 	get defaultPresence() {
 		return this._defaultPresence;
+	}
+
+	get logOutPresence() {
+		return this._logOUtPresence;
 	}
 
 	get alertWebhook() {
