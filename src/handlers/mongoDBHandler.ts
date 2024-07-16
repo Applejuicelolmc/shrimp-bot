@@ -3,7 +3,66 @@ import { client } from '../index.js';
 import { Colors, Guild } from 'discord.js';
 import { ShrimpClient } from '../common/base.js';
 // import { formatTime } from '../common/utilityMethods.js';
-import GuildSettings, { IGeneralCategory, IGuildSettingsSchema, ILogCategory } from '../models/guildSettings.js';
+import GuildSettings, {
+	IBooleanSetting,
+	IColorSetting,
+	IDisableCommandsSetting,
+	IGeneralCategory,
+	IGuildSettingsSchema,
+	ILogCategory,
+	IWebhookSetting,
+} from '../models/guildSettings.js';
+
+export type dbCategories = {
+	general: IGeneralCategory;
+	logging: ILogCategory;
+};
+
+export type settingTypes =
+	| emdedColorUpdateSetting
+	| disabledCommandsUpdateSetting
+	| enabledUpdateSetting
+	| logChannelUpdateSetting
+	| editWebhookUpdateSetting
+	| deleteWebhookUpdateSetting;
+
+export type settingPathsType = {
+	embedColor: string;
+	disabledCommands: string;
+	enabled: string;
+	logChannel: string;
+	editWebhook: string;
+	deleteWebhook: string;
+};
+
+export const settingPaths: settingPathsType = {
+	embedColor: 'categories.general.settings.embedColor.value',
+	disabledCommands: 'categories.general.settings.disabledCommands.value',
+	enabled: 'categories.logging.settings.enabled.value',
+	logChannel: 'categories.logging.settings.logChannel.value',
+	editWebhook: 'categories.logging.settings.editWebhook.value',
+	deleteWebhook: 'categories.logging.settings.deleteWebhook.value',
+};
+
+type updateSetting =
+	| emdedColorUpdateSetting
+	| disabledCommandsUpdateSetting
+	| enabledUpdateSetting
+	| logChannelUpdateSetting
+	| editWebhookUpdateSetting
+	| deleteWebhookUpdateSetting;
+
+export type emdedColorUpdateSetting = IColorSetting['value'];
+
+export type disabledCommandsUpdateSetting = IDisableCommandsSetting['value'];
+
+export type enabledUpdateSetting = IBooleanSetting['value'];
+
+export type logChannelUpdateSetting = IWebhookSetting['value'];
+
+export type editWebhookUpdateSetting = IWebhookSetting['value'];
+
+export type deleteWebhookUpdateSetting = IColorSetting['value'];
 
 export const testGuild = {
 	id: 'testGuild',
@@ -46,6 +105,8 @@ export default async function DBHandler(client: ShrimpClient): Promise<void> {
 }
 
 export async function generateDefaultSettings(guild: Guild): Promise<IGuildSettingsSchema> {
+	client.infoLogger.info(`MongoDB - Adding default Guildsettings for ${guild.name}`);
+
 	return await GuildSettings.create(<IGuildSettingsSchema>{
 		guildName: guild.name,
 		guildId: guild.id,
@@ -96,54 +157,28 @@ export async function generateDefaultSettings(guild: Guild): Promise<IGuildSetti
 	});
 }
 
-interface categories {
-	general: IGeneralCategory;
-	logging: ILogCategory;
-}
-
-export async function updateDB(guild: Guild, category: categories | null = null, testing: boolean): Promise<void> {
+export async function updateDB(guild: Guild, settingPath: string, settingValue: settingTypes): Promise<void> {
 	//TODO: Add function to update guildSettings in case new settings are added, keeping original settings as they were before
-	// category.logging.settings.enabled;
 
-	console.log(category);
+	if (await GuildSettings.exists({ guildId: guild.id })!) {
+		await generateDefaultSettings(guild);
+	}
 
-	if (testing) {
-		if (guild.id !== testGuild.id) {
-			client.errorLogger.error(`MongoDB - Test updateDB function was called with a guild that is not the test guild.`);
-			return;
-		}
+	const oldGuildSettings = await GuildSettings.findOne({ guildId: guild.id });
 
-		if (await GuildSettings.exists({ guildId: guild.id })) {
-			const oldTestGuildSettings = await GuildSettings.findOne({ guildId: guild.id });
-
-			if (!oldTestGuildSettings) {
-				client.errorLogger.error(`MongoDB - Test guild settings were not found in the database.`);
-				return;
-			}
-
-			const setting = {
-				'categories.general.settings.embedColor.value': Colors.Purple,
-			};
-
-			const update = {
-				$set: setting,
-			};
-
-			await oldTestGuildSettings.updateOne(update);
-
-			client.infoLogger.info(`MongoDB - Updated Guildsettings for ${guild.name}`);
-			return;
-		}
-
-		const guildSettings = await generateDefaultSettings(guild);
-
-		client.infoLogger.info(`MongoDB - Added default Guildsettings for ${guildSettings.guildName}`);
+	if (!oldGuildSettings) {
+		client.errorLogger.error(`MongoDB - Guild settings were not found in the database.`);
 		return;
 	}
 
-	const oldGuildSettings = (await GuildSettings.findOne({ guildId: guild.id })) as IGuildSettingsSchema;
+	const oldGuildSettingValue = [settingPath];
 
-	console.log(oldGuildSettings.categories.general);
+	await oldGuildSettings.updateOne({
+		$set: {
+			[settingPath]: settingValue, // Y does path only work in array 🤔
+		},
+	});
 
+	client.infoLogger.info(`MongoDB - Updated Guildsettings for ${guild.name} \n[${settingPath}]: ${oldGuildSettingValue} -> ${settingValue}`);
 	return;
 }
