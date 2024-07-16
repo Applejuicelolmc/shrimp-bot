@@ -9,6 +9,39 @@ export default <ShrimpEvent>{
 			return client.errorLogger.error(`Didn't receive interaction`);
 		}
 
+		if (interaction.isAutocomplete()) {
+			const cmd = client.commands.get(interaction.commandName);
+			const devCmd = client.devCommands.get(interaction.commandName);
+
+			if (!cmd && !devCmd) {
+				return;
+			}
+
+			if (devCmd && interaction.user.id !== process.env.DEV_ID) {
+				return;
+			}
+
+			try {
+				const startTime = process.hrtime();
+
+				if (cmd) {
+					await cmd.autocomplete?.(client, interaction);
+				}
+
+				if (devCmd && interaction.user.id === process.env.DEV_ID) {
+					await devCmd.autocomplete?.(client, interaction);
+				}
+
+				const totalTime = process.hrtime(startTime);
+
+				if (process.env.ENVIRONMENT === 'development') {
+					client.infoLogger.info(`${interaction.commandName} by ${interaction.user.displayName} (~${totalTime[1] / 1000000}ms)`);
+				}
+			} catch (error) {
+				client.handleError(`Couldn't autocomplete command`, error as Error);
+			}
+		}
+
 		if (interaction.isChatInputCommand() || interaction.isUserContextMenuCommand()) {
 			const cmd = client.commands.get(interaction.commandName);
 			const devCmd = client.devCommands.get(interaction.commandName);
