@@ -3,7 +3,7 @@ import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
-		if (!interaction.guild) {
+		if (!interaction || !interaction.guild) {
 			return;
 		}
 

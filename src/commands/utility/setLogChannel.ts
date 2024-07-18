@@ -12,7 +12,7 @@ import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction): Promise<void> {
-		if (!interaction.guildId) {
+		if (!interaction || !interaction.guildId) {
 			console.log('nuh uh');
 			return;
 		}

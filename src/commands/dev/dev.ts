@@ -56,6 +56,10 @@ export default <ShrimpCommand>{
 	},
 
 	async execute(client, interaction: ChatInputCommandInteraction): Promise<void> {
+		if (!interaction || !interaction.guild) {
+			return;
+		}
+
 		if (interaction.isCommand()) {
 			async function reload() {
 				try {

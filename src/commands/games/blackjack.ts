@@ -17,9 +17,7 @@ import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction) {
-		// TODO: find bugs in calculation
-
-		if (interaction.isContextMenuCommand()) {
+		if (!interaction || !interaction.guild || interaction.isContextMenuCommand()) {
 			return;
 		}
 

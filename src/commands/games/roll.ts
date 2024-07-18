@@ -5,6 +5,10 @@ import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction: ChatInputCommandInteraction) {
+		if (!interaction || !interaction.guild || !dice) {
+			return;
+		}
+
 		//TODO: Add some theming options via server settings
 
 		const dice = interaction.options.getNumber('dice');
@@ -15,10 +19,6 @@ export default <ShrimpCommand>{
 		await interaction.deferReply({ ephemeral: invisible });
 
 		GlobalFonts.registerFromPath('src/assets/fonts/immortal.ttf', 'Immortal');
-
-		if (!dice || !interaction || !interaction.guild) {
-			return;
-		}
 
 		const diceEmojis = {
 			d20: client.emojis.cache.get(`1218283573195313172`) || `🎲`,
