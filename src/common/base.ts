@@ -135,10 +135,6 @@ export class ShrimpClient extends Client {
 		forceStatic: false,
 	};
 
-	private _guildEmoji() {
-		return this.emojis.cache;
-	}
-
 	get startDateTime() {
 		return this._startDateTime;
 	}
@@ -205,10 +201,6 @@ export class ShrimpClient extends Client {
 
 	get imageOptions() {
 		return this._imageOptions;
-	}
-
-	get customEmojis() {
-		return this._guildEmoji();
 	}
 
 	async getGuildSettings(guild: Guild): Promise<IGuildSettingsSchema> {
