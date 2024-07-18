@@ -2,7 +2,6 @@ import {
 	ActionRowBuilder,
 	bold,
 	ButtonBuilder,
-	Colors,
 	ComponentEmojiResolvable,
 	ComponentType,
 	EmbedBuilder,
@@ -109,10 +108,6 @@ export default <ShrimpCommand>{
 			await spinSlots(collumn + 2);
 		}
 
-		function deniedEmbed(text: string) {
-			return new EmbedBuilder().setColor(Colors.Red).setDescription(`${client.customEmojis.get('981339000705024040')} ${text}`);
-		}
-
 		let buttonTimer = 30000;
 
 		try {
@@ -127,10 +122,7 @@ export default <ShrimpCommand>{
 				await button.deferUpdate();
 
 				if (button.user.id !== interaction.user.id) {
-					await button.followUp({
-						embeds: [deniedEmbed("You can't use this button...")],
-						ephemeral: true,
-					});
+					await client.buttonDenied(button);
 
 					return;
 				}

@@ -6,6 +6,7 @@ import {
 	AttachmentBuilder,
 	AutocompleteInteraction,
 	ButtonBuilder,
+	ButtonInteraction,
 	ButtonStyle,
 	ChannelType,
 	ChatInputCommandInteraction,
@@ -116,7 +117,18 @@ export class ShrimpClient extends Client {
 		decline: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Decline').setCustomId('decline-button'),
 		spin: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Spin').setCustomId('spin-button'),
 		stop: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Stop').setCustomId('stop-button'),
+		hit: new ButtonBuilder().setStyle(ButtonStyle.Success).setLabel('Hit').setCustomId('hit-button'),
+		stand: new ButtonBuilder().setStyle(ButtonStyle.Danger).setLabel('Stand').setCustomId('stand-button'),
 	};
+
+	async _buttonDenied(button: ButtonInteraction, text: string = `You can't use this button...`) {
+		await button.followUp({
+			embeds: [new EmbedBuilder().setColor(Colors.Red).setDescription(`${this.emojis.cache.get('981339000705024040')?.toString()} ${text}`)],
+			ephemeral: true,
+		});
+
+		return;
+	}
 
 	private _imageOptions: ImageURLOptions = {
 		size: 4096,
@@ -185,6 +197,10 @@ export class ShrimpClient extends Client {
 
 	get buttons() {
 		return this._buttons;
+	}
+
+	get buttonDenied() {
+		return this._buttonDenied;
 	}
 
 	get imageOptions() {

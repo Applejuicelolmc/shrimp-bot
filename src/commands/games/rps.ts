@@ -4,7 +4,6 @@ import {
 	bold,
 	ButtonBuilder,
 	ButtonStyle,
-	Colors,
 	ComponentType,
 	ContextMenuCommandBuilder,
 	EmbedBuilder,
@@ -29,10 +28,6 @@ export default <ShrimpCommand>{
 			size: 4096,
 			forceStatic: false,
 		};
-
-		function deniedEmbed(text: string) {
-			return new EmbedBuilder().setColor(Colors.Red).setDescription(`${client.customEmojis.get('981339000705024040')} ${text}`);
-		}
 
 		const matchUps = {
 			'🪨': {
@@ -178,10 +173,7 @@ export default <ShrimpCommand>{
 					await botMatchButton.deferUpdate();
 
 					if (botMatchButton.user.id !== playerOne.id) {
-						await botMatchButton.followUp({
-							embeds: [deniedEmbed("You can't use this button...")],
-							ephemeral: true,
-						});
+						await client.buttonDenied(botMatchButton);
 
 						return;
 					}
@@ -319,10 +311,7 @@ export default <ShrimpCommand>{
 				await challengeButton.deferUpdate();
 
 				if (challengeButton.user.id !== playerTwo.id) {
-					await challengeButton.followUp({
-						embeds: [deniedEmbed("You can't use this button...")],
-						ephemeral: true,
-					});
+					await client.buttonDenied(challengeButton);
 
 					return;
 				}
@@ -397,27 +386,26 @@ export default <ShrimpCommand>{
 						});
 						break;
 					case 'accepted':
-						gameButtonCollector.on('collect', async (choice) => {
-							await choice.deferUpdate();
+						gameButtonCollector.on('collect', async (choiceButton) => {
+							await choiceButton.deferUpdate();
 
 							if (!gameEmbed.data.fields) {
 								return;
 							}
 
-							if (choice.user.id !== playerOne.id && choice.user.id !== playerTwo.id) {
-								await choice.followUp({
-									embeds: [deniedEmbed("You can't use this button...")],
-									ephemeral: true,
-								});
+							if (choiceButton.user.id !== playerOne.id && choiceButton.user.id !== playerTwo.id) {
+								await client.buttonDenied(choiceButton);
+
+								return;
 							}
 
-							switch (choice.customId) {
+							switch (choiceButton.customId) {
 								case 'rock-button':
-									switch (choice.user.id) {
+									switch (choiceButton.user.id) {
 										case playerOne.id:
 											playerOne.updateChoice('🪨', gameEmbed, 0);
 
-											await choice.editReply({
+											await choiceButton.editReply({
 												embeds: [gameEmbed],
 											});
 											break;
@@ -425,7 +413,7 @@ export default <ShrimpCommand>{
 										case playerTwo.id:
 											playerTwo.updateChoice('🪨', gameEmbed, 2);
 
-											await choice.editReply({
+											await choiceButton.editReply({
 												embeds: [gameEmbed],
 											});
 											break;
@@ -437,11 +425,11 @@ export default <ShrimpCommand>{
 									break;
 
 								case 'paper-button':
-									switch (choice.user.id) {
+									switch (choiceButton.user.id) {
 										case playerOne.id:
 											playerOne.updateChoice('📄', gameEmbed, 0);
 
-											await choice.editReply({
+											await choiceButton.editReply({
 												embeds: [gameEmbed],
 											});
 											break;
@@ -449,7 +437,7 @@ export default <ShrimpCommand>{
 										case playerTwo.id:
 											playerTwo.updateChoice('📄', gameEmbed, 2);
 
-											await choice.editReply({
+											await choiceButton.editReply({
 												embeds: [gameEmbed],
 											});
 											break;
@@ -460,11 +448,11 @@ export default <ShrimpCommand>{
 									break;
 
 								case 'scissors-button':
-									switch (choice.user.id) {
+									switch (choiceButton.user.id) {
 										case playerOne.id:
 											playerOne.updateChoice('✂️', gameEmbed, 0);
 
-											await choice.editReply({
+											await choiceButton.editReply({
 												embeds: [gameEmbed],
 											});
 											break;
@@ -472,7 +460,7 @@ export default <ShrimpCommand>{
 										case playerTwo.id:
 											playerTwo.updateChoice('✂️', gameEmbed, 2);
 
-											await choice.editReply({
+											await choiceButton.editReply({
 												embeds: [gameEmbed],
 											});
 											break;
@@ -490,7 +478,7 @@ export default <ShrimpCommand>{
 								gameEmbed.data.fields[0] = playerOne.showChoices();
 								gameEmbed.data.fields[2] = playerTwo.showChoices();
 
-								await choice.editReply({
+								await choiceButton.editReply({
 									embeds: [gameEmbed],
 								});
 
