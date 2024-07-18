@@ -138,6 +138,8 @@ export default <ShrimpCommand>{
 			}
 
 			async hasBlackjack() {
+				this.finished = true;
+
 				if (this.handValue === 21) {
 					blackJackEmbed.data.fields![this.position] = this.showHandField(true);
 
