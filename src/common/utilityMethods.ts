@@ -30,15 +30,19 @@ export function rollDice(dice: number): number {
 	return Math.floor(Math.random() * dice) + 1;
 }
 
-export function generateDeck() {
+export function generateDeck(amount: number = 1): string[] {
 	const deck: string[] = [];
 	const suites = ['♥️', '♣️', '♠️', '♦️'] as const;
 	const ranks = [' Ace ', '  2  ', '  3  ', '  4  ', '  5  ', '  6  ', '  7  ', '  8  ', '  9  ', ' 10  ', 'Jack ', 'Queen', 'King '] as const;
 
-	for (const suite of suites) {
-		for (const rank of ranks) {
-			deck.push(codeBlock(`${suite} ${rank} ${suite}`));
+	while (amount) {
+		for (const suite of suites) {
+			for (const rank of ranks) {
+				deck.push(codeBlock(`${suite} ${rank} ${suite}`));
+			}
 		}
+
+		amount--;
 	}
 
 	return deck;
