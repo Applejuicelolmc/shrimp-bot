@@ -5,13 +5,14 @@ import { ShrimpCommand } from '../../common/base.js';
 
 export default <ShrimpCommand>{
 	async execute(client, interaction: ChatInputCommandInteraction) {
+		const dice = interaction.options.getNumber('dice');
+
 		if (!interaction || !interaction.guild || !dice) {
 			return;
 		}
 
 		//TODO: Add some theming options via server settings
 
-		const dice = interaction.options.getNumber('dice');
 		const amount = interaction.options.getNumber('amount') || 1;
 		const modifier = interaction.options.getNumber('modifier') || 0;
 		const invisible = interaction.options.getBoolean('private') || false;
