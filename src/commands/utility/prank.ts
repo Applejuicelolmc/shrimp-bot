@@ -68,9 +68,13 @@ export default <ShrimpCommand>{
 			});
 
 			await sleep(40000);
+			if (interaction.isRepliable()) {
+				await interaction.deleteReply();
+			}
 
-			await interaction.deleteReply();
-			await prankMessageTwo?.delete();
+			if (prankMessageTwo?.deletable) {
+				await prankMessageTwo?.delete();
+			}
 		} catch (error) {
 			client.handleError('Prank command', error as Error);
 		}
