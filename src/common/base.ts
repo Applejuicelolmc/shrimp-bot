@@ -205,14 +205,22 @@ export class ShrimpClient extends Client {
 
 	async getGuildSettings(guild: Guild): Promise<IGuildSettingsSchema> {
 		try {
-			return (await GuildSettings.findOne({
+			this.infoLogger.info(`Fetching guildSettings for ${guild.name}`);
+
+			const guildSettings = (await GuildSettings.findOne({
 				guildId: guild.id,
 			})) as IGuildSettingsSchema;
+
+			this.infoLogger.info(`Current settings for ${guild.name}:\n${guildSettings}`);
+
+			return guildSettings;
 		} catch (error) {
 			this.handleError('Fetching guildSettings', error as Error);
 		}
 
-		return await generateDefaultSettings(guild);
+		const defaultSettings = await generateDefaultSettings(guild);
+
+		return defaultSettings;
 	}
 
 	async changeAvatar(pathToAvatar = `${this.paths.assets}/gifs/avatar.gif`): Promise<void> {
