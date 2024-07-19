@@ -3,7 +3,7 @@ import { ShrimpEvent } from '../common/base.js';
 import GuildSettings from '../models/guildSettings.js';
 
 export default <ShrimpEvent>{
-	name: Events.GuildCreate,
+	name: Events.GuildDelete,
 	once: false,
 	async execute(client, guild: Guild) {
 		if (!client.isReady() || !client.infoLogger) {
