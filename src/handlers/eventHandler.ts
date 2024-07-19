@@ -1,7 +1,7 @@
 import { readdir } from 'fs/promises';
 import { sleep } from '../common/utilityMethods.js';
 import { ShrimpClient, ShrimpEvent } from '../common/base.js';
-import { Colors, EmbedBuilder, bold } from 'discord.js';
+import { Colors, EmbedBuilder, Events, bold } from 'discord.js';
 
 export default async function eventHandler(client: ShrimpClient): Promise<void> {
 	async function fetchEvents(): Promise<string[]> {
@@ -21,11 +21,11 @@ export default async function eventHandler(client: ShrimpClient): Promise<void> 
 			for (const eventFile of events) {
 				const event = (await import(`${client.paths.events}/${eventFile}`)).default as ShrimpEvent;
 
-				if (event.name === 'debug' && process.env.ENVIRONMENT === 'production') {
+				if (event.name === Events.Debug && process.env.ENVIRONMENT === 'production') {
 					continue;
 				}
 
-				if (event.name === 'messageCreate' || event.name === 'messageUpdate' || event.name === 'messageDelete') {
+				if (event.name === Events.MessageCreate || event.name === Events.MessageUpdate || event.name === Events.MessageDelete) {
 					continue; // Disabled these events as they require the message content Gateway Intent which is not enabled now
 				}
 
