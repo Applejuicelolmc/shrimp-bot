@@ -80,6 +80,8 @@ export default <ShrimpCommand>{
 
 		const embedColor = (await client.getGuildSettings(interaction.guild)).categories.general.settings.embedColor.value;
 
+		client.infoLogger.info(`Roll command: embedcolor setting: ${embedColor}`);
+
 		const rollEmbed = new EmbedBuilder()
 			.setTitle(`***ROLLED D${dice} x ${amount} ***`)
 			.setColor(embedColor)
